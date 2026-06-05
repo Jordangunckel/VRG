@@ -53,7 +53,7 @@ export function ShowIf({ when, children }) {
 export function AutoOrManual({ name, value, onChange, question }) {
   return (
     <div>
-      <span className="question-label">{question || 'How should Valley Ridge identify files needing this service?'}</span>
+      <span className="question-label">{question || 'How should RoofSmartr identify files needing this service?'}</span>
       <div className="radio-group">
         <label className="radio-option">
           <input type="radio" name={name} value="automatic" checked={value === 'automatic'} onChange={() => onChange('automatic')} />
@@ -91,7 +91,7 @@ export function CRMTriggerInput({ value, onChange, label }) {
 // Manual workflow notice + required I Agree checkbox
 export function ManualNotice({ agreed, onAgree, errorMsg, customText }) {
   const defaultText =
-    'Our system only detects assigned tasks. Tags, internal notes, and comments will not trigger this workflow. By selecting manual task creation, you agree to follow Valley Ridge\'s task submission instructions.'
+    'Our system only detects assigned tasks. Tags, internal notes, and comments will not trigger this workflow. By selecting manual task creation, you agree to follow RoofSmartr\'s task submission instructions.'
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div className="notice warning">

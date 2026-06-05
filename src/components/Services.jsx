@@ -35,20 +35,25 @@ export default function Services() {
   return (
     <section className="services" id="services">
       <div className="container">
-        <div className="section-header centered">
+        <div className="section-header centered" data-reveal>
           <span className="section-label">What We Do</span>
           <h2 className="section-title">
             Every service your office<br /><span>needs to run itself</span>
           </h2>
           <p className="section-sub">
-            From the first lead call to the final payment, Valley Ridge Group handles the tasks that slow your team down—so you can scale without adding headcount.
+            From the first lead call to the final payment, RoofSmartr handles the tasks that slow your team down—so you can scale without adding headcount.
           </p>
           <div className="divider centered" />
         </div>
 
         <div className="services-grid">
-          {SERVICES.map(s => (
-            <div key={s.title} className="service-card">
+          {SERVICES.map((s, i) => (
+            <div
+              key={s.title}
+              className="service-card"
+              data-reveal
+              data-delay={i}
+            >
               <div className="service-icon">{s.icon}</div>
               <h3>{s.title}</h3>
               <p>{s.desc}</p>

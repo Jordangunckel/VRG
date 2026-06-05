@@ -1,325 +1,524 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { supabase } from '../lib/supabase.js'
 import './sop.css'
 import CompanyInfo from './CompanyInfo.jsx'
 import LeadsSection from './LeadsSection.jsx'
+import StormReadySection from './StormReadySection.jsx'
 import PresaleSection from './PresaleSection.jsx'
 import ProductionSection from './ProductionSection.jsx'
 import PostSaleSection from './PostSaleSection.jsx'
+import ReviewsSection from './ReviewsSection.jsx'
 
+// ─── Dashboard section cards ───────────────────────────────────
+// Left col: storm, leads, presale  |  Right col: production, post-sale, satisfaction
+// Array order = correct mobile reading order (top→bottom, single column).
+// Desktop CSS uses `order` to re-interleave into two columns:
+//   Left col:  storm, leads, presale
+//   Right col: production, post-sale, satisfaction
+const SECTIONS = [
+  { id: 'storm',        label: 'Storm Ready Outreach',  icon: '⛈️', desc: 'Proactive outreach in storm-affected areas'   },
+  { id: 'leads',        label: 'Leads',                 icon: '📋', desc: 'Lead follow-up and lost lead management'       },
+  { id: 'presale',      label: 'Presale',               icon: '🔍', desc: 'Adjuster coordination, scope & estimates'     },
+  { id: 'production',   label: 'Production',            icon: '🔨', desc: 'Material orders, permits & scheduling'        },
+  { id: 'post-sale',    label: 'Post Sale',             icon: '💰', desc: 'Invoices, financials & warranties'            },
+  { id: 'satisfaction', label: 'Customer Satisfaction', icon: '⭐', desc: 'Reviews, referrals & thank-you gifts'         },
+]
+
+// ─── Initial form state ────────────────────────────────────────
 const INITIAL = {
-  // Company Info
-  companyName: '', mainContact: '', preferredCommunication: '', avgJobsMonthly: '',
+  companyName: '', companyLogo: '', mainContact: '', preferredCommunication: '', avgJobsMonthly: '',
   crmUsed: '', crmUsedOther: '', primaryCustomerBase: '', primaryProjectType: '',
   serviceArea: '', businessHours: '', emergencyContact: '',
-
-  // Leads – Lead Follow-Up
   leadFollowUp: '', leadFollowUpIdentification: '', leadFollowUpCRMTrigger: '',
   leadFollowUpFrequency: '', leadFollowUpFrequencyCustom: '', leadFollowUpManualAgree: false,
   lostLeadFollowUp: '', lostLeadFrequency: '', lostLeadFrequencyCustom: '',
-
-  // Leads – Storm Ready Outreach
-  stormReady: false, stormReadyArea: null, stormLeadAssignment: '',
+  stormReady: false, stormReadyArea: null, stormReadyAreas: [], stormLeadAssignment: '',
   stormLeadAssignmentMethod: '', stormLeadAssignmentMethodCustom: '', stormManualAssignee: '',
-
-  // Presale – Adjuster
   adjusterCoordination: '', adjusterIdentification: '', adjusterCRMTrigger: '',
   adjusterManualAgree: false, adjusterTimeWindow: '', adjusterAssignment: '', adjusterAssignmentCustom: '',
-
-  // Presale – Scope
   scopeFollowUp: '', scopeIdentification: '', scopeCRMTrigger: '',
   scopeManualAgree: false, scopeFrequency: '', scopeFrequencyCustom: '',
-
-  // Presale – Supplement
   supplementFollowUp: '', supplementIdentification: '', supplementCRMTrigger: '',
   supplementManualAgree: false, supplementFrequency: '', supplementFrequencyCustom: '',
-
-  // Presale – Measurements
   measurements: '', measurementsIdentification: '', measurementsCRMTrigger: '',
   measurementsManualAgree: false, measurementsProvider: '', measurementsProviderOther: '',
-
-  // Presale – Estimates
   estimates: '', estimatesIdentification: '', estimatesCRMTrigger: '',
   estimatesManualAgree: false, estimatesDelivery: '',
-
-  // Production – Material Orders
   materialOrders: '', materialIdentification: '', materialCRMTrigger: '',
   materialManualAgree: false, materialAction: '', materialSupplier: '', materialSupplierOther: '',
-
-  // Production – Permits
   permits: '', permitsIdentification: '', permitsManualAgree: false,
-
-  // Post Sale – Financial Worksheet
   financialWorksheet: '', financialIdentification: '', financialCRMTrigger: '', financialManualAgree: false,
-
-  // Post Sale – COC & Invoices
   cocInvoices: '', cocRecipient: '',
-
-  // Post Sale – Final Payment
   finalPayment: '', finalPaymentFollowUpWith: '', finalPaymentFrequency: '', finalPaymentFrequencyCustom: '',
-
-  // Post Sale – Warranties
   warranties: '', warrantyType: '',
-
-  // Post Sale – Reviews & Referrals
   reviewsReferrals: '', reviewsTiming: '', reviewsMethods: [], reviewsFrequency: '', reviewsFrequencyCustom: '',
-
-  // Post Sale – Thank You Gifts
   thankYouGifts: '', thankYouIdentification: '', thankYouIdentificationCustom: '',
   thankYouGiftType: '', thankYouGiftCustom: '',
+  _sectionsDone: [],
 }
 
-function getRequiredAgreements(d) {
-  const checks = []
-  if (d.leadFollowUp === 'yes' && d.leadFollowUpIdentification === 'manual')
-    checks.push({ field: 'leadFollowUpManualAgree', label: 'Lead Follow-Up – Manual Workflow Agreement' })
-  if (d.adjusterCoordination === 'yes' && d.adjusterIdentification === 'manual')
-    checks.push({ field: 'adjusterManualAgree', label: 'Adjuster Coordination – Manual Workflow Agreement' })
-  if (d.scopeFollowUp === 'yes' && d.scopeIdentification === 'manual')
-    checks.push({ field: 'scopeManualAgree', label: 'Scope of Loss – Manual Workflow Agreement' })
-  if (d.supplementFollowUp === 'yes' && d.supplementIdentification === 'manual')
-    checks.push({ field: 'supplementManualAgree', label: 'Supplement Follow-Up – Manual Workflow Agreement' })
-  if (d.measurements === 'yes' && d.measurementsIdentification === 'manual')
-    checks.push({ field: 'measurementsManualAgree', label: 'Measurements – Manual Workflow Agreement' })
-  if (d.estimates === 'yes' && d.estimatesIdentification === 'manual')
-    checks.push({ field: 'estimatesManualAgree', label: 'Estimates – Manual Workflow Agreement' })
-  if (d.materialOrders === 'yes' && d.materialIdentification === 'manual')
-    checks.push({ field: 'materialManualAgree', label: 'Material Orders – Manual Workflow Agreement' })
-  if (d.permits === 'yes' && d.permitsIdentification === 'manual')
-    checks.push({ field: 'permitsManualAgree', label: 'Permits – Manual Workflow Agreement' })
-  if (d.financialWorksheet === 'yes' && d.financialIdentification === 'manual')
-    checks.push({ field: 'financialManualAgree', label: 'Financial Worksheet – Manual Workflow Agreement' })
-  return checks
-}
-
-function buildCleanOutput(d) {
-  return {
-    companyInformation: {
-      companyName: d.companyName,
-      mainContact: d.mainContact,
-      preferredCommunication: d.preferredCommunication,
-      avgJobsMonthly: d.avgJobsMonthly,
-      crmUsed: d.crmUsed === 'Other' ? d.crmUsedOther || 'Other' : d.crmUsed,
-      primaryCustomerBase: d.primaryCustomerBase,
-      primaryProjectType: d.primaryProjectType,
-      serviceArea: d.serviceArea,
-      businessHours: d.businessHours,
-      emergencyContact: d.emergencyContact,
-    },
-    leads: {
-      leadFollowUp: {
-        enabled: d.leadFollowUp === 'yes',
-        ...(d.leadFollowUp === 'yes' && {
-          identificationMethod: d.leadFollowUpIdentification,
-          ...(d.leadFollowUpIdentification === 'automatic' && {
-            crmStatusTrigger: d.leadFollowUpCRMTrigger,
-            frequency: d.leadFollowUpFrequency === 'custom' ? d.leadFollowUpFrequencyCustom : d.leadFollowUpFrequency,
-          }),
-          lostLeadFollowUp: d.lostLeadFollowUp === 'yes',
-          ...(d.lostLeadFollowUp === 'yes' && {
-            lostLeadFrequency: d.lostLeadFrequency === 'custom' ? d.lostLeadFrequencyCustom : d.lostLeadFrequency,
-          }),
-        }),
-      },
-      stormReadyOutreach: {
-        enabled: d.stormReady,
-        ...(d.stormReady && {
-          targetArea: d.stormReadyArea,
-          leadAssignment: d.stormLeadAssignment,
-          ...(d.stormLeadAssignment === 'valley-ridge' && {
-            assignmentMethod: d.stormLeadAssignmentMethod === 'custom'
-              ? d.stormLeadAssignmentMethodCustom
-              : d.stormLeadAssignmentMethod,
-          }),
-          ...(d.stormLeadAssignment === 'manual' && { manualAssignee: d.stormManualAssignee }),
-        }),
-      },
-    },
-    presale: {
-      adjusterAppointment: {
-        enabled: d.adjusterCoordination === 'yes',
-        ...(d.adjusterCoordination === 'yes' && {
-          identificationMethod: d.adjusterIdentification,
-          ...(d.adjusterIdentification === 'automatic' && { crmStatusTrigger: d.adjusterCRMTrigger }),
-          narrowTimeWindow: d.adjusterTimeWindow === 'yes',
-          appointmentAssignment: d.adjusterAssignment === 'custom'
-            ? d.adjusterAssignmentCustom : d.adjusterAssignment,
-        }),
-      },
-      scopeOfLoss: {
-        enabled: d.scopeFollowUp === 'yes',
-        ...(d.scopeFollowUp === 'yes' && {
-          identificationMethod: d.scopeIdentification,
-          ...(d.scopeIdentification === 'automatic' && { crmStatusTrigger: d.scopeCRMTrigger }),
-          frequency: d.scopeFrequency === 'custom' ? d.scopeFrequencyCustom : d.scopeFrequency,
-        }),
-      },
-      supplementFollowUp: {
-        enabled: d.supplementFollowUp === 'yes',
-        ...(d.supplementFollowUp === 'yes' && {
-          identificationMethod: d.supplementIdentification,
-          ...(d.supplementIdentification === 'automatic' && { crmStatusTrigger: d.supplementCRMTrigger }),
-          frequency: d.supplementFrequency === 'custom' ? d.supplementFrequencyCustom : d.supplementFrequency,
-        }),
-      },
-      measurements: {
-        enabled: d.measurements === 'yes',
-        ...(d.measurements === 'yes' && {
-          identificationMethod: d.measurementsIdentification,
-          ...(d.measurementsIdentification === 'automatic' && { crmStatusTrigger: d.measurementsCRMTrigger }),
-          provider: d.measurementsProvider === 'Other' ? d.measurementsProviderOther || 'Other' : d.measurementsProvider,
-        }),
-      },
-      estimates: {
-        enabled: d.estimates === 'yes',
-        ...(d.estimates === 'yes' && {
-          identificationMethod: d.estimatesIdentification,
-          ...(d.estimatesIdentification === 'automatic' && { crmStatusTrigger: d.estimatesCRMTrigger }),
-          deliveryPreference: d.estimatesDelivery,
-        }),
-      },
-    },
-    production: {
-      materialOrders: {
-        enabled: d.materialOrders === 'yes',
-        ...(d.materialOrders === 'yes' && {
-          identificationMethod: d.materialIdentification,
-          ...(d.materialIdentification === 'automatic' && { crmStatusTrigger: d.materialCRMTrigger }),
-          actionAfterBuild: d.materialAction,
-          supplier: d.materialSupplier === 'Other' ? d.materialSupplierOther || 'Other' : d.materialSupplier,
-        }),
-      },
-      permits: {
-        enabled: d.permits === 'yes',
-        ...(d.permits === 'yes' && { identificationMethod: d.permitsIdentification }),
-      },
-    },
-    postSale: {
-      financialWorksheet: {
-        enabled: d.financialWorksheet === 'yes',
-        ...(d.financialWorksheet === 'yes' && {
-          identificationMethod: d.financialIdentification,
-          ...(d.financialIdentification === 'automatic' && { crmStatusTrigger: d.financialCRMTrigger }),
-        }),
-      },
-      cocAndInvoices: {
-        enabled: d.cocInvoices === 'yes',
-        ...(d.cocInvoices === 'yes' && { cocRecipients: d.cocRecipient }),
-      },
-      finalPaymentFollowUp: {
-        enabled: d.finalPayment === 'yes',
-        ...(d.finalPayment === 'yes' && {
-          followUpWith: d.finalPaymentFollowUpWith,
-          frequency: d.finalPaymentFrequency === 'custom' ? d.finalPaymentFrequencyCustom : d.finalPaymentFrequency,
-        }),
-      },
-      warranties: {
-        enabled: d.warranties === 'yes',
-        ...(d.warranties === 'yes' && { warrantyType: d.warrantyType }),
-      },
-      reviewsAndReferrals: {
-        enabled: d.reviewsReferrals === 'yes',
-        ...(d.reviewsReferrals === 'yes' && {
-          timing: d.reviewsTiming,
-          methods: d.reviewsMethods,
-          frequency: d.reviewsFrequency === 'custom' ? d.reviewsFrequencyCustom : d.reviewsFrequency,
-        }),
-      },
-      thankYouGifts: {
-        enabled: d.thankYouGifts === 'yes',
-        ...(d.thankYouGifts === 'yes' && {
-          identification: d.thankYouIdentification === 'custom'
-            ? d.thankYouIdentificationCustom : d.thankYouIdentification,
-          giftType: d.thankYouGiftType === 'custom' ? d.thankYouGiftCustom : d.thankYouGiftType,
-        }),
-      },
-    },
+// ─── Per-section completion check ─────────────────────────────
+// Returns true when every required top-level field in a section
+// has been answered (non-empty). Storm requires _sectionsDone too
+// (handled at call site) since false === "No" is a valid answer.
+function isSectionComplete(id, d) {
+  switch (id) {
+    case 'leads':
+      return d.leadFollowUp !== '' && d.lostLeadFollowUp !== ''
+    case 'storm':
+      if (!d.stormReady) return true   // "No" is a valid, complete answer
+      return (d.stormReadyAreas?.length ?? 0) > 0 && d.stormLeadAssignment !== ''
+    case 'presale':
+      return (
+        d.adjusterCoordination !== '' &&
+        d.scopeFollowUp        !== '' &&
+        d.supplementFollowUp   !== '' &&
+        d.measurements         !== '' &&
+        d.estimates            !== ''
+      )
+    case 'production':
+      return d.materialOrders !== '' && d.permits !== ''
+    case 'post-sale':
+      return (
+        d.financialWorksheet !== '' &&
+        d.cocInvoices        !== '' &&
+        d.finalPayment       !== '' &&
+        d.warranties         !== ''
+      )
+    case 'satisfaction':
+      return d.reviewsReferrals !== '' && d.thankYouGifts !== ''
+    default:
+      return false
   }
 }
 
-export default function SOPBuilder({ onBack }) {
-  const [formData, setFormData] = useState(INITIAL)
-  const [savedOutput, setSavedOutput] = useState(null)
-  const [errors, setErrors] = useState({})
+// ─── Detect already-configured sections (for existing users) ──
+function detectConfigured(d) {
+  const done = []
+  if (d.leadFollowUp !== '')          done.push('leads')
+  if (d.adjusterCoordination !== '')  done.push('presale')
+  if (d.materialOrders !== '')        done.push('production')
+  if (d.financialWorksheet !== '')    done.push('post-sale')
+  if (d.reviewsReferrals !== '')      done.push('satisfaction')
+  return done
+}
+
+// ─── Section labels ────────────────────────────────────────────
+const SECTION_LABELS = {
+  company:      'Company Info',
+  storm:        'Storm Ready Outreach',
+  leads:        'Leads',
+  presale:      'Presale',
+  production:   'Production',
+  'post-sale':  'Post Sale',
+  satisfaction: 'Customer Satisfaction',
+}
+
+// ─── Supabase helpers ──────────────────────────────────────────
+async function saveToDb(user, formData, changedSection = null) {
+  if (!user) return
+
+  const { data: existing } = await supabase
+    .from('sop_data').select('data').eq('user_id', user.id).maybeSingle()
+
+  if (existing) {
+    await supabase.from('sop_data')
+      .update({ data: formData, updated_at: new Date().toISOString() })
+      .eq('user_id', user.id)
+  } else {
+    await supabase.from('sop_data').insert({ user_id: user.id, data: formData })
+  }
+
+  // Create a task for every section save (skip company info saves)
+  if (!changedSection || changedSection === 'company') return
+
+  const companyName = formData.companyName || 'Unknown Company'
+  const sectionLabel = SECTION_LABELS[changedSection] || changedSection
+
+  await supabase.from('vrg_tasks').insert({
+    client_user_id:   user.id,
+    company_name:     companyName,
+    change_summary:   `${companyName} updated their ${sectionLabel} settings — review and update CRM`,
+    sections_changed: [changedSection],
+    status:           'pending',
+  })
+}
+
+// ─── Settings dropdown ─────────────────────────────────────────
+function SettingsMenu({ onEditCompany, onLogout }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const handler = e => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  return (
+    <div className="sop-settings-wrap" ref={ref}>
+      <button className="sop-settings-btn" onClick={() => setOpen(o => !o)}>
+        ⚙️ Settings
+      </button>
+      {open && (
+        <div className="sop-settings-dropdown">
+          <button
+            className="sop-settings-item"
+            onClick={() => { setOpen(false); onEditCompany() }}
+          >
+            ✏️ Edit Company Info
+          </button>
+          <div className="sop-settings-divider" />
+          <button
+            className="sop-settings-item sop-settings-item--danger"
+            onClick={onLogout}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Shared top-bar ────────────────────────────────────────────
+function TopBar({ backLabel, onBack, companyName, companyLogo, onEditCompany, onLogout }) {
+  return (
+    <div className="sop-page-header">
+      <div className="sop-page-header-inner">
+        <div className="sop-header-top-row">
+          <button className="sop-back-btn" onClick={onBack}>← {backLabel}</button>
+          <div className="sop-header-right-row">
+            {(companyName || companyLogo) && (
+              <div className="sop-company-display">
+                {companyName && <span className="sop-company-chip">{companyName}</span>}
+                {companyLogo && (
+                  <img
+                    src={companyLogo}
+                    alt="Company logo"
+                    className="sop-header-logo-img"
+                  />
+                )}
+              </div>
+            )}
+            <SettingsMenu onEditCompany={onEditCompany} onLogout={onLogout} />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main component ────────────────────────────────────────────
+export default function SOPBuilder({ user, onBack, onLogout }) {
+  const [formData, setFormData]       = useState(INITIAL)
+  // 'loading' | 'welcome' | 'company' | 'dashboard' | 'section' | 'company-edit'
+  const [view, setView]               = useState('loading')
+  const [activeSection, setActiveSection] = useState(null)
+  const [saving, setSaving]           = useState(false)
+  const [errors, setErrors]           = useState({})
+
+  // ── Load saved data ────────────────────────────────────────
+  useEffect(() => {
+    if (!user) { setView('welcome'); return }
+    supabase.from('sop_data').select('data').eq('user_id', user.id).maybeSingle()
+      .then(({ data, error }) => {
+        if (!error && data?.data) {
+          const loaded = { ...INITIAL, ...data.data }
+          // Back-fill configured sections for users from the old wizard
+          if (!loaded._sectionsDone?.length) {
+            loaded._sectionsDone = detectConfigured(loaded)
+          }
+          // Migrate single stormReadyArea → stormReadyAreas array
+          if (loaded.stormReadyArea && !loaded.stormReadyAreas?.length) {
+            loaded.stormReadyAreas = [loaded.stormReadyArea]
+          }
+          setFormData(loaded)
+          setView('dashboard')
+        } else {
+          setView('welcome')
+        }
+      })
+  }, [user])
 
   const setField = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }))
     if (errors[name]) setErrors(prev => { const n = { ...prev }; delete n[name]; return n })
   }
 
-  const handleSave = () => {
-    const newErrors = {}
-    if (formData.stormReady && !formData.stormReadyArea) {
-      newErrors.stormReadyArea = 'Please draw your target outreach area on the map.'
-    }
-    const agreements = getRequiredAgreements(formData)
-    agreements.forEach(({ field, label }) => {
-      if (!formData[field]) {
-        newErrors[field] = `You must agree to the manual workflow terms for: ${label}`
-      }
-    })
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      setTimeout(() => document.querySelector('.sop-root .error-border, .sop-root .map-required-badge')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50)
-      return
-    }
-    setErrors({})
-    setSavedOutput(buildCleanOutput(formData))
-    setTimeout(() => document.getElementById('sop-json-preview')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50)
+  const save = async (data = formData, section = null) => {
+    setSaving(true)
+    await saveToDb(user, data, section)
+    setSaving(false)
   }
 
-  return (
-    <div className="sop-root">
-      {/* Page header — sits below the website navbar */}
-      <div className="sop-page-header">
-        <div className="sop-page-header-inner">
-          <button className="sop-back-btn" onClick={onBack}>
-            ← Back to Home
-          </button>
-          <div className="sop-header-content">
-            <img src="/icon.png" alt="Valley Ridge Group" className="sop-header-logo" />
-            <div>
-              <h1 className="sop-header-title">SOP Builder</h1>
-              <p className="sop-header-sub">Configure exactly how Valley Ridge handles each service for your roofing company.</p>
+  const companyName = formData.companyName?.trim()
+
+  // ── Loading ──────────────────────────────────────────────────
+  if (view === 'loading') {
+    return (
+      <div className="sop-root">
+        <div className="sop-loading-screen">
+          <div className="sop-spinner" />
+          <p>Loading your SOP data…</p>
+        </div>
+      </div>
+    )
+  }
+
+  // ── Welcome (first-time users) ───────────────────────────────
+  if (view === 'welcome') {
+    return (
+      <div className="sop-root">
+        <div className="sop-welcome-page">
+          <div className="sop-welcome-card">
+            <img src="/icon.png" alt="RoofSmartr" className="sop-welcome-logo" />
+            <h1 className="sop-welcome-title">Welcome to the<br />SOP Builder</h1>
+            <p className="sop-welcome-desc">
+              Let's configure exactly how RoofSmartr handles each step of your roofing
+              operation. This takes about <strong>10–15 minutes</strong> and saves
+              automatically as you go.
+            </p>
+            <div className="sop-welcome-steps">
+              {[{ icon: '🏢', label: 'Company Info' }, ...SECTIONS].map((s, i) => (
+                <div key={i} className="sop-welcome-step-item">
+                  <span className="sop-welcome-step-icon">{s.icon}</span>
+                  <span className="sop-welcome-step-label">{s.label}</span>
+                </div>
+              ))}
             </div>
+            <button className="sop-btn-primary" onClick={() => setView('company')}>
+              Get Started →
+            </button>
+            {user && (
+              <button className="sop-welcome-logout" onClick={onLogout}>
+                Sign out ({user.email})
+              </button>
+            )}
           </div>
         </div>
       </div>
+    )
+  }
 
-      <main className="sop-form-container">
-        <CompanyInfo data={formData} setField={setField} />
-        <LeadsSection data={formData} setField={setField} errors={errors} />
-        <PresaleSection data={formData} setField={setField} errors={errors} />
-        <ProductionSection data={formData} setField={setField} errors={errors} />
-        <PostSaleSection data={formData} setField={setField} errors={errors} />
-
-        {Object.keys(errors).length > 0 && (
-          <div className="validation-errors">
-            <strong>Please fix the following before saving:</strong>
-            <ul>
-              {Object.values(errors).map((msg, i) => <li key={i}>{msg}</li>)}
-            </ul>
+  // ── Company info (first setup OR editing from settings) ──────
+  if (view === 'company' || view === 'company-edit') {
+    const isEdit = view === 'company-edit'
+    return (
+      <div className="sop-root">
+        {isEdit ? (
+          <TopBar
+            backLabel="Dashboard"
+            onBack={() => setView('dashboard')}
+            companyName={companyName}
+            companyLogo={formData.companyLogo}
+            onEditCompany={() => {}}
+            onLogout={onLogout}
+          />
+        ) : (
+          <div className="sop-page-header">
+            <div className="sop-page-header-inner">
+              <div className="sop-header-top-row">
+                <button className="sop-back-btn" onClick={onBack}>← Home</button>
+              </div>
+            </div>
           </div>
         )}
 
-        <div className="save-bar">
-          <span>
-            {savedOutput ? 'SOP preferences saved below ↓' : 'Complete the form, then save your SOP preferences.'}
-          </span>
-          <button className="btn-save" type="button" onClick={handleSave}>
-            Save SOP Preferences
-          </button>
+        <div className="sop-section-hero">
+          <div className="sop-section-hero-inner">
+            <div className="sop-section-hero-icon">🏢</div>
+            <div>
+              <h2 className="sop-section-hero-title">Company Information</h2>
+              <p className="sop-section-hero-desc">Tell us about your business</p>
+            </div>
+          </div>
         </div>
 
-        {savedOutput && (
-          <div className="json-preview" id="sop-json-preview">
-            <div className="json-preview-header">
-              <h3>SOP Configuration Preview</h3>
-              <span className="json-badge">Saved</span>
+        <main className="sop-form-container">
+          <CompanyInfo data={formData} setField={setField} />
+          <div className="sop-nav-bar">
+            {isEdit ? (
+              <button className="sop-btn-back" onClick={() => setView('dashboard')}>
+                ← Dashboard
+              </button>
+            ) : (
+              <div />
+            )}
+            <div className="sop-nav-right">
+              {saving && <span className="sop-saving-label">Saving…</span>}
+              <button
+                className="sop-btn-primary"
+                onClick={async () => { await save(formData, 'company'); setView('dashboard') }}
+                disabled={saving}
+              >
+                {saving ? 'Saving…' : isEdit ? 'Save Changes ✓' : 'Continue to Dashboard →'}
+              </button>
             </div>
-            <pre>{JSON.stringify(savedOutput, null, 2)}</pre>
           </div>
-        )}
-      </main>
-    </div>
-  )
+        </main>
+      </div>
+    )
+  }
+
+  // ── Dashboard ────────────────────────────────────────────────
+  if (view === 'dashboard') {
+    const sectionsDone = formData._sectionsDone || []
+
+    const completedCount = SECTIONS.filter(section =>
+      section.id === 'storm'
+        ? sectionsDone.includes('storm') && isSectionComplete('storm', formData)
+        : isSectionComplete(section.id, formData)
+    ).length
+    const totalCount = SECTIONS.length
+    const pct = Math.round((completedCount / totalCount) * 100)
+    const allDone = completedCount === totalCount
+
+    return (
+      <div className="sop-root">
+        <TopBar
+          backLabel="Home"
+          onBack={onBack}
+          companyName={companyName}
+          companyLogo={formData.companyLogo}
+          onEditCompany={() => setView('company-edit')}
+          onLogout={onLogout}
+        />
+
+        <div className="sop-dash-hero">
+          <div className="sop-dash-hero-inner">
+            <h2 className="sop-dash-welcome">
+              {companyName ? `👋 Welcome back, ${companyName}!` : '👋 Welcome back!'}
+            </h2>
+            <p className="sop-dash-welcome-sub">
+              Select a service category below to configure your SOP preferences.
+            </p>
+
+            {/* Progress bar */}
+            <div className="sop-progress-wrap">
+              <div className="sop-progress-header">
+                <span className="sop-progress-label">
+                  {allDone ? '🎉 SOP fully configured!' : `${completedCount} of ${totalCount} sections complete`}
+                </span>
+                <span className="sop-progress-pct">{pct}%</span>
+              </div>
+              <div className="sop-progress-track">
+                <div
+                  className={`sop-progress-fill${allDone ? ' sop-progress-fill--done' : ''}`}
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sop-dashboard">
+          {SECTIONS.map(section => {
+            // Storm requires an explicit save visit + completion (false is valid)
+            // All other sections: just check every required field is answered
+            const isDone = section.id === 'storm'
+              ? sectionsDone.includes('storm') && isSectionComplete('storm', formData)
+              : isSectionComplete(section.id, formData)
+            return (
+              <button
+                key={section.id}
+                className={`sop-dash-card${isDone ? ' sop-dash-card--done' : ''}`}
+                data-section={section.id}
+                onClick={() => {
+                  setActiveSection(section.id)
+                  setView('section')
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+              >
+                <div className="sop-dash-card-icon">{section.icon}</div>
+                <div className="sop-dash-card-content">
+                  <div className="sop-dash-card-title">{section.label}</div>
+                  <div className="sop-dash-card-desc">{section.desc}</div>
+                </div>
+                {isDone && <span className="sop-dash-card-badge">✓</span>}
+                <div className="sop-dash-card-arrow">›</div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  // ── Section editing ──────────────────────────────────────────
+  if (view === 'section' && activeSection) {
+    const meta = SECTIONS.find(s => s.id === activeSection)
+
+    const handleSaveSection = async () => {
+      const updated = {
+        ...formData,
+        _sectionsDone: [...new Set([...(formData._sectionsDone || []), activeSection])],
+      }
+      setFormData(updated)
+      setSaving(true)
+      await saveToDb(user, updated, activeSection)
+      setSaving(false)
+      setView('dashboard')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    return (
+      <div className="sop-root">
+        <TopBar
+          backLabel="Dashboard"
+          onBack={() => setView('dashboard')}
+          companyName={companyName}
+          companyLogo={formData.companyLogo}
+          onEditCompany={() => setView('company-edit')}
+          onLogout={onLogout}
+        />
+
+        <div className="sop-section-hero">
+          <div className="sop-section-hero-inner">
+            <div className="sop-section-hero-icon">{meta.icon}</div>
+            <div>
+              <h2 className="sop-section-hero-title">{meta.label}</h2>
+              <p className="sop-section-hero-desc">{meta.desc}</p>
+            </div>
+          </div>
+        </div>
+
+        <main className="sop-form-container">
+          {activeSection === 'leads'        && <LeadsSection      data={formData} setField={setField} errors={errors} />}
+          {activeSection === 'storm'        && <StormReadySection data={formData} setField={setField} errors={errors} />}
+          {activeSection === 'presale'      && <PresaleSection    data={formData} setField={setField} errors={errors} />}
+          {activeSection === 'production'   && <ProductionSection data={formData} setField={setField} errors={errors} />}
+          {activeSection === 'post-sale'    && <PostSaleSection   data={formData} setField={setField} errors={errors} />}
+          {activeSection === 'satisfaction' && <ReviewsSection    data={formData} setField={setField} errors={errors} />}
+
+          {Object.keys(errors).length > 0 && (
+            <div className="validation-errors">
+              <strong>Please fix the following:</strong>
+              <ul>{Object.values(errors).map((msg, i) => <li key={i}>{msg}</li>)}</ul>
+            </div>
+          )}
+
+          <div className="sop-nav-bar">
+            <button className="sop-btn-back" onClick={() => setView('dashboard')}>
+              ← Dashboard
+            </button>
+            <div className="sop-nav-right">
+              {saving && <span className="sop-saving-label">Saving…</span>}
+              <button
+                className="sop-btn-primary"
+                onClick={handleSaveSection}
+                disabled={saving}
+              >
+                {saving ? 'Saving…' : 'Save & Return ✓'}
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  return null
 }

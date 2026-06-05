@@ -12,7 +12,7 @@ export default function About() {
         <div className="about-grid">
           <div className="about-img-wrap">
             <div className="about-img-bg">
-              <img src="/logo.png" alt="Valley Ridge Group" className="about-img-logo" />
+              <img src="/logo.png" alt="RoofSmartr" className="about-img-logo" />
             </div>
             <div className="about-img-badge">
               <strong style={{ fontSize: 16 }}>Systems</strong>
@@ -27,9 +27,9 @@ export default function About() {
             </h2>
             <div className="divider" />
             <p className="section-sub" style={{ maxWidth: '100%' }}>
-              Valley Ridge Group was founded by roofing industry veterans who got tired of watching great companies stall out—not because of sales, but because their back-office couldn't keep up.
+              RoofSmartr was founded by roofing industry veterans who got tired of watching great companies stall out—not because of sales, but because their back-office couldn't keep up.
             </p>
-            <p style={{ fontSize: 15, color: 'var(--gray-600)', marginTop: 14, lineHeight: 1.75 }}>
+            <p className="about-body-p">
               We built a team of trained specialists—not generalist VAs—who understand adjuster negotiations, CRM workflows, insurance claims, and permit processes. Every person on our team has been trained specifically for the roofing industry, so your SOP runs exactly the way you need it to.
             </p>
             <div className="about-values">

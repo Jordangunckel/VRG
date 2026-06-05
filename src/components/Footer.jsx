@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function Footer({ onEmployeeLogin }) {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   const year = new Date().getFullYear()
   return (
@@ -6,8 +6,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src="/logo.png" alt="Valley Ridge Group" />
-            <p style={{ fontStyle: 'italic', fontWeight: 600, color: 'rgba(255,255,255,0.7)', marginBottom: 8 }}>Systems That Scale.</p>
+            <img src="/logo.png" alt="RoofSmartr" />
             <p>The roofing industry's dedicated back-office partner. We build the systems that grow with your business.</p>
           </div>
           <div className="footer-col">
@@ -36,8 +35,11 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {year} Valley Ridge Group. All rights reserved.</span>
-          <span><span className="footer-taupe">Systems That Scale</span> — Valley Ridge Group</span>
+          <span>© {year} RoofSmartr. All rights reserved.</span>
+          <span>RoofSmartr</span>
+          <button className="footer-employee-login" onClick={onEmployeeLogin}>
+            Employee Login
+          </button>
         </div>
       </div>
     </footer>

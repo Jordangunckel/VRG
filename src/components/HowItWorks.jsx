@@ -27,14 +27,14 @@ export default function HowItWorks() {
       <div className="container">
         <div className="how-grid">
           <div>
-            <span className="section-label">How It Works</span>
-            <h2 className="section-title">
+            <span className="section-label" data-reveal>How It Works</span>
+            <h2 className="section-title" data-reveal data-delay="1">
               From signed to <span style={{ color: 'var(--taupe)' }}>live in days</span>,<br />not months
             </h2>
-            <div className="divider" style={{ marginBottom: 40 }} />
+            <div className="divider" style={{ marginBottom: 40 }} data-reveal data-delay="1" />
             <div className="how-steps">
-              {STEPS.map(s => (
-                <div key={s.num} className="how-step">
+              {STEPS.map((s, i) => (
+                <div key={s.num} className="how-step" data-reveal data-delay={i + 2}>
                   <div className="how-step-num">{s.num}</div>
                   <div className="how-step-body">
                     <h4>{s.title}</h4>
@@ -45,7 +45,7 @@ export default function HowItWorks() {
             </div>
           </div>
 
-          <div className="how-visual">
+          <div className="how-visual" data-reveal data-delay="2">
             <div className="how-visual-title">What's included from day one</div>
             <ul className="how-checklist">
               {[

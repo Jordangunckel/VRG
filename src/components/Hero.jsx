@@ -1,24 +1,25 @@
-export default function Hero({ onBookCall }) {
+export default function Hero({ onBookCall, onCrmHealth, onFlightPath }) {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
     <section className="hero" id="home">
+      {/* Animated background orbs */}
+      <div className="hero-orb hero-orb-1" />
+      <div className="hero-orb hero-orb-2" />
+      <div className="hero-orb hero-orb-3" />
       <div className="hero-mountain" />
+
       <div className="container">
         <div className="hero-inner">
           <div>
-            <div className="hero-badge">
-              <span />
-              Systems That Scale
-            </div>
-            <h1>
+            <h1 className="hero-animate hero-animate-1">
               Your Roofing Business.<br />
               <em>On Autopilot.</em>
             </h1>
-            <p className="hero-sub">
-              Valley Ridge Group builds the systems that scale your roofing operation—handling leads, scheduling, supplements, permits, and post-sale so your team can focus on closing jobs and growing revenue.
+            <p className="hero-sub hero-animate hero-animate-2">
+              RoofSmartr builds the systems that scale your roofing operation—handling leads, scheduling, supplements, permits, and post-sale so your team can focus on closing jobs and growing revenue.
             </p>
-            <div className="hero-actions">
+            <div className="hero-actions hero-animate hero-animate-3">
               <button className="btn btn-primary btn-lg" onClick={onBookCall}>
                 Book a Free Call ↗
               </button>
@@ -26,7 +27,17 @@ export default function Hero({ onBookCall }) {
                 Explore Services
               </button>
             </div>
-            <div className="hero-proof">
+            <div className="hero-lead-magnet hero-animate hero-animate-4" onClick={onCrmHealth}>
+              <span className="hero-lm-icon">⚡</span>
+              <span>Get your free <strong>CRM Health Report</strong> — takes 3 minutes</span>
+              <span className="hero-lm-arrow">→</span>
+            </div>
+            <div className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4" onClick={onFlightPath}>
+              <span className="hero-lm-icon">✈️</span>
+              <span>Explore the <strong>CRM Flight Path</strong> — every stage mapped</span>
+              <span className="hero-lm-arrow">→</span>
+            </div>
+            <div className="hero-proof hero-animate hero-animate-4">
               {[
                 { num: '500+', label: 'Jobs Managed' },
                 { num: '48hr', label: 'Avg Turnaround' },
@@ -44,7 +55,7 @@ export default function Hero({ onBookCall }) {
             </div>
           </div>
 
-          <div className="hero-card">
+          <div className="hero-card hero-animate hero-animate-2">
             <div className="hero-card-title">What We Handle For You</div>
             <ul className="hero-service-list">
               {[

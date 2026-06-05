@@ -1,7 +1,7 @@
 import {
   SectionHeader, ServiceCard, YesNo, ShowIf,
   AutoOrManual, CRMTriggerInput, ManualNotice,
-  FrequencyField, CheckboxGroup, SubSection,
+  FrequencyField, SubSection,
 } from './shared.jsx'
 
 export default function PostSaleSection({ data, setField, errors }) {
@@ -17,7 +17,7 @@ export default function PostSaleSection({ data, setField, errors }) {
             name="financialWorksheet"
             value={data.financialWorksheet}
             onChange={v => setField('financialWorksheet', v)}
-            question="Do you want Valley Ridge to create financial worksheets?"
+            question="Do you want RoofSmartr to create financial worksheets?"
           />
 
           <ShowIf when={data.financialWorksheet === 'yes'}>
@@ -25,7 +25,7 @@ export default function PostSaleSection({ data, setField, errors }) {
               name="financialIdentification"
               value={data.financialIdentification}
               onChange={v => setField('financialIdentification', v)}
-              question="How should Valley Ridge identify completed jobs?"
+              question="How should RoofSmartr identify completed jobs?"
             />
 
             <ShowIf when={data.financialIdentification === 'automatic'}>
@@ -55,7 +55,7 @@ export default function PostSaleSection({ data, setField, errors }) {
             name="cocInvoices"
             value={data.cocInvoices}
             onChange={v => setField('cocInvoices', v)}
-            question="Do you want Valley Ridge to create and send C.O.C.s and invoices?"
+            question="Do you want RoofSmartr to create and send C.O.C.s and invoices?"
           />
 
           <ShowIf when={data.cocInvoices === 'yes'}>
@@ -90,12 +90,12 @@ export default function PostSaleSection({ data, setField, errors }) {
             name="finalPayment"
             value={data.finalPayment}
             onChange={v => setField('finalPayment', v)}
-            question="Do you want Valley Ridge to follow up on final payments?"
+            question="Do you want RoofSmartr to follow up on final payments?"
           />
 
           <ShowIf when={data.finalPayment === 'yes'}>
             <div>
-              <span className="question-label">Who should Valley Ridge follow up with?</span>
+              <span className="question-label">Who should RoofSmartr follow up with?</span>
               <div className="radio-group">
                 {[
                   { value: 'insurance', label: 'Insurance Company' },
@@ -138,7 +138,7 @@ export default function PostSaleSection({ data, setField, errors }) {
             name="warranties"
             value={data.warranties}
             onChange={v => setField('warranties', v)}
-            question="Do you want Valley Ridge to send warranties?"
+            question="Do you want RoofSmartr to send warranties?"
           />
 
           <ShowIf when={data.warranties === 'yes'}>
@@ -166,131 +166,6 @@ export default function PostSaleSection({ data, setField, errors }) {
           </ShowIf>
         </ServiceCard>
 
-        {/* ── SERVICE: Reviews and Referrals ── */}
-        <ServiceCard title="Reviews and Referrals">
-
-          <YesNo
-            name="reviewsReferrals"
-            value={data.reviewsReferrals}
-            onChange={v => setField('reviewsReferrals', v)}
-            question="Do you want Valley Ridge to request customer reviews and referrals?"
-          />
-
-          <ShowIf when={data.reviewsReferrals === 'yes'}>
-            <div>
-              <span className="question-label">When should Valley Ridge request reviews and referrals?</span>
-              <div className="radio-group">
-                {[
-                  { value: 'happy-status', label: 'Only when customer has reached "Happy Customer" CRM status', recommended: true },
-                  { value: 'final-payment', label: 'Always upon final payment' },
-                ].map(opt => (
-                  <label key={opt.value} className="radio-option">
-                    <input type="radio" name="reviewsTiming" value={opt.value}
-                      checked={data.reviewsTiming === opt.value}
-                      onChange={() => setField('reviewsTiming', opt.value)} />
-                    <span className="radio-dot" />
-                    <span className="radio-label">
-                      {opt.label}
-                      {opt.recommended && <span className="rec">(Recommended)</span>}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <CheckboxGroup
-              name="reviewsMethods"
-              values={data.reviewsMethods}
-              onChange={v => setField('reviewsMethods', v)}
-              question="How should Valley Ridge ask for reviews and referrals? (select all that apply)"
-              options={[
-                { value: 'email', label: 'Email' },
-                { value: 'text', label: 'Text' },
-                { value: 'phone', label: 'Phone Call' },
-              ]}
-            />
-
-            <FrequencyField
-              name="reviewsFrequency"
-              value={data.reviewsFrequency}
-              onChange={v => setField('reviewsFrequency', v)}
-              customValue={data.reviewsFrequencyCustom}
-              onCustomChange={v => setField('reviewsFrequencyCustom', v)}
-              question="How many times should Valley Ridge ask for reviews/referrals?"
-              options={[
-                { value: '1', label: '1 time' },
-                { value: '2', label: '2 times' },
-                { value: 'custom', label: 'Custom' },
-              ]}
-            />
-          </ShowIf>
-        </ServiceCard>
-
-        {/* ── SERVICE: Thank You Gifts ── */}
-        <ServiceCard title="Thank You Gifts">
-
-          <YesNo
-            name="thankYouGifts"
-            value={data.thankYouGifts}
-            onChange={v => setField('thankYouGifts', v)}
-            question="Do you want Valley Ridge to coordinate thank-you gifts?"
-          />
-
-          <ShowIf when={data.thankYouGifts === 'yes'}>
-            <div>
-              <span className="question-label">How should Valley Ridge identify customers that should receive a thank-you gift?</span>
-              <div className="radio-group">
-                {[
-                  { value: 'crm-status', label: 'When CRM reaches "Send Thank You Gift" status' },
-                  { value: 'custom', label: 'Custom Logic' },
-                ].map(opt => (
-                  <label key={opt.value} className="radio-option">
-                    <input type="radio" name="thankYouIdentification" value={opt.value}
-                      checked={data.thankYouIdentification === opt.value}
-                      onChange={() => setField('thankYouIdentification', opt.value)} />
-                    <span className="radio-dot" />
-                    <span className="radio-label">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-              <ShowIf when={data.thankYouIdentification === 'custom'}>
-                <div className="field" style={{ marginTop: 10 }}>
-                  <label>Describe your custom logic</label>
-                  <input type="text" value={data.thankYouIdentificationCustom}
-                    onChange={e => setField('thankYouIdentificationCustom', e.target.value)}
-                    placeholder="Describe when to send thank-you gifts…" />
-                </div>
-              </ShowIf>
-            </div>
-
-            <div>
-              <span className="question-label">Gift Type</span>
-              <div className="radio-group">
-                {[
-                  { value: 'gift-card', label: 'Gift Card (local business)' },
-                  { value: 'branded', label: 'Branded Merchandise' },
-                  { value: 'custom', label: 'Custom' },
-                ].map(opt => (
-                  <label key={opt.value} className="radio-option">
-                    <input type="radio" name="thankYouGiftType" value={opt.value}
-                      checked={data.thankYouGiftType === opt.value}
-                      onChange={() => setField('thankYouGiftType', opt.value)} />
-                    <span className="radio-dot" />
-                    <span className="radio-label">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-              <ShowIf when={data.thankYouGiftType === 'custom'}>
-                <div className="field" style={{ marginTop: 10 }}>
-                  <label>Describe custom gift</label>
-                  <input type="text" value={data.thankYouGiftCustom}
-                    onChange={e => setField('thankYouGiftCustom', e.target.value)}
-                    placeholder="e.g. Handwritten card + Amazon gift card…" />
-                </div>
-              </ShowIf>
-            </div>
-          </ShowIf>
-        </ServiceCard>
 
       </div>
     </div>

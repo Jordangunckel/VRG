@@ -1,12 +1,12 @@
 const TESTIMONIALS = [
   {
-    quote: "Valley Ridge took over our lead follow-up and adjuster coordination within a week of signing. Our close rate jumped 22% in the first month—just from not letting leads go cold.",
+    quote: "RoofSmartr took over our lead follow-up and adjuster coordination within a week of signing. Our close rate jumped 22% in the first month—just from not letting leads go cold.",
     name: 'Marcus T.',
     company: 'Peak Roofing Solutions, TX',
     initials: 'MT',
   },
   {
-    quote: "I used to spend 3 hours a day chasing supplements and insurance adjusters. Now I spend that time in front of homeowners. Valley Ridge pays for itself ten times over.",
+    quote: "I used to spend 3 hours a day chasing supplements and insurance adjusters. Now I spend that time in front of homeowners. RoofSmartr pays for itself ten times over.",
     name: 'Dana R.',
     company: 'Summit Storm Restoration, CO',
     initials: 'DR',

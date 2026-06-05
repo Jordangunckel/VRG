@@ -1,10 +1,97 @@
+import { useRef } from 'react'
 import { SectionHeader } from './shared.jsx'
 
+// Resize uploaded image client-side before storing as base64
+async function resizeLogo(file) {
+  return new Promise((resolve) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      const MAX_W = 500
+      const MAX_H = 240
+      let w = img.width
+      let h = img.height
+      const ratio = Math.min(MAX_W / w, MAX_H / h, 1)
+      w = Math.round(w * ratio)
+      h = Math.round(h * ratio)
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h)
+      URL.revokeObjectURL(url)
+      resolve(canvas.toDataURL('image/png', 0.88))
+    }
+    img.src = url
+  })
+}
+
 export default function CompanyInfo({ data, setField }) {
+  const fileInputRef = useRef(null)
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const resized = await resizeLogo(file)
+    setField('companyLogo', resized)
+    e.target.value = '' // reset so same file can be re-uploaded
+  }
+
   return (
     <div className="section">
       <SectionHeader number="1" title="Company Information" />
       <div className="section-body">
+
+        {/* ── Logo Upload ── */}
+        <div className="logo-upload-row">
+          <span className="question-label" style={{ marginBottom: 8 }}>Company Logo</span>
+
+          {/* Hidden file input — triggered by both upload zone and Change button */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+
+          {data.companyLogo ? (
+            <div className="logo-preview-wrap">
+              <img src={data.companyLogo} alt="Company logo" className="logo-preview-img" />
+              <div className="logo-actions">
+                <button
+                  type="button"
+                  className="logo-btn logo-btn-change"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Change Logo
+                </button>
+                <button
+                  type="button"
+                  className="logo-btn logo-btn-remove"
+                  onClick={() => setField('companyLogo', '')}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="logo-upload-zone"
+              onClick={() => fileInputRef.current?.click()}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && fileInputRef.current?.click()}
+            >
+              <span className="logo-upload-icon">🖼️</span>
+              <div>
+                <span className="logo-upload-label">Click to upload your logo</span>
+                <span className="logo-upload-hint">PNG, JPG, or SVG recommended</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ── Fields Grid ── */}
         <div className="info-grid">
 
           <div className="field">

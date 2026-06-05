@@ -17,7 +17,7 @@ export default function ProductionSection({ data, setField, errors }) {
             name="materialOrders"
             value={data.materialOrders}
             onChange={v => setField('materialOrders', v)}
-            question="Do you want Valley Ridge to build material orders?"
+            question="Do you want RoofSmartr to build material orders?"
           />
 
           <ShowIf when={data.materialOrders === 'yes'}>
@@ -25,7 +25,7 @@ export default function ProductionSection({ data, setField, errors }) {
               name="materialIdentification"
               value={data.materialIdentification}
               onChange={v => setField('materialIdentification', v)}
-              question="How should Valley Ridge know materials are ready?"
+              question="How should RoofSmartr know materials are ready?"
             />
 
             <ShowIf when={data.materialIdentification === 'automatic'}>
@@ -46,7 +46,7 @@ export default function ProductionSection({ data, setField, errors }) {
             </ShowIf>
 
             <div>
-              <span className="question-label">What should Valley Ridge do after building the material order?</span>
+              <span className="question-label">What should RoofSmartr do after building the material order?</span>
               <div className="radio-group">
                 {[
                   { value: 'draft-only', label: 'Save Draft Only' },
@@ -99,12 +99,12 @@ export default function ProductionSection({ data, setField, errors }) {
             name="permits"
             value={data.permits}
             onChange={v => setField('permits', v)}
-            question="Do you want Valley Ridge to pull permits?"
+            question="Do you want RoofSmartr to pull permits?"
           />
 
           <ShowIf when={data.permits === 'yes'}>
             <div>
-              <span className="question-label">How will Valley Ridge be notified to pull the permit?</span>
+              <span className="question-label">How will RoofSmartr be notified to pull the permit?</span>
               <div className="radio-group">
                 <label className="radio-option">
                   <input type="radio" name="permitsIdentification" value="automatic"
@@ -131,7 +131,7 @@ export default function ProductionSection({ data, setField, errors }) {
                 agreed={data.permitsManualAgree}
                 onAgree={v => setField('permitsManualAgree', v)}
                 errorMsg={errors?.permitsManualAgree}
-                customText="Our system only detects assigned tasks. Tags, internal notes, and comments will not trigger permit requests. By selecting manual task creation, you agree to follow Valley Ridge's permit task submission instructions."
+                customText="Our system only detects assigned tasks. Tags, internal notes, and comments will not trigger permit requests. By selecting manual task creation, you agree to follow RoofSmartr's permit task submission instructions."
               />
             </ShowIf>
           </ShowIf>

@@ -47,16 +47,16 @@ export default function PresaleSection({ data, setField, errors }) {
             name="adjusterCoordination"
             value={data.adjusterCoordination}
             onChange={v => setField('adjusterCoordination', v)}
-            question="Do you want Valley Ridge to coordinate adjuster appointments?"
+            question="Do you want RoofSmartr to coordinate adjuster appointments?"
           />
 
           <ShowIf when={data.adjusterCoordination === 'yes'}>
             <AutoManualBlock prefix="adjuster" data={data} setField={setField} errors={errors} />
 
             <InfoNote type="info">
-              Once the CRM status is triggered (or manually assigned), Valley Ridge will continue to follow up
+              Once the CRM status is triggered (or manually assigned), RoofSmartr will continue to follow up
               with the Homeowner and Insurance Company until the appointment date and time is scheduled.
-              Follow-up frequency: business day 3 — Homeowner receives a call; business day 5 — Valley Ridge
+              Follow-up frequency: business day 3 — Homeowner receives a call; business day 5 — RoofSmartr
               reaches out to the Insurance Company.
             </InfoNote>
 
@@ -64,11 +64,11 @@ export default function PresaleSection({ data, setField, errors }) {
               name="adjusterTimeWindow"
               value={data.adjusterTimeWindow}
               onChange={v => setField('adjusterTimeWindow', v)}
-              question="Adjusters often set a 3-hour window. Do you want Valley Ridge to follow up with adjusters to get a narrowed time?"
+              question="Adjusters often set a 3-hour window. Do you want RoofSmartr to follow up with adjusters to get a narrowed time?"
             />
 
             <div>
-              <span className="question-label">Once an appointment is scheduled, how should Valley Ridge assign it?</span>
+              <span className="question-label">Once an appointment is scheduled, how should RoofSmartr assign it?</span>
               <div className="radio-group">
                 {[
                   { value: 'sales-rep', label: 'Assigned to the Sales Rep' },
@@ -103,7 +103,7 @@ export default function PresaleSection({ data, setField, errors }) {
             name="scopeFollowUp"
             value={data.scopeFollowUp}
             onChange={v => setField('scopeFollowUp', v)}
-            question="Do you want Valley Ridge to follow up on scope of loss?"
+            question="Do you want RoofSmartr to follow up on scope of loss?"
           />
 
           <ShowIf when={data.scopeFollowUp === 'yes'}>
@@ -151,7 +151,7 @@ export default function PresaleSection({ data, setField, errors }) {
             name="supplementFollowUp"
             value={data.supplementFollowUp}
             onChange={v => setField('supplementFollowUp', v)}
-            question="Do you want Valley Ridge to follow up on supplements?"
+            question="Do you want RoofSmartr to follow up on supplements?"
           />
 
           <ShowIf when={data.supplementFollowUp === 'yes'}>
@@ -199,7 +199,7 @@ export default function PresaleSection({ data, setField, errors }) {
             name="measurements"
             value={data.measurements}
             onChange={v => setField('measurements', v)}
-            question="Do you want Valley Ridge to order measurements?"
+            question="Do you want RoofSmartr to order measurements?"
           />
 
           <ShowIf when={data.measurements === 'yes'}>
@@ -237,7 +237,7 @@ export default function PresaleSection({ data, setField, errors }) {
             name="estimates"
             value={data.estimates}
             onChange={v => setField('estimates', v)}
-            question="Do you want Valley Ridge to create estimates?"
+            question="Do you want RoofSmartr to create estimates?"
           />
 
           <ShowIf when={data.estimates === 'yes'}>

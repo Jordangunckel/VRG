@@ -33,7 +33,7 @@ export default function Contact() {
             <span className="section-label">Get In Touch</span>
             <h2>Let's talk about your roofing business</h2>
             <p>
-              Fill out the form and a member of the Valley Ridge team will reach out within one business day to learn about your operation and walk you through our services.
+              Fill out the form and a member of the RoofSmartr team will reach out within one business day to learn about your operation and walk you through our services.
             </p>
             <div className="contact-details">
               {[
@@ -55,7 +55,7 @@ export default function Contact() {
               <div className="form-success">
                 <div className="form-success-icon">✅</div>
                 <h3>Message received!</h3>
-                <p>A Valley Ridge team member will reach out within one business day. We look forward to learning about your operation.</p>
+                <p>A RoofSmartr team member will reach out within one business day. We look forward to learning about your operation.</p>
               </div>
             ) : (
               <>
