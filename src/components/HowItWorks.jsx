@@ -7,7 +7,7 @@ const STEPS = [
   {
     num: '02',
     title: 'Configure Your SOP',
-    desc: 'Using our custom SOP Builder, you tell us exactly how to handle every service: triggers, frequencies, assignments, and preferences.',
+    desc: 'Using our custom Control Tower, you tell us exactly how to handle every service: triggers, frequencies, assignments, and preferences.',
   },
   {
     num: '03',

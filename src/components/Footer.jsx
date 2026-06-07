@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact</h4>
             <ul>
-              <li><a href="mailto:hello@valleyridgegroup.com">hello@valleyridgegroup.com</a></li>
+              <li><a href="mailto:hello@roofsmartr.com">hello@roofsmartr.com</a></li>
               <li><a href="tel:8005550190">(800) 555-0190</a></li>
               <li><span>Mon–Fri, 8am–6pm CST</span></li>
             </ul>

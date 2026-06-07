@@ -34,7 +34,7 @@ export default function LoginPage({ onSuccess, onBack }) {
         <div className="login-card-header">
           <span className="login-logo">Roof<span>Smartr</span></span>
           <h1 className="login-title">Client Portal</h1>
-          <p className="login-sub">Sign in to access your SOP Builder</p>
+          <p className="login-sub">Sign in to access your Control Tower</p>
         </div>
 
         <form className="login-form" onSubmit={submit}>

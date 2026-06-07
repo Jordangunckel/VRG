@@ -37,7 +37,7 @@ export default function Contact() {
             </p>
             <div className="contact-details">
               {[
-                { icon: '📧', label: 'hello@valleyridgegroup.com' },
+                { icon: '📧', label: 'hello@roofsmartr.com' },
                 { icon: '📞', label: '(800) 555-0190' },
                 { icon: '📍', label: 'Serving roofing companies nationwide' },
                 { icon: '🕐', label: 'Mon–Fri, 8am–6pm CST' },
