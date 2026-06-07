@@ -371,20 +371,103 @@ function ClientsView({ clients, onSelect }) {
   )
 }
 
+// ─── Leads view (Free CRM Report submissions) ─────────────────
+const STATUS_COLORS = {
+  'Autopilot Engaged': '#2E9BD6',
+  'Cruising':          '#00AEBB',
+  'Hitting Turbulence':'#f0a830',
+  'Losing Altitude':   '#e8772e',
+  'Engine Failure':    '#e2574c',
+}
+function crmLabel(crm) {
+  if (crm === 'acculynx')  return 'AccuLynx'
+  if (crm === 'jobnimbus') return 'JobNimbus'
+  if (crm === 'other')     return 'Other CRM'
+  return crm || '—'
+}
+function LeadsView({ leads }) {
+  const [search, setSearch] = useState('')
+  const q = search.toLowerCase()
+  const filtered = leads.filter(l =>
+    (l.company || '').toLowerCase().includes(q) ||
+    (l.email || '').toLowerCase().includes(q)
+  )
+
+  return (
+    <div className="emp-clients-view">
+      <div className="emp-search-wrap">
+        <input
+          className="emp-search"
+          placeholder="Search by company or email…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
+
+      {leads.length === 0 && (
+        <div className="emp-empty-state">
+          <div className="emp-empty-icon">✈️</div>
+          <h3>No reports yet</h3>
+          <p>Leads from the Free CRM Report will appear here the moment someone finishes the quiz.</p>
+        </div>
+      )}
+
+      {leads.length > 0 && filtered.length === 0 && (
+        <p className="emp-empty">No leads match your search.</p>
+      )}
+
+      {filtered.map(l => {
+        const color = STATUS_COLORS[l.status] || '#5b6b7c'
+        return (
+          <div key={l.id} className="emp-task-card emp-task-card--pending" style={{ borderLeft: `5px solid ${color}` }}>
+            <div className="emp-task-card-main">
+              <div className="emp-task-company">{l.company || 'Unnamed Company'}</div>
+              <div className="emp-task-summary">
+                <a href={`mailto:${l.email}`} style={{ color: '#2DD4BF', textDecoration: 'none', fontWeight: 600 }}>
+                  {l.email || '—'}
+                </a>
+              </div>
+              <div className="emp-task-tags">
+                <span className="emp-task-tag">{crmLabel(l.crm)}</span>
+                <span className="emp-task-tag" style={{ background: color, color: '#fff', borderColor: color }}>
+                  {l.status || '—'}{typeof l.score === 'number' ? ` · ${l.score}/100` : ''}
+                </span>
+                {typeof l.estimated_monthly_leak === 'number' && l.estimated_monthly_leak > 0 && (
+                  <span className="emp-task-tag" style={{ background: 'rgba(226,87,76,0.12)', color: '#e2574c', borderColor: 'rgba(226,87,76,0.3)' }}>
+                    ~${l.estimated_monthly_leak.toLocaleString()}/mo leak
+                  </span>
+                )}
+              </div>
+              <div className="emp-task-meta">{timeAgo(l.created_at)} · {fmtDate(l.created_at)}</div>
+            </div>
+            <div className="emp-task-card-actions">
+              <a className="emp-btn-primary emp-btn-sm" href={`mailto:${l.email}`} style={{ textDecoration: 'none' }}>
+                Email Lead →
+              </a>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 // ─── Main EmployeeHub ──────────────────────────────────────────
 export default function EmployeeHub({ user, onLogout }) {
-  const [view, setView]               = useState('tasks')   // 'tasks' | 'clients' | 'detail'
+  const [view, setView]               = useState('tasks')   // 'tasks' | 'clients' | 'leads' | 'detail'
   const [tasks, setTasks]             = useState([])
   const [clients, setClients]         = useState([])
+  const [leads, setLeads]             = useState([])
   const [selectedClient, setSelected] = useState(null)
   const [loading, setLoading]         = useState(true)
 
-  // Load tasks + clients on mount
+  // Load tasks + clients + leads on mount
   useEffect(() => {
     const load = async () => {
-      const [{ data: tasksData }, { data: sopData }] = await Promise.all([
+      const [{ data: tasksData }, { data: sopData }, { data: leadsData }] = await Promise.all([
         supabase.from('vrg_tasks').select('*').order('created_at', { ascending: false }),
         supabase.from('sop_data').select('user_id, data, updated_at').order('updated_at', { ascending: false }),
+        supabase.from('flight_readiness_leads').select('*').order('created_at', { ascending: false }),
       ])
       setTasks(tasksData || [])
       setClients((sopData || []).map(row => ({
@@ -393,6 +476,7 @@ export default function EmployeeHub({ user, onLogout }) {
         sop_data:     row.data,
         updated_at:   row.updated_at,
       })))
+      setLeads(leadsData || [])
       setLoading(false)
     }
     load()
@@ -453,6 +537,13 @@ export default function EmployeeHub({ user, onLogout }) {
             Clients
             <span className="emp-nav-count">{clients.length}</span>
           </button>
+          <button
+            className={`emp-nav-btn${view === 'leads' ? ' emp-nav-btn--active' : ''}`}
+            onClick={() => setView('leads')}
+          >
+            Leads
+            <span className="emp-nav-count">{leads.length}</span>
+          </button>
         </div>
       </div>
 
@@ -466,6 +557,9 @@ export default function EmployeeHub({ user, onLogout }) {
             clients={clients}
             onSelect={c => { setSelected(c); setView('detail') }}
           />
+        )}
+        {view === 'leads' && (
+          <LeadsView leads={leads} />
         )}
         {view === 'detail' && selectedClient && (
           <ClientDetail

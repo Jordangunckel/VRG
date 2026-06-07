@@ -1,0 +1,1191 @@
+/* RoofSmartr Control Tower styles — auto-scoped under .ct-scope to avoid colliding with the marketing site. Source: Claude.SOP2/src/index.css */
+/* ─── Brand Color Palette ─── */
+.ct-scope {
+  /* ── Palette ── */
+  --deadly:        #0B1929;   /* Dark Navy (brand) — page header, darkest bg */
+  --deep-space:    #0B1929;   /* Dark Navy (brand) — section headers, buttons, primary */
+  --deep-hover:    #060e16;   /* Deeper Navy — hover states */
+  --aster:         #A8D242;   /* Lime — SECONDARY accent only, used sparingly */
+  --habanero:      #24CFCB;   /* TEAL — PRIMARY brand color (unified with site) */
+  --habanero-dark: #1ab0ac;   /* Darker Teal hover (unified with site) */
+  --jodhpur:       #edf8d8;   /* Light Lime tint — subtle backgrounds */
+  --luster:        #F2F2F2;   /* Off-White — page background */
+  --charcoal:      #1a2848;   /* Dark Navy — body text, labels */
+  --white:         #FFFFFF;   /* Cards, inputs */
+
+  /* ── Aliases (existing rules keep working) ── */
+  --forest:       var(--deep-space);
+  --forest-dark:  var(--deep-hover);
+  --navy:         var(--deep-space);
+  --navy-dark:    var(--deep-hover);
+  --taupe:        var(--habanero);
+  --sage:         #12b1ac;     /* teal mid — tags, badges, hover (was green) */
+  --sage-light:   #cdecea;     /* light teal fill for selected states (was lime) */
+  --sage-faint:   var(--luster);
+  --forest-faint: var(--luster);
+  --taupe-light:  #e0f9f8;
+
+  /* Semantic */
+  --red:          #c0392b;
+  --red-light:    #fdecea;
+  --yellow:       #d4860a;
+  --yellow-light: #fef8ec;
+
+  /* Neutrals */
+  --gray-200: #ddd8d0;
+  --gray-300: #c8c2ba;
+  --gray-400: #a09a90;
+  --gray-500: #7a7470;
+  --gray-600: #5e5850;
+  --gray-700: #3d3830;
+
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 3px rgba(7,27,74,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:    0 4px 12px rgba(7,27,74,0.10);
+  --shadow-lg: 0 12px 32px rgba(7,27,74,0.14);
+}
+
+.ct-scope *,
+.ct-scope *::before,
+.ct-scope *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.ct-scope {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--forest-faint);
+  color: var(--charcoal);
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.ct-scope /* ─── Page Header ─── */
+.page-header {
+  background: linear-gradient(135deg, var(--forest-dark) 0%, var(--forest) 100%);
+  color: var(--white);
+  padding: 32px 0 28px;
+  border-bottom: 3px solid var(--taupe);
+}
+
+.ct-scope .page-header-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.ct-scope .page-header-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ct-scope .page-header-logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.20);
+}
+
+.ct-scope .page-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.ct-scope .page-header p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: var(--sage-light);
+}
+
+.ct-scope /* ─── Layout ─── */
+.form-container {
+  max-width: 860px;
+  margin: 32px auto 80px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ct-scope /* ─── Section Card ─── */
+.section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.ct-scope .section-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: var(--forest);
+  color: var(--white);
+}
+
+.ct-scope .section-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ct-scope .section-header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.ct-scope .section-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ct-scope /* ─── Company Info Grid ─── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ct-scope .info-grid .span-2 { grid-column: span 2; }
+
+@media (max-width: 600px) {
+
+.ct-scope .info-grid { grid-template-columns: 1fr; }
+
+.ct-scope .info-grid .span-2 { grid-column: span 1; }
+
+
+}
+
+.ct-scope /* ─── Form Fields ─── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ct-scope .field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  letter-spacing: 0.01em;
+}
+
+.ct-scope .field label .required {
+  color: var(--red);
+  margin-left: 2px;
+}
+
+.ct-scope input[type="text"],
+.ct-scope input[type="number"],
+.ct-scope input[type="email"],
+.ct-scope textarea,
+.ct-scope select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--charcoal);
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  appearance: none;
+}
+
+.ct-scope select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2324CFCB' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.ct-scope input[type="text"]:focus,
+.ct-scope input[type="number"]:focus,
+.ct-scope textarea:focus,
+.ct-scope select:focus {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(7,27,74,0.12);
+}
+
+.ct-scope input[type="text"].error,
+.ct-scope select.error {
+  border-color: var(--red);
+}
+
+.ct-scope /* ─── Service Card ─── */
+.service-card {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ct-scope .service-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--sage-faint);
+  border-bottom: 1.5px solid var(--gray-200);
+}
+
+.ct-scope .service-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--sage);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.ct-scope .service-card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.ct-scope .service-card-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ct-scope /* ─── Yes / No Radio ─── */
+.yesno-group {
+  display: flex;
+  gap: 10px;
+}
+
+.ct-scope .yesno-option {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ct-scope .yesno-option input { display: none; }
+
+.ct-scope .yesno-option:has(input:checked).yes {
+  border-color: var(--forest);
+  background: var(--sage-light);
+  color: var(--forest-dark);
+  font-weight: 600;
+}
+
+.ct-scope .yesno-option:has(input:checked).no {
+  border-color: var(--gray-300);
+  background: var(--forest-faint);
+  color: var(--gray-700);
+}
+
+.ct-scope .yesno-option:not(:has(input:checked)):hover {
+  border-color: var(--sage);
+  background: var(--sage-faint);
+}
+
+.ct-scope /* ─── Radio Group ─── */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ct-scope .radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ct-scope .radio-option input[type="radio"] { display: none; }
+
+.ct-scope .radio-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-300);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.ct-scope .radio-option:has(input:checked) .radio-dot {
+  border-color: var(--forest);
+  background: var(--forest);
+}
+
+.ct-scope .radio-option:has(input:checked) .radio-dot::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+.ct-scope .radio-option:has(input:checked) {
+  border-color: var(--forest);
+  background: var(--sage-light);
+}
+
+.ct-scope .radio-option:not(:has(input:checked)):hover {
+  border-color: var(--sage);
+  background: var(--sage-faint);
+}
+
+.ct-scope .radio-label {
+  font-size: 14px;
+  color: var(--charcoal);
+  line-height: 1.4;
+}
+
+.ct-scope /* "(Recommended)" label — warm taupe accent */
+.radio-label .rec {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--taupe);
+  margin-left: 4px;
+}
+
+.ct-scope /* ─── Checkbox Group ─── */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ct-scope .checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.ct-scope .checkbox-option input[type="checkbox"] { display: none; }
+
+.ct-scope .check-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--gray-300);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.ct-scope .checkbox-option:has(input:checked) .check-box {
+  border-color: var(--forest);
+  background: var(--forest);
+}
+
+.ct-scope .checkbox-option:has(input:checked) .check-box::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.ct-scope .checkbox-option:has(input:checked) {
+  border-color: var(--forest);
+  background: var(--sage-light);
+}
+
+.ct-scope .checkbox-option:not(:has(input:checked)):hover {
+  border-color: var(--sage);
+  background: var(--sage-faint);
+}
+
+.ct-scope /* ─── Toggle (Storm Ready On/Off) ─── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ct-scope .toggle-info h4 { font-size: 14px; font-weight: 600; color: var(--charcoal); }
+
+.ct-scope .toggle-info p { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+.ct-scope .toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.ct-scope .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+.ct-scope .toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-300);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ct-scope .toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ct-scope .toggle-switch input:checked + .toggle-slider { background: var(--forest); }
+
+.ct-scope .toggle-switch input:checked + .toggle-slider::before { transform: translateX(24px); }
+
+.ct-scope /* ─── Notices & Alerts ─── */
+.notice {
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.ct-scope /* Warning — manual workflow notice */
+.notice.warning {
+  background: var(--yellow-light);
+  border: 1.5px solid #f0c96a;
+  color: #7a5400;
+}
+
+.ct-scope .notice.warning strong { color: #5c3e00; }
+
+.ct-scope /* Info — general information callouts */
+.notice.info {
+  background: #e6f7f7;
+  border: 1.5px solid var(--habanero);
+  color: var(--deep-hover);
+}
+
+.ct-scope /* Danger — errors */
+.notice.danger {
+  background: var(--red-light);
+  border: 1.5px solid #e0a09a;
+  color: #7a1f1a;
+}
+
+.ct-scope /* Orange/billing notice */
+.notice.orange {
+  background: #fef3e3;
+  border: 1.5px solid var(--habanero);
+  color: #7a3d00;
+}
+
+.ct-scope .notice.orange strong { color: #5a2d00; }
+
+.ct-scope /* ─── Agree Checkbox ─── */
+.agree-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--gray-200);
+  background: var(--sage-faint);
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+.ct-scope .agree-row.error-border { border-color: var(--red); background: var(--red-light); }
+
+.ct-scope .agree-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--forest);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ct-scope /* ─── Sub-section ─── */
+.sub-section {
+  margin-top: 4px;
+  padding: 16px;
+  background: var(--sage-faint);
+  border: 1.5px solid var(--sage-light);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ct-scope .sub-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 2px;
+}
+
+.ct-scope /* ─── Inline Hint ─── */
+.field-hint {
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-top: 2px;
+}
+
+.ct-scope /* ─── Map ─── */
+.map-wrapper {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ct-scope .map-placeholder {
+  background: var(--sage-faint);
+  border: 2px dashed var(--sage-light);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  color: var(--gray-500);
+}
+
+.ct-scope .map-placeholder h4 { font-size: 15px; margin-bottom: 8px; color: var(--forest); }
+
+.ct-scope .map-placeholder code {
+  font-size: 12px;
+  background: var(--sage-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--forest-dark);
+}
+
+.ct-scope .map-placeholder p { font-size: 13px; line-height: 1.6; margin-top: 6px; }
+
+.ct-scope .map-area-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--sage-light);
+  border-top: 1.5px solid var(--sage);
+}
+
+.ct-scope .map-required-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.04em;
+}
+
+.ct-scope .map-area-set {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--forest-dark);
+}
+
+.ct-scope .btn-clear {
+  font-size: 13px;
+  color: var(--red);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+  margin-left: auto;
+  text-decoration: underline;
+}
+
+.ct-scope /* ─── Sticky Save Bar ─── */
+.save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--sage-light);
+  position: sticky;
+  bottom: 24px;
+}
+
+.ct-scope .save-bar span { color: var(--gray-500); font-size: 13px; }
+
+.ct-scope .btn-save {
+  padding: 12px 32px;
+  background: var(--habanero);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+
+.ct-scope .btn-save:hover { background: var(--habanero-dark); }
+
+.ct-scope .btn-save:active { transform: scale(0.98); }
+
+.ct-scope /* ─── Validation Errors ─── */
+.validation-errors {
+  background: var(--red-light);
+  border: 1.5px solid #e0a09a;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: #7a1f1a;
+}
+
+.ct-scope .validation-errors strong { display: block; margin-bottom: 6px; font-size: 14px; }
+
+.ct-scope .validation-errors ul { padding-left: 18px; }
+
+.ct-scope .validation-errors li { margin-top: 3px; }
+
+.ct-scope /* ─── JSON Preview Panel ─── */
+.json-preview {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.ct-scope .json-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--forest);
+  color: var(--white);
+}
+
+.ct-scope .json-preview-header h3 { font-size: 15px; font-weight: 700; }
+
+.ct-scope .json-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--taupe);
+  color: var(--white);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.ct-scope .json-preview pre {
+  padding: 24px;
+  font-size: 12.5px;
+  line-height: 1.7;
+  overflow-x: auto;
+  background: #0e1030;
+  color: #c4d0c7;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.ct-scope /* ─── Question Label ─── */
+.question-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.ct-scope /* ═══ SOP Builder v2 — data-driven hub ═══ */
+
+/* Logo: real RoofSmartr mark is transparent — drop the white card treatment */
+.page-header-logo { border-radius: 0; box-shadow: none; }
+
+.ct-scope /* ── Driver pickers (CRM + Voice) ── */
+.driver-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ct-scope .driver-grid.voices { grid-template-columns: 1fr 1fr 1fr; }
+
+@media (max-width: 600px) {
+
+.ct-scope .driver-grid,
+.ct-scope .driver-grid.voices { grid-template-columns: 1fr; }
+
+
+}
+
+.ct-scope .driver-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--white);
+}
+
+.ct-scope .driver-card input { display: none; }
+
+.ct-scope .driver-card:hover { border-color: var(--sage); background: var(--sage-faint); }
+
+.ct-scope .driver-card.selected {
+  border-color: var(--forest);
+  background: var(--sage-light);
+  box-shadow: 0 0 0 3px rgba(7,27,74,0.10);
+}
+
+.ct-scope .driver-card-name { font-size: 15px; font-weight: 700; color: var(--forest); }
+
+.ct-scope .driver-card-sub { font-size: 12.5px; color: var(--gray-500); line-height: 1.4; }
+
+.ct-scope .inline-error { display: block; margin-top: 6px; font-size: 12.5px; color: var(--red); font-weight: 600; }
+
+.ct-scope .error-border-soft { outline: 2px solid var(--red-light); outline-offset: 4px; border-radius: var(--radius); }
+
+.ct-scope /* ── Hub gating + banner ── */
+.hub-locked {
+  background: var(--white);
+  border: 2px dashed var(--sage-light);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.ct-scope .hub-locked-inner strong { font-size: 16px; color: var(--forest); display: block; margin-bottom: 6px; }
+
+.ct-scope .hub-locked-inner p { font-size: 14px; color: var(--gray-500); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+.ct-scope .hub-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  background: var(--forest);
+  color: var(--white);
+  border-radius: var(--radius);
+}
+
+.ct-scope .hub-banner strong { color: #5fded9; }
+
+.ct-scope .hub-banner-sub { font-size: 12.5px; color: rgba(255,255,255,0.72); }
+
+.ct-scope /* ── Stage grouping ── */
+.stage-group { display: flex; flex-direction: column; gap: 16px; }
+
+.ct-scope .stage-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--gray-200);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ct-scope .stage-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: 0 0 auto; }
+
+.ct-scope .stage-dot.sa-leads { background: var(--habanero); }
+
+.ct-scope .stage-dot.sa-presale { background: var(--sage); }
+
+.ct-scope .stage-dot.sa-production { background: #6b7fc7; }
+
+.ct-scope .stage-dot.sa-post-sale { background: var(--forest); }
+
+.ct-scope /* ── Service card header (v2) ── */
+.service-card-header { gap: 14px; }
+
+.ct-scope .service-num {
+  width: 30px; height: 30px; flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--forest); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+}
+
+.ct-scope .service-card-title { display: flex; align-items: center; gap: 10px; flex: 1; flex-wrap: wrap; }
+
+.ct-scope .service-card-title h3 { font-size: 16px; }
+
+.ct-scope .stage-badge {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 20px; color: var(--white);
+}
+
+.ct-scope .stage-badge.stage-leads { background: var(--habanero); }
+
+.ct-scope .stage-badge.stage-presale { background: var(--sage); }
+
+.ct-scope .stage-badge.stage-production { background: #6b7fc7; }
+
+.ct-scope .stage-badge.stage-post-sale { background: var(--forest); }
+
+.ct-scope .service-switch { width: 52px; height: 28px; }
+
+.ct-scope .service-card.service-off { opacity: 0.85; }
+
+.ct-scope .service-summary { font-size: 13.5px; color: var(--gray-600); line-height: 1.5; }
+
+.ct-scope /* ── Group block (a status + its cadence) ── */
+.group-block {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ct-scope .group-head {
+  padding: 12px 16px;
+  background: var(--sage-faint);
+  border-bottom: 1.5px solid var(--gray-200);
+}
+
+.ct-scope .group-head h4 { font-size: 14px; font-weight: 700; color: var(--forest); }
+
+.ct-scope .group-goal { font-size: 12.5px; color: var(--gray-500); }
+
+.ct-scope .group-autos { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+.ct-scope /* ── CRM phrasing line ── */
+.crm-line { font-size: 12.5px; color: var(--gray-600); line-height: 1.5; }
+
+.ct-scope .crm-kw { font-weight: 800; color: var(--forest); letter-spacing: 0.02em; }
+
+.ct-scope .crm-arrow { color: var(--habanero-dark); font-weight: 800; }
+
+.ct-scope /* ── Simple row (call task / exit) ── */
+.auto-row {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 9px 12px;
+  border: 1px dashed var(--gray-200);
+  border-radius: var(--radius);
+  background: #fafbf7;
+}
+
+.ct-scope .auto-row.is-exit { border-style: solid; border-color: #e6c2bd; background: #fdf3f1; }
+
+.ct-scope .auto-row-kind { font-size: 12px; font-weight: 700; color: var(--gray-500); }
+
+.ct-scope /* ── Message card (editable copy) ── */
+.auto-card {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  background: var(--white);
+}
+
+.ct-scope .auto-card.is-off { opacity: 0.6; background: var(--luster); }
+
+.ct-scope .auto-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+
+.ct-scope .touch-toggle { display: flex; align-items: center; gap: 6px; margin-left: auto; font-size: 12px; font-weight: 600; color: var(--gray-600); cursor: pointer; }
+
+.ct-scope .touch-toggle input { width: 16px; height: 16px; accent-color: var(--forest); cursor: pointer; }
+
+.ct-scope .copy-edit { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+
+.ct-scope .copy-edit textarea { font-family: inherit; line-height: 1.5; resize: vertical; }
+
+.ct-scope /* ── Chips ── */
+.chip {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 2px 8px; border-radius: 20px; text-transform: uppercase;
+}
+
+.ct-scope .chip-time { background: var(--gray-200); color: var(--gray-700); }
+
+.ct-scope .chip-text { background: #d7f6f5; color: var(--habanero-dark); }
+
+.ct-scope .chip-email { background: #e4e9f6; color: #3a4a86; }
+
+.ct-scope .chip-exit { background: var(--red-light); color: var(--red); }
+
+.ct-scope /* ═══ Control Tower — dashboard app ═══ */
+.wordmark { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
+
+.ct-scope .wm-teal { color: var(--habanero); }
+
+.ct-scope /* Topbar */
+.topbar { background: var(--forest); position: sticky; top: 0; z-index: 20; border-bottom: 3px solid var(--habanero); }
+
+.ct-scope .topbar-inner { max-width: 980px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+
+.ct-scope .brand { background: none; border: none; cursor: pointer; display: flex; align-items: baseline; gap: 10px; color: #fff; }
+
+.ct-scope .brand-sub { font-size: 11px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
+
+.ct-scope .topnav { display: flex; gap: 6px; }
+
+.ct-scope .topnav button { background: none; border: none; color: rgba(255,255,255,0.75); font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+
+.ct-scope .topnav button:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.ct-scope .topnav button.active { background: rgba(255,255,255,0.12); color: #fff; box-shadow: inset 0 -2px 0 var(--aster); }
+
+.ct-scope .app-main { max-width: 980px; margin: 28px auto 100px; padding: 0 24px; }
+
+.ct-scope .app-onboarding { max-width: 760px; margin: 0 auto; padding: 36px 24px 100px; }
+
+.ct-scope /* Onboarding */
+.onboarding { display: flex; flex-direction: column; gap: 22px; }
+
+.ct-scope .onboarding-head { text-align: center; }
+
+.ct-scope .onboarding-head .wordmark { color: var(--forest); }
+
+.ct-scope .onboarding-head h1 { font-size: 28px; color: var(--forest); margin-top: 10px; }
+
+.ct-scope .onboarding-head p { color: var(--gray-600); max-width: 560px; margin: 8px auto 0; line-height: 1.55; }
+
+.ct-scope .company-form { display: flex; flex-direction: column; gap: 20px; }
+
+.ct-scope .cf-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--gray-200); flex-wrap: wrap; }
+
+.ct-scope .cf-tab { background: none; border: none; padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--gray-500); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+
+.ct-scope .cf-tab:hover { color: var(--forest); }
+
+.ct-scope .cf-tab.active { color: var(--forest); border-bottom-color: var(--habanero); }
+
+.ct-scope .cf-section { display: flex; flex-direction: column; gap: 20px; }
+
+.ct-scope /* Texting row */
+.texting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: var(--sage-faint); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
+
+.ct-scope .texting-copy strong { display: block; font-size: 14px; color: var(--forest); }
+
+.ct-scope .texting-copy span { font-size: 12.5px; color: var(--gray-500); }
+
+.ct-scope /* Dashboard */
+.dash-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--habanero-dark); display: block; margin-bottom: 4px; }
+
+.ct-scope .dash-hero h1 { font-size: 28px; color: var(--forest); letter-spacing: -0.4px; }
+
+.ct-scope .dash-hero p { color: var(--gray-600); margin-top: 5px; }
+
+.ct-scope .dash-hero strong { color: var(--habanero-dark); }
+
+.ct-scope .progress-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+
+.ct-scope .progress-foot .progress-pct { margin-top: 0; }
+
+.ct-scope .progress-time { font-size: 12px; font-weight: 600; color: var(--gray-500); }
+
+.ct-scope .svc-card-meta { display: flex; align-items: center; gap: 8px; }
+
+.ct-scope .time-chip { font-size: 11px; font-weight: 700; color: var(--gray-600); background: var(--luster); padding: 2px 8px; border-radius: 20px; }
+
+.ct-scope .svc-card.sa-leads { border-left: 4px solid var(--habanero); }
+
+.ct-scope .svc-card.sa-presale { border-left: 4px solid var(--sage); }
+
+.ct-scope .svc-card.sa-production { border-left: 4px solid #6b7fc7; }
+
+.ct-scope .svc-card.sa-post-sale { border-left: 4px solid var(--forest); }
+
+.ct-scope .progress-card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 20px 24px; margin: 20px 0 4px; border-top: 3px solid var(--aster); }
+
+.ct-scope .progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+
+.ct-scope .progress-top strong { color: var(--forest); font-size: 15px; }
+
+.ct-scope .progress-top span { color: var(--gray-500); font-size: 13px; }
+
+.ct-scope .progress-track { height: 12px; background: var(--gray-200); border-radius: 20px; overflow: hidden; }
+
+.ct-scope .progress-fill { height: 100%; background: linear-gradient(90deg, var(--habanero), var(--aster)); border-radius: 20px; transition: width 0.35s ease; }
+
+.ct-scope .progress-pct { display: block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--habanero-dark); }
+
+.ct-scope .dash-stage { margin-top: 26px; }
+
+.ct-scope .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+
+@media (max-width: 640px) {
+
+.ct-scope .card-grid { grid-template-columns: 1fr; }
+ 
+}
+
+.ct-scope .svc-card { text-align: left; background: #fff; border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg); padding: 16px 18px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 6px; font: inherit; }
+
+.ct-scope .svc-card:hover { border-color: var(--habanero); box-shadow: var(--shadow); transform: translateY(-1px); }
+
+.ct-scope .svc-card-top { display: flex; align-items: center; justify-content: space-between; }
+
+.ct-scope .svc-card h3 { font-size: 16px; color: var(--forest); }
+
+.ct-scope .svc-card p { font-size: 13px; color: var(--gray-600); line-height: 1.45; }
+
+.ct-scope .svc-card-cta { font-size: 13px; font-weight: 700; color: var(--habanero-dark); margin-top: 4px; }
+
+.ct-scope .pill { font-size: 10.5px; font-weight: 700; padding: 3px 9px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.ct-scope .pill-todo { background: var(--gray-200); color: var(--gray-600); }
+
+.ct-scope .pill-off { background: #ededed; color: var(--gray-500); }
+
+.ct-scope .pill-done { background: #cdecea; color: var(--habanero-dark); }
+
+.ct-scope .pill-progress { background: #fef3e3; color: #a86400; }
+
+.ct-scope /* Service page */
+.service-page { display: flex; flex-direction: column; gap: 16px; }
+
+.ct-scope .back-link { align-self: flex-start; background: none; border: none; color: var(--habanero-dark); font-weight: 600; font-size: 14px; cursor: pointer; padding: 0; }
+
+.ct-scope .sp-head { display: flex; align-items: center; gap: 14px; }
+
+.ct-scope .sp-head h1 { font-size: 24px; color: var(--forest); }
+
+.ct-scope .sp-card { background: #fff; border: 1.5px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+
+.ct-scope .max-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+@media (max-width: 520px) {
+
+.ct-scope .max-grid { grid-template-columns: 1fr; }
+ 
+}
+
+.ct-scope .freq-rec { font-size: 12.5px; color: var(--gray-500); font-weight: 400; }
+
+.ct-scope .gated { color: var(--gray-400); font-size: 12px; }
+
+.ct-scope .checkbox-option.is-disabled { opacity: 0.55; cursor: not-allowed; }
+
+.ct-scope .checkbox-option.is-disabled:hover { border-color: var(--gray-200); background: transparent; }
+
+.ct-scope /* Back-office tasks — highlighted */
+.backoffice-card { border-left: 4px solid var(--habanero); background: #fbfffe; }
+
+.ct-scope .bo-head { display: flex; flex-direction: column; gap: 2px; }
+
+.ct-scope .task-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius); background: #fff; flex-wrap: wrap; }
+
+.ct-scope .task-main { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 220px; }
+
+.ct-scope .task-label { font-size: 14px; font-weight: 700; color: var(--forest); }
+
+.ct-scope .task-owner { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ct-scope .owner-switch { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+.ct-scope .owner-switch .ow-on { font-size: 12.5px; font-weight: 700; color: var(--habanero-dark); min-width: 64px; text-align: right; }
+
+.ct-scope .owner-switch .ow-off { font-size: 12.5px; font-weight: 700; color: var(--gray-500); min-width: 64px; text-align: right; }
+
+.ct-scope .assignee { width: auto; min-width: 160px; padding: 7px 10px; }
+
+.ct-scope .task-info { font-size: 12.5px; color: var(--gray-500); padding: 6px 4px; display: flex; align-items: center; gap: 8px; }
+
+.ct-scope .client-only-note { font-size: 11.5px; font-weight: 700; color: var(--gray-600); background: var(--gray-200); padding: 4px 10px; border-radius: 20px; }
+
+.ct-scope /* Per-status cards (Lead Nurture) */
+.status-card { border-left: 4px solid var(--aster); gap: 16px; }
+
+.ct-scope .status-card-head h3 { font-size: 18px; color: var(--forest); }
+
+.ct-scope .status-card-head .group-goal { display: block; font-size: 12.5px; color: var(--gray-500); margin-top: 2px; }
+
+.ct-scope .sub-block { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; border-top: 1px solid var(--gray-200); }
+
+.ct-scope .group-autos.flush { padding: 0; display: flex; flex-direction: column; gap: 12px; }
+
+.ct-scope /* Pipeline status mapping (Company Profile) */
+.pipeline-block { display: flex; flex-direction: column; gap: 14px; }
+
+.ct-scope .pipeline-stage-name { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--habanero-dark); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--gray-200); }
+
+.ct-scope .pipeline-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+
+.ct-scope .pipeline-canon { flex: 0 0 190px; font-size: 13px; font-weight: 600; color: var(--gray-600); }
+
+.ct-scope .pipeline-arrow { color: var(--gray-400); flex: 0 0 auto; }
+
+.ct-scope .pipeline-row input,
+.ct-scope .pipeline-row select { flex: 1 1 auto; min-width: 0; width: auto; }
+
+@media (max-width: 560px) {
+
+.ct-scope .pipeline-canon { flex-basis: 120px; }
+ 
+}
+
+.ct-scope .pipeline-step { display: flex; flex-direction: column; gap: 9px; padding: 16px; background: var(--sage-faint); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
+
+.ct-scope .pipeline-step-head { font-size: 14px; font-weight: 700; color: var(--forest); display: flex; align-items: center; gap: 8px; }
+
+.ct-scope .step-num { width: 22px; height: 22px; border-radius: 50%; background: var(--habanero); color: #fff; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+
+.ct-scope /* Team list in company profile */
+.team-block { display: flex; flex-direction: column; gap: 10px; }
+
+.ct-scope .team-row { display: flex; gap: 10px; align-items: center; }
+
+.ct-scope .team-row input { flex: 1 1 auto; min-width: 0; }
+
+.ct-scope .team-row select { flex: 0 0 168px; width: 168px; }
+
+.ct-scope .team-remove { flex: 0 0 auto; background: none; border: none; color: var(--red); font-size: 13px; font-weight: 600; cursor: pointer; }
+
+.ct-scope .team-add { align-self: flex-start; background: var(--sage-faint); border: 1.5px dashed var(--habanero); color: var(--habanero-dark); font-weight: 700; font-size: 13px; padding: 8px 14px; border-radius: var(--radius); cursor: pointer; }
+
+
+/* ─── Integration tweaks (mounted inside the marketing SPA at /dashboard) ─── */
+.ct-scope { min-height: 100vh; }
+.ct-scope .topnav .ct-signout { margin-left: 6px; opacity: 0.85; }
+.ct-scope .topnav .ct-signout:hover { opacity: 1; }

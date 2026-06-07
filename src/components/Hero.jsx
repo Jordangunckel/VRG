@@ -1,4 +1,4 @@
-export default function Hero({ onBookCall, onCrmHealth, onFlightPath }) {
+export default function Hero({ onBookCall, onFlightReadiness }) {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
@@ -27,16 +27,11 @@ export default function Hero({ onBookCall, onCrmHealth, onFlightPath }) {
                 Explore Services
               </button>
             </div>
-            <div className="hero-lead-magnet hero-animate hero-animate-4" onClick={onCrmHealth}>
-              <span className="hero-lm-icon">⚡</span>
-              <span>Get your free <strong>CRM Health Report</strong> — takes 3 minutes</span>
-              <span className="hero-lm-arrow">→</span>
-            </div>
-            <div className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4" onClick={onFlightPath}>
+            <a href="/freeflight" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4" onClick={e => { e.preventDefault(); onFlightReadiness?.() }}>
               <span className="hero-lm-icon">✈️</span>
-              <span>Explore the <strong>CRM Flight Path</strong> — every stage mapped</span>
+              <span>Get your <strong>Free CRM Report</strong> — takes 2 minutes</span>
               <span className="hero-lm-arrow">→</span>
-            </div>
+            </a>
             <div className="hero-proof hero-animate hero-animate-4">
               {[
                 { num: '500+', label: 'Jobs Managed' },

@@ -1,4 +1,7 @@
-export default function Footer({ onEmployeeLogin }) {
+import { useNavigate } from 'react-router-dom'
+
+export default function Footer() {
+  const navigate = useNavigate()
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   const year = new Date().getFullYear()
   return (
@@ -37,7 +40,7 @@ export default function Footer({ onEmployeeLogin }) {
         <div className="footer-bottom">
           <span>© {year} RoofSmartr. All rights reserved.</span>
           <span>RoofSmartr</span>
-          <button className="footer-employee-login" onClick={onEmployeeLogin}>
+          <button className="footer-employee-login" onClick={() => navigate('/login')}>
             Employee Login
           </button>
         </div>

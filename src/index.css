@@ -1094,6 +1094,178 @@ a { text-decoration: none; color: inherit; }
 /* ── ─────────────────────── ── */
 /* ── CTA BANNER              ── */
 /* ── ─────────────────────── ── */
+/* ─── FLIGHT READINESS PROMO ─────────────────────────────────────── */
+.frs-promo {
+  padding: 96px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+.frs-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.frs-heading {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 10px 0 18px;
+  color: var(--ink);
+}
+.dark .frs-heading { color: #fff; }
+.frs-sub {
+  font-size: 1.05rem;
+  color: var(--gray-500);
+  max-width: 440px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.frs-bullets {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.frs-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.97rem;
+  color: var(--gray-600);
+}
+.dark .frs-bullets li { color: var(--gray-400); }
+.frs-check {
+  color: #A8D242;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.frs-cta { margin-top: 4px; }
+
+/* Art side */
+.frs-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 340px;
+}
+.frs-art-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0,174,187,0.12) 0%, transparent 70%);
+  border-radius: 24px;
+}
+.frs-plane {
+  width: 200px;
+  height: 200px;
+  filter: drop-shadow(0 12px 32px rgba(0,174,187,0.25));
+  animation: frs-float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+@keyframes frs-float {
+  0%, 100% { transform: translateY(0px) rotate(-4deg); }
+  50%       { transform: translateY(-14px) rotate(-4deg); }
+}
+
+/* Altitude meter */
+.frs-meter {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+.frs-meter-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+.frs-meter-track {
+  width: 18px;
+  height: 130px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #2E9BD6 0%, #00AEBB 22%, #f0a830 50%, #e8772e 74%, #e2574c 100%);
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  overflow: visible;
+}
+.frs-meter-arrow {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 10px solid #fff;
+  margin-left: 12px;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+}
+.frs-meter-bands {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 9px;
+  font-weight: 700;
+  text-align: right;
+  line-height: 1;
+  padding: 0;
+}
+.frs-meter-bands span {
+  padding: 3px 0;
+  white-space: nowrap;
+}
+
+/* Score badge */
+.frs-score-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--navy, #0B1929);
+  border: 2px solid #00AEBB;
+  border-radius: 14px;
+  padding: 12px 16px;
+  text-align: center;
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(0,174,187,0.2);
+}
+.frs-score-num {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: #00AEBB;
+  line-height: 1;
+}
+.frs-score-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #9fb2c4;
+  margin-top: 3px;
+}
+
+@media (max-width: 780px) {
+  .frs-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .frs-art { height: 260px; }
+  .frs-plane { width: 160px; height: 160px; }
+}
+/* ─── END FLIGHT READINESS PROMO ──────────────────────────────────── */
+
 .cta-banner {
   background: linear-gradient(135deg, var(--forest) 0%, #2d4299 100%);
   padding: 80px 0;
@@ -1980,6 +2152,7 @@ html.dark .promo-popup-sub          { color: #8aabb0; }
   color: #c8d8ee;
   font-size: 14px;
   cursor: pointer;
+  text-decoration: none;
   transition: background 0.2s, border-color 0.2s;
 }
 .hero-lead-magnet:hover { background: rgba(45,212,191,0.18); border-color: rgba(45,212,191,0.55); color: #fff; }

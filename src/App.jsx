@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from './lib/supabase.js'
 import { useScrollReveal } from './hooks/useScrollReveal.js'
 import { useSunMode } from './hooks/useSunMode.js'
@@ -17,20 +18,41 @@ import Footer from './components/Footer.jsx'
 import BookCallModal from './components/BookCallModal.jsx'
 import SetPasswordModal from './components/SetPasswordModal.jsx'
 import LoginPage from './components/LoginPage.jsx'
-import SOPBuilder from './sop/SOPBuilder.jsx'
+import ControlTower from './controltower/ControlTower.jsx'
+import './controltower/control-tower.css'
 import PromoPopup from './components/PromoPopup.jsx'
-import LeadMagnet from './leadmagnet/LeadMagnet.jsx'
-import FlightPath from './flightpath/FlightPath.jsx'
+import FlightReadiness from './flightreadiness/FlightReadiness.jsx'
+import FlightReadinessPromo from './components/FlightReadinessPromo.jsx'
+
+// ─── Home page (all sections) ───────────────────────────────────────────────
+function HomePage({ onBookCall, onFlightReadiness }) {
+  useScrollReveal('home')
+  return (
+    <>
+      <Hero onBookCall={onBookCall} onFlightReadiness={onFlightReadiness} />
+      <TrustBar />
+      <Stats />
+      <Services />
+      <HowItWorks />
+      <About />
+      <Testimonials />
+      <FlightReadinessPromo onFlightReadiness={onFlightReadiness} />
+      <CtaBanner onBookCall={onBookCall} />
+      <Contact />
+      <Footer />
+    </>
+  )
+}
 
 export default function App() {
+  const navigate   = useNavigate()
+  const location   = useLocation()
   const [modalOpen, setModalOpen]   = useState(false)
-  const [activePage, setActivePage] = useState('home')
   const [user, setUser]             = useState(null)
   const [isEmployee, setIsEmployee] = useState(false)
   const [needsPassword, setNeedsPassword] = useState(false)
 
-  // Re-observe [data-reveal] elements whenever the home page is shown
-  useScrollReveal(activePage)
+  const isHome = location.pathname === '/'
 
   // Manual dark mode override (persisted to localStorage)
   const [manualDark, setManualDark] = useState(() => {
@@ -57,13 +79,12 @@ export default function App() {
     const { data } = await supabase.from('vrg_roles').select('user_id').eq('user_id', loggedInUser.id).maybeSingle()
     const emp = !!data
     setIsEmployee(emp)
-    setActivePage(emp ? 'employee' : 'sop')
+    navigate(emp ? '/employee' : '/dashboard')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Restore session on mount + listen for auth changes
   useEffect(() => {
-    // Restore existing session silently (don't re-route if already on a page)
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) setUser(session.user)
     })
@@ -72,9 +93,7 @@ export default function App() {
       setUser(session?.user ?? null)
       if (!session) { setIsEmployee(false); return }
 
-      // Route automatically on fresh sign-in (including invite link clicks)
       if (event === 'SIGNED_IN') {
-        // If coming from an invite link, the user has no password yet
         const isInvite = window.location.hash.includes('type=invite')
         if (isInvite) setNeedsPassword(true)
         routeUser(session.user)
@@ -87,98 +106,94 @@ export default function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Check VRG employee role whenever user changes
+  // Check employee role whenever user changes
   useEffect(() => {
     if (!user) { setIsEmployee(false); return }
     supabase.from('vrg_roles').select('user_id').eq('user_id', user.id).maybeSingle()
       .then(({ data }) => setIsEmployee(!!data))
   }, [user])
 
-  const goToPage = (page) => {
-    if (page === 'login' && user) {
-      setActivePage(isEmployee ? 'employee' : 'sop')
-    } else {
-      setActivePage(page)
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+  const handleLoginSuccess = (loggedInUser) => {
+    setUser(loggedInUser)
+    supabase.from('vrg_roles').select('user_id').eq('user_id', loggedInUser.id).maybeSingle()
+      .then(({ data }) => {
+        const emp = !!data
+        setIsEmployee(emp)
+        navigate(emp ? '/employee' : '/dashboard')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      })
   }
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
     setUser(null)
     setIsEmployee(false)
-    setActivePage('home')
+    navigate('/')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  // After login, route employee vs client
-  const handleLoginSuccess = (loggedInUser) => {
-    setUser(loggedInUser)
-    // Role check will fire via useEffect; pre-check here for speed
-    supabase.from('vrg_roles').select('user_id').eq('user_id', loggedInUser.id).maybeSingle()
-      .then(({ data }) => {
-        const emp = !!data
-        setIsEmployee(emp)
-        setActivePage(emp ? 'employee' : 'sop')
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      })
+  const openBooking = () => {
+    if (location.pathname !== '/') {
+      navigate('/')
+      setTimeout(() => setModalOpen(true), 100)
+    } else {
+      setModalOpen(true)
+    }
   }
+
+  // Full-screen app routes (own chrome) — hide the marketing navbar
+  const isAppPage = location.pathname === '/employee' || location.pathname === '/dashboard'
 
   return (
     <>
-      {/* Hide public navbar when employee hub is active */}
-      {activePage !== 'employee' && (
+      {!isAppPage && (
         <Navbar
-          activePage={activePage}
-          onPageChange={goToPage}
+          onPageChange={(path) => { navigate(path); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
           isDark={isDark}
           onToggleDark={toggleDark}
-          onCrmHealth={() => goToPage('crm-health')}
-          onFlightPath={() => goToPage('flight-path')}
+          onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
         />
       )}
 
-      {activePage === 'login' ? (
-        <LoginPage
-          onSuccess={handleLoginSuccess}
-          onBack={() => goToPage('home')}
-        />
-      ) : activePage === 'employee' ? (
-        <EmployeeHub
-          user={user}
-          onLogout={handleLogout}
-        />
-      ) : activePage === 'sop' ? (
-        <SOPBuilder
-          user={user}
-          onBack={() => goToPage('home')}
-          onLogout={handleLogout}
-        />
-      ) : activePage === 'crm-health' ? (
-        <LeadMagnet onBack={() => goToPage('home')} />
-      ) : activePage === 'flight-path' ? (
-        <FlightPath
-          onBookCall={() => { goToPage('home'); setTimeout(() => setModalOpen(true), 100) }}
-          onCrmHealth={() => goToPage('crm-health')}
-        />
-      ) : (
-        <>
-          <Hero onBookCall={() => setModalOpen(true)} onCrmHealth={() => goToPage('crm-health')} onFlightPath={() => goToPage('flight-path')} />
-          <TrustBar />
-          <Stats />
-          <Services />
-          <HowItWorks />
-          <About />
-          <Testimonials />
-          <CtaBanner onBookCall={() => setModalOpen(true)} />
-          <Contact />
-          <Footer onEmployeeLogin={() => setActivePage('employee')} />
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={
+          <HomePage
+            onBookCall={openBooking}
+            onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          />
+        } />
 
-      {activePage === 'home' && (
-        <PromoPopup onBookCall={() => setModalOpen(true)} />
-      )}
+        <Route path="/freeflight" element={
+          <FlightReadiness onBookCall={openBooking} />
+        } />
+
+        <Route path="/login" element={
+          <LoginPage
+            onSuccess={handleLoginSuccess}
+            onBack={() => { navigate('/'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          />
+        } />
+
+        <Route path="/dashboard" element={
+          <div className="ct-scope">
+            <ControlTower user={user} onLogout={handleLogout} />
+          </div>
+        } />
+
+        <Route path="/employee" element={
+          <EmployeeHub user={user} onLogout={handleLogout} />
+        } />
+
+        {/* Catch-all → home */}
+        <Route path="*" element={
+          <HomePage
+            onBookCall={openBooking}
+            onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          />
+        } />
+      </Routes>
+
+      {isHome && <PromoPopup onBookCall={openBooking} />}
 
       <BookCallModal open={modalOpen} onClose={() => setModalOpen(false)} />
       <SetPasswordModal open={needsPassword} onDone={() => setNeedsPassword(false)} />

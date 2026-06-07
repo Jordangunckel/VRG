@@ -129,6 +129,7 @@ export function FrequencyField({ name, value, onChange, customValue, onCustomCha
           </label>
         ))}
       </div>
+      {/* Conditional: show custom text input when "Custom" is selected */}
       {value === 'custom' && (
         <div className="field" style={{ marginTop: 10 }}>
           <label>Describe your custom logic</label>
