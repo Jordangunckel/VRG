@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src="/logo.png" alt="RoofSmartr" />
+            <span className="footer-logo-text">Roof<span>Smartr</span></span>
             <p>The roofing industry's dedicated back-office partner. We build the systems that grow with your business.</p>
           </div>
           <div className="footer-col">

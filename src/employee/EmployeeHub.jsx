@@ -423,7 +423,7 @@ function LeadsView({ leads }) {
             <div className="emp-task-card-main">
               <div className="emp-task-company">{l.company || 'Unnamed Company'}</div>
               <div className="emp-task-summary">
-                <a href={`mailto:${l.email}`} style={{ color: '#2DD4BF', textDecoration: 'none', fontWeight: 600 }}>
+                <a href={`mailto:${l.email}`} style={{ color: '#00AEBB', textDecoration: 'none', fontWeight: 600 }}>
                   {l.email || '—'}
                 </a>
               </div>
@@ -507,7 +507,6 @@ export default function EmployeeHub({ user, onLogout }) {
       <div className="emp-topbar">
         <div className="emp-topbar-inner">
           <div className="emp-topbar-left">
-            <img src="/icon.png" alt="VRG" className="emp-topbar-logo" />
             <div>
               <div className="emp-topbar-title">Employee Hub</div>
               <div className="emp-topbar-sub">RoofSmartr</div>

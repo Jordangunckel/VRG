@@ -5,11 +5,11 @@
   --deadly:        #0B1929;   /* Dark Navy (brand) — page header, darkest bg */
   --deep-space:    #0B1929;   /* Dark Navy (brand) — section headers, buttons, primary */
   --deep-hover:    #060e16;   /* Deeper Navy — hover states */
-  --aster:         #A8D242;   /* Lime — SECONDARY accent only, used sparingly */
-  --habanero:      #24CFCB;   /* TEAL — PRIMARY brand color (unified with site) */
-  --habanero-dark: #1ab0ac;   /* Darker Teal hover (unified with site) */
-  --jodhpur:       #edf8d8;   /* Light Lime tint — subtle backgrounds */
-  --luster:        #F2F2F2;   /* Off-White — page background */
+  --aster:         #00AEBB;   /* Teal accent (lime removed) */
+  --habanero:      #00AEBB;   /* TEAL — PRIMARY brand color (unified with site) */
+  --habanero-dark: #00929C;   /* Darker Teal hover (unified with site) */
+  --jodhpur:       #E6F7F8;   /* Light teal tint — subtle backgrounds */
+  --luster:        #F1E9DD;   /* Off-White — page background */
   --charcoal:      #1a2848;   /* Dark Navy — body text, labels */
   --white:         #FFFFFF;   /* Cards, inputs */
 
@@ -42,9 +42,9 @@
   --radius-sm: 4px;
   --radius: 8px;
   --radius-lg: 14px;
-  --shadow-sm: 0 1px 3px rgba(7,27,74,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow:    0 4px 12px rgba(7,27,74,0.10);
-  --shadow-lg: 0 12px 32px rgba(7,27,74,0.14);
+  --shadow-sm: 0 1px 3px rgba(11,25,41,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:    0 4px 12px rgba(11,25,41,0.10);
+  --shadow-lg: 0 12px 32px rgba(11,25,41,0.14);
 }
 
 .ct-scope *,
@@ -209,7 +209,7 @@
 }
 
 .ct-scope select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2324CFCB' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300AEBB' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 36px;
@@ -221,7 +221,7 @@
 .ct-scope textarea:focus,
 .ct-scope select:focus {
   border-color: var(--forest);
-  box-shadow: 0 0 0 3px rgba(7,27,74,0.12);
+  box-shadow: 0 0 0 3px rgba(11,25,41,0.12);
 }
 
 .ct-scope input[type="text"].error,
@@ -726,7 +726,7 @@
   line-height: 1.7;
   overflow-x: auto;
   background: #0e1030;
-  color: #c4d0c7;
+  color: #aebccb;
   max-height: 520px;
   overflow-y: auto;
 }
@@ -781,7 +781,7 @@
 .ct-scope .driver-card.selected {
   border-color: var(--forest);
   background: var(--sage-light);
-  box-shadow: 0 0 0 3px rgba(7,27,74,0.10);
+  box-shadow: 0 0 0 3px rgba(11,25,41,0.10);
 }
 
 .ct-scope .driver-card-name { font-size: 15px; font-weight: 700; color: var(--forest); }

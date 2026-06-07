@@ -53,11 +53,11 @@ export default function FlightReadinessPromo({ onFlightReadiness }) {
               {/* Nose */}
               <ellipse cx="110" cy="50" rx="8" ry="12" fill="#00AEBB"/>
               {/* Engine pods */}
-              <ellipse cx="72" cy="118" rx="7" ry="16" fill="#0d2035" stroke="#A8D242" strokeWidth="1.5"/>
-              <ellipse cx="148" cy="118" rx="7" ry="16" fill="#0d2035" stroke="#A8D242" strokeWidth="1.5"/>
+              <ellipse cx="72" cy="118" rx="7" ry="16" fill="#0d2035" stroke="#00AEBB" strokeWidth="1.5"/>
+              <ellipse cx="148" cy="118" rx="7" ry="16" fill="#0d2035" stroke="#00AEBB" strokeWidth="1.5"/>
               {/* Engine glow */}
-              <ellipse cx="72" cy="132" rx="4" ry="3" fill="#A8D242" opacity="0.6"/>
-              <ellipse cx="148" cy="132" rx="4" ry="3" fill="#A8D242" opacity="0.6"/>
+              <ellipse cx="72" cy="132" rx="4" ry="3" fill="#00AEBB" opacity="0.6"/>
+              <ellipse cx="148" cy="132" rx="4" ry="3" fill="#00AEBB" opacity="0.6"/>
               {/* Cockpit window */}
               <ellipse cx="110" cy="64" rx="5" ry="7" fill="#00AEBB" opacity="0.7"/>
               {/* Wing windows */}
@@ -65,10 +65,10 @@ export default function FlightReadinessPromo({ onFlightReadiness }) {
               <circle cx="110" cy="110" r="3" fill="#00AEBB" opacity="0.5"/>
               <circle cx="124" cy="110" r="3" fill="#00AEBB" opacity="0.5"/>
               {/* Speed lines */}
-              <line x1="20" y1="148" x2="60" y2="148" stroke="#A8D242" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
-              <line x1="14" y1="155" x2="46" y2="155" stroke="#A8D242" strokeWidth="1" strokeLinecap="round" opacity="0.25"/>
-              <line x1="160" y1="148" x2="200" y2="148" stroke="#A8D242" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
-              <line x1="174" y1="155" x2="206" y2="155" stroke="#A8D242" strokeWidth="1" strokeLinecap="round" opacity="0.25"/>
+              <line x1="20" y1="148" x2="60" y2="148" stroke="#00AEBB" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
+              <line x1="14" y1="155" x2="46" y2="155" stroke="#00AEBB" strokeWidth="1" strokeLinecap="round" opacity="0.25"/>
+              <line x1="160" y1="148" x2="200" y2="148" stroke="#00AEBB" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"/>
+              <line x1="174" y1="155" x2="206" y2="155" stroke="#00AEBB" strokeWidth="1" strokeLinecap="round" opacity="0.25"/>
             </svg>
             {/* Score badge */}
             <div className="frs-score-badge">

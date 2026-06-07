@@ -12,7 +12,7 @@ export default function About() {
         <div className="about-grid">
           <div className="about-img-wrap">
             <div className="about-img-bg">
-              <img src="/logo.png" alt="RoofSmartr" className="about-img-logo" />
+              <span className="about-img-logo">RoofSmartr</span>
             </div>
             <div className="about-img-badge">
               <strong style={{ fontSize: 16 }}>Systems</strong>

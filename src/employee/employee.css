@@ -219,7 +219,7 @@
 }
 .emp-task-card--pending { border-left: 3px solid var(--habanero); }
 .emp-task-card--done { opacity: 0.55; }
-.emp-task-card:hover { box-shadow: 0 4px 16px rgba(7,27,74,0.08); }
+.emp-task-card:hover { box-shadow: 0 4px 16px rgba(11,25,41,0.08); }
 
 .emp-task-card-main { flex: 1; min-width: 0; }
 .emp-task-company {
@@ -240,13 +240,13 @@
   margin-bottom: 8px;
 }
 .emp-task-tag {
-  background: rgba(36,207,203,0.1);
+  background: rgba(0,174,187,0.1);
   color: var(--deadly);
   font-size: 11px;
   font-weight: 600;
   border-radius: 100px;
   padding: 3px 10px;
-  border: 1px solid rgba(36,207,203,0.25);
+  border: 1px solid rgba(0,174,187,0.25);
 }
 .emp-task-meta {
   font-size: 12px;
@@ -299,7 +299,7 @@
 }
 .emp-client-card:hover {
   border-color: var(--habanero);
-  box-shadow: 0 4px 16px rgba(7,27,74,0.08);
+  box-shadow: 0 4px 16px rgba(11,25,41,0.08);
   transform: translateY(-2px);
 }
 .emp-client-name {

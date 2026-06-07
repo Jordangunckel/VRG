@@ -320,7 +320,7 @@ export default function LeadMagnet({ onBack }) {
           <div className="lm-social-proof">
             <div className="lm-proof-dots">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="lm-proof-dot" style={{ background: ['#2DD4BF','#071B4A','#2DD4BF','#B7D94D','#071B4A'][i] }} />
+                <div key={i} className="lm-proof-dot" style={{ background: ['#00AEBB','#0B1929','#00AEBB','#00AEBB','#0B1929'][i] }} />
               ))}
             </div>
             <span>Requested by <strong>500+ roofing company owners</strong></span>
