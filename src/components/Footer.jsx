@@ -23,7 +23,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Services</h4>
             <ul>
-              {['Lead Follow-Up','Storm Outreach','Presale Coordination','Production','Post-Sale','Reviews & Referrals'].map(s => (
+              {['Lead Follow-Up','Presale Coordination','Production','Post-Sale','Reviews & Referrals'].map(s => (
                 <li key={s}><a href="#services" onClick={e => { e.preventDefault(); scrollTo('services') }}>{s}</a></li>
               ))}
             </ul>

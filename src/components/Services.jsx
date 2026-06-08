@@ -2,22 +2,17 @@ const SERVICES = [
   {
     icon: '📞',
     title: 'Lead Follow-Up',
-    desc: 'Never let a lead go cold. We follow up on your behalf through every stage—automatically triggered by your CRM or via manual task—until they convert or opt out.',
-  },
-  {
-    icon: '⛈️',
-    title: 'Storm Ready Outreach',
-    desc: 'We target storm-affected neighborhoods with proactive cold-call campaigns, generating fresh leads in your market and routing them directly to your sales team.',
+    desc: 'Never let a lead go cold. We follow up on your behalf through every stage, triggered by your CRM or by manual task, until they convert or opt out.',
   },
   {
     icon: '📋',
     title: 'Presale Coordination',
-    desc: 'From adjuster scheduling to scope-of-loss follow-up, supplement tracking, measurements, and estimates—we keep every file moving toward approval.',
+    desc: 'From adjuster scheduling to scope-of-loss follow-up, supplement tracking, measurements, and estimates. We keep every file moving toward approval.',
   },
   {
     icon: '🏗️',
     title: 'Production Management',
-    desc: 'We build material orders, coordinate with suppliers, and pull permits so your crews have everything they need on-site, on time—without your office lifting a finger.',
+    desc: 'We build material orders, coordinate with suppliers, and pull permits so your crews have what they need on site, on time, without your office lifting a finger.',
   },
   {
     icon: '💰',
@@ -27,7 +22,7 @@ const SERVICES = [
   {
     icon: '⭐',
     title: 'Reviews & Referrals',
-    desc: 'After every completed job, we systematically request Google reviews and referrals via email, text, or phone—building your reputation on autopilot.',
+    desc: 'After every completed job, we request Google reviews and referrals by email, text, or phone, building your reputation on autopilot.',
   },
 ]
 
@@ -41,7 +36,7 @@ export default function Services() {
             Every service your office<br /><span>needs to run itself</span>
           </h2>
           <p className="section-sub">
-            From the first lead call to the final payment, RoofSmartr handles the tasks that slow your team down—so you can scale without adding headcount.
+            From the first lead call to the final payment, RoofSmartr handles the back-office tasks that slow your team down, so you can grow without adding headcount.
           </p>
           <div className="divider centered" />
         </div>

@@ -33,7 +33,7 @@ export default function PromoPopup({ onBookCall }) {
       </button>
 
       <div className="promo-popup-eyebrow">Free Consultation</div>
-      <p className="promo-popup-heading">See how we can streamline your roofing ops</p>
+      <p className="promo-popup-heading">See how we'd run your back office</p>
       <p className="promo-popup-sub">30 minutes. No pressure. We'll walk through your current workflow and show you exactly where we can help.</p>
 
       <button className="promo-popup-cta" onClick={handleBookCall}>

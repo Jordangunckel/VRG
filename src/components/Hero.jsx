@@ -17,7 +17,7 @@ export default function Hero({ onBookCall, onFlightReadiness }) {
               <em>On Autopilot.</em>
             </h1>
             <p className="hero-sub hero-animate hero-animate-2">
-              RoofSmartr builds the systems that scale your roofing operation—handling leads, scheduling, supplements, permits, and post-sale so your team can focus on closing jobs and growing revenue.
+              Good roofing companies stall when the back office can't keep up. RoofSmartr runs your leads, scheduling, supplements, permits, and post-sale work, so your team can focus on selling and building.
             </p>
             <div className="hero-actions hero-animate hero-animate-3">
               <button className="btn btn-primary btn-lg" onClick={onBookCall}>
@@ -29,15 +29,14 @@ export default function Hero({ onBookCall, onFlightReadiness }) {
             </div>
             <a href="/freeflight" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4" onClick={e => { e.preventDefault(); onFlightReadiness?.() }}>
               <span className="hero-lm-icon">✈️</span>
-              <span>Get your <strong>Free CRM Report</strong> — takes 2 minutes</span>
+              <span>Get your <strong>Free Flight Readiness Score</strong> in 2 minutes</span>
               <span className="hero-lm-arrow">→</span>
             </a>
             <div className="hero-proof hero-animate hero-animate-4">
               {[
-                { num: '500+', label: 'Jobs Managed' },
-                { num: '48hr', label: 'Avg Turnaround' },
-                { num: '97%', label: 'Client Retention' },
-                { num: '5', label: 'CRMs Supported' },
+                { num: '$3M→$5M', label: "Founder's company, yrs 1 & 2" },
+                { num: '6 yrs', label: 'In roofing' },
+                { num: 'JobNimbus + AccuLynx', label: 'CRMs we specialize in' },
               ].map((s, i, arr) => (
                 <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   <div className="hero-proof-item">
@@ -55,7 +54,6 @@ export default function Hero({ onBookCall, onFlightReadiness }) {
             <ul className="hero-service-list">
               {[
                 'Lead follow-up & lost lead reactivation',
-                'Storm ready cold call outreach',
                 'Adjuster appointment coordination',
                 'Scope of loss & supplement follow-up',
                 'Material orders & permit pulling',
@@ -66,8 +64,8 @@ export default function Hero({ onBookCall, onFlightReadiness }) {
               ))}
             </ul>
             <div className="hero-card-cta">
-              <strong>No hiring. No training. No overhead.</strong>
-              Just results—starting within days.
+              <strong>Built by an operator, not an agency.</strong>
+              No hiring, no training, no overhead.
             </div>
           </div>
         </div>

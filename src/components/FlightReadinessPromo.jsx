@@ -7,20 +7,20 @@ export default function FlightReadinessPromo({ onFlightReadiness }) {
           {/* Left — copy */}
           <div className="frs-copy">
             <span className="section-label">It's Free</span>
-            <h2 className="frs-heading">Free Flight<br />Readiness Report</h2>
+            <h2 className="frs-heading">Free Flight<br />Readiness Score</h2>
             <p className="frs-sub">
-              10 questions. 2 minutes. Find out exactly where your pipeline is
-              leaking revenue — and get a personalized list of free automations
-              you can set up today.
+              10 questions, 2 minutes. See exactly where your pipeline is losing
+              jobs, then get your Flight Readiness Report with a personalized list
+              of fixes you can set up today.
             </p>
             <ul className="frs-bullets">
               <li><span className="frs-check">✓</span> Your overall Flight Readiness Score</li>
-              <li><span className="frs-check">✓</span> Stage-by-stage breakdown (Leads · Presale · Production · Post-Sale)</li>
-              <li><span className="frs-check">✓</span> Estimated revenue leaking every month</li>
-              <li><span className="frs-check">✓</span> Free automations matched to your gaps</li>
+              <li><span className="frs-check">✓</span> Stage-by-stage breakdown (Leads, Presale, Production, Post-Sale)</li>
+              <li><span className="frs-check">✓</span> Estimated revenue lost every month</li>
+              <li><span className="frs-check">✓</span> Free fixes matched to your gaps</li>
             </ul>
             <button className="btn btn-primary btn-lg frs-cta" onClick={onFlightReadiness}>
-              Get My Free Report →
+              Get My Free Score →
             </button>
           </div>
 

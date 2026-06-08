@@ -4,7 +4,7 @@ export default function CtaBanner({ onBookCall }) {
     <section className="cta-banner">
       <div className="container">
         <div className="cta-banner-inner">
-          <h2>Build the systems that <span>scale your business.</span></h2>
+          <h2>Build the systems that <span>grow your business.</span></h2>
           <p>Book a free 30-minute discovery call and we'll show you exactly how RoofSmartr's systems can plug into your operation this week.</p>
           <div className="cta-banner-actions">
             <button className="btn btn-primary btn-lg" onClick={onBookCall}>Book a Free Call ↗</button>

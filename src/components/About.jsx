@@ -1,8 +1,8 @@
 const VALUES = [
-  { title: 'Roofing-Focused', desc: 'We work exclusively with roofing companies—so we speak your language.' },
-  { title: 'CRM-Native', desc: 'We live inside your CRM. No extra tools, no new logins for your team.' },
-  { title: 'Transparent Reporting', desc: 'Weekly dashboards showing every task completed on your behalf.' },
-  { title: 'No Contracts', desc: 'Month-to-month pricing. We earn your business every single month.' },
+  { title: 'Roofing-Focused', desc: 'We only work with roofing companies. We speak your language.' },
+  { title: 'CRM-Native', desc: 'We work inside your CRM. No extra tools, no new logins for your team.' },
+  { title: 'Transparent Reporting', desc: 'You get clear weekly reporting on every task we handle for you.' },
+  { title: 'No Contracts', desc: 'Month to month. We earn your business every month.' },
 ]
 
 export default function About() {
@@ -15,22 +15,22 @@ export default function About() {
               <span className="about-img-logo">RoofSmartr</span>
             </div>
             <div className="about-img-badge">
-              <strong style={{ fontSize: 16 }}>Systems</strong>
-              <span>That Scale</span>
+              <strong style={{ fontSize: 16 }}>$3M→$5M</strong>
+              <span>Years 1 & 2</span>
             </div>
           </div>
 
           <div>
             <span className="section-label">About Us</span>
             <h2 className="section-title">
-              Built by people who<br /><span>know roofing</span>
+              Built by a roofing<br /><span>operator</span>
             </h2>
             <div className="divider" />
             <p className="section-sub" style={{ maxWidth: '100%' }}>
-              RoofSmartr was founded by roofing industry veterans who got tired of watching great companies stall out—not because of sales, but because their back-office couldn't keep up.
+              RoofSmartr was built by Jordan Gunckel. He started in roofing sales, then ran his own roofing company and grew it to $3M in year one and $5M in year two.
             </p>
             <p className="about-body-p">
-              We built a team of trained specialists—not generalist VAs—who understand adjuster negotiations, CRM workflows, insurance claims, and permit processes. Every person on our team has been trained specifically for the roofing industry, so your SOP runs exactly the way you need it to.
+              Jordan got tired of watching good roofing companies stall. Not on sales, but on back-office chaos: leads going cold, supplements sitting, permits slipping. He built RoofSmartr to fix that. You get an operator who has done the work, running the systems behind your business.
             </p>
             <div className="about-values">
               {VALUES.map(v => (

@@ -54,7 +54,7 @@ export default function Contact() {
             {submitted ? (
               <div className="form-success">
                 <div className="form-success-icon">✅</div>
-                <h3>Message received!</h3>
+                <h3>Message received.</h3>
                 <p>A RoofSmartr team member will reach out within one business day. We look forward to learning about your operation.</p>
               </div>
             ) : (
@@ -90,7 +90,6 @@ export default function Contact() {
                       style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A9A8E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")", backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: 36 }}>
                       <option value="">Select a service…</option>
                       <option>Lead Follow-Up</option>
-                      <option>Storm Ready Outreach</option>
                       <option>Presale Coordination</option>
                       <option>Production Management</option>
                       <option>Post-Sale & Collections</option>

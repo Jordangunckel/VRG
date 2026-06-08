@@ -109,7 +109,7 @@ export default function BookCallModal({ open, onClose }) {
           {submitted ? (
             <div className="form-success">
               <div className="form-success-icon">🎉</div>
-              <h3>You're on the calendar!</h3>
+              <h3>You're on the calendar.</h3>
               <p>
                 Confirmed for <strong>{formatDate(selectedDate)} at {selectedTime} CST</strong>.
                 A RoofSmartr team member will reach out to confirm shortly.

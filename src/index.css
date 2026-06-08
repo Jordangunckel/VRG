@@ -4,13 +4,15 @@
   --deadly:        #0B1929;   /* Navy (base) — hero, footer, section headers */
   --deep-space:    #0B1929;   /* Navy (base) — buttons, primary elements */
   --deep-hover:    #060F17;   /* Deeper Navy — hover states */
-  --aster:         #00AEBB;   /* Teal accent (lime removed) — tags, accents, borders */
-  --habanero:      #00AEBB;   /* Teal (hero) — CTAs, highlights */
-  --habanero-dark: #00929C;   /* Darker Teal — CTA hover */
+  --aster:         #00AEBB;   /* Teal accent (bright) — for use on navy/dark only */
+  --habanero:      #00AEBB;   /* Teal (hero) — CTAs, highlights on dark */
+  --habanero-dark: #0E8E99;   /* Teal Deep — CTA hover */
   --jodhpur:       #E6F7F8;   /* Light teal tint — subtle backgrounds */
   --luster:        #F1E9DD;   /* Cream (surface) — page background */
-  --charcoal:      #1a2848;   /* Dark Navy text */
-  --white:         #FFFFFF;   /* Cards, modals */
+  --navy-mid:      #142840;   /* Navy Mid — dark text on light surfaces */
+  --charcoal:      #142840;   /* Navy Mid text (replaces near-black/near-navy) */
+  --teal-deep:     #0E8E99;   /* Teal Deep — teal text/links on light, stays readable */
+  --white:         #FFFFFF;   /* Text on navy / max contrast only */
 
   /* ── Aliases (keep existing CSS rules working) ── */
   --forest:       var(--deep-space);
@@ -20,18 +22,26 @@
   --wood:         var(--habanero);
   --wood-dark:    var(--habanero-dark);
   --taupe-light:  #e0f9f8;
-  --sage:         #00929C;   /* darker teal for on-cream use (lime removed) */
+  --sage:         var(--teal-deep);   /* teal-deep for on-cream/on-light use */
   --sage-light:   var(--aster);
-  --sage-faint:   #EEF9FA;
+  --sage-faint:   #E8DFD1;   /* cream tint (replaces off-brand cyan) */
   --spring:       var(--aster);
+
+  /* ── frs section vars ── */
+  --bg:          var(--luster);
+  --ink:         var(--navy-mid);
+  --border:      var(--gray-200);
+  --gray-500:    #5e5850;
 
   --gray-100:    #eeebe4;
   --gray-200:    #d8d4cc;
-  --gray-400:    #a09a90;
-  --gray-600:    #5e5850;
+  --gray-400:    #8a8478;
+  --gray-600:    #4f4a42;
   --red:         #c0392b;
 
-  --font: 'Inter', -apple-system, sans-serif;
+  --font:         'Barlow', -apple-system, sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow', -apple-system, sans-serif;
+  --font-wordmark:'Poppins', sans-serif;
   --max-w: 1160px;
   --radius: 12px;
   --radius-lg: 20px;
@@ -127,17 +137,18 @@ a { text-decoration: none; color: inherit; }
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--aster);
+  color: var(--sage);
   margin-bottom: 12px;
 }
 .section-title {
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900;
-  line-height: 1.15;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 800;
+  line-height: 1.1;
   letter-spacing: -0.5px;
   color: var(--forest-dark);
 }
-.section-title span { color: var(--taupe); }
+.section-title span { color: var(--sage); }
 .section-sub {
   font-size: 17px;
   color: var(--gray-600);
@@ -482,11 +493,12 @@ a { text-decoration: none; color: inherit; }
 }
 .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--taupe); }
 .hero h1 {
-  font-size: clamp(36px, 5.5vw, 64px);
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 70px);
+  font-weight: 800;
   color: var(--white);
-  line-height: 1.08;
-  letter-spacing: -1.5px;
+  line-height: 1.04;
+  letter-spacing: -1px;
 }
 .hero h1 em {
   font-style: normal;
@@ -518,10 +530,11 @@ a { text-decoration: none; color: inherit; }
 .hero-proof-item { text-align: center; }
 .hero-proof-item strong {
   display: block;
-  font-size: 26px;
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
   color: var(--white);
-  line-height: 1;
+  line-height: 1.05;
 }
 .hero-proof-item span {
   font-size: 12px;
@@ -756,8 +769,9 @@ a { text-decoration: none; color: inherit; }
   border-radius: 12px;
   background: var(--aster);
   color: var(--deadly);
-  font-size: 17px;
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -780,12 +794,20 @@ a { text-decoration: none; color: inherit; }
   padding: 40px;
   color: var(--white);
 }
-.how-visual-title {
+.how-visual-eyebrow {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--sage-light);
+  margin-bottom: 8px;
+}
+.how-visual-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--white);
   margin-bottom: 24px;
 }
 .how-checklist {
@@ -874,8 +896,9 @@ a { text-decoration: none; color: inherit; }
 }
 .about-img-badge strong {
   display: block;
+  font-family: var(--font-display);
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 800;
   color: var(--forest);
   line-height: 1;
 }
@@ -981,6 +1004,45 @@ a { text-decoration: none; color: inherit; }
   font-weight: 500;
 }
 
+/* ── Founding clients (reuses dark .testimonials backdrop) ── */
+.founding-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.founding-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 3px solid var(--aster);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: all var(--transition);
+}
+.founding-card:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(0,174,187,0.35);
+  border-top-color: var(--aster);
+  transform: translateY(-4px);
+}
+.founding-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 10px;
+  letter-spacing: -0.2px;
+}
+.founding-card p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.7;
+}
+.founding-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
+}
+@media (max-width: 900px) { .founding-grid { grid-template-columns: 1fr; } }
+
 /* ── ─────────────────────── ── */
 /* ── CONTACT                 ── */
 /* ── ─────────────────────── ── */
@@ -995,11 +1057,12 @@ a { text-decoration: none; color: inherit; }
   align-items: start;
 }
 .contact-info h2 {
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3.8vw, 44px);
+  font-weight: 800;
   color: var(--forest-dark);
   letter-spacing: -0.5px;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 .contact-info p {
   font-size: 16px;
@@ -1107,9 +1170,10 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
 }
 .frs-heading {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  font-weight: 900;
-  line-height: 1.05;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4.4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.02;
   margin: 10px 0 18px;
   color: var(--ink);
 }
@@ -1137,7 +1201,7 @@ a { text-decoration: none; color: inherit; }
 }
 .dark .frs-bullets li { color: var(--gray-400); }
 .frs-check {
-  color: #00AEBB;
+  color: var(--teal-deep);
   font-weight: 800;
   flex-shrink: 0;
   margin-top: 1px;
@@ -1283,11 +1347,12 @@ a { text-decoration: none; color: inherit; }
   text-align: center;
 }
 .cta-banner h2 {
-  font-size: clamp(28px, 4vw, 46px);
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.4vw, 50px);
+  font-weight: 800;
   color: var(--white);
   letter-spacing: -0.5px;
-  line-height: 1.15;
+  line-height: 1.1;
 }
 .cta-banner h2 span { color: var(--taupe); }
 .cta-banner p {
@@ -1324,6 +1389,7 @@ a { text-decoration: none; color: inherit; }
 }
 .footer-logo-text {
   display: inline-block;
+  font-family: var(--font-wordmark);
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -1409,7 +1475,7 @@ a { text-decoration: none; color: inherit; }
   justify-content: space-between;
   gap: 16px;
 }
-.modal-header h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.3px; }
+.modal-header h2 { font-family: var(--font-display); font-size: 26px; font-weight: 800; letter-spacing: -0.3px; }
 .modal-header p { font-size: 14px; color: rgba(255,255,255,0.65); margin-top: 4px; }
 .modal-close {
   background: rgba(255,255,255,0.1);
@@ -1464,16 +1530,18 @@ a { text-decoration: none; color: inherit; }
 }
 .login-logo {
   display: block;
-  font-size: 30px;
+  font-family: var(--font-wordmark);
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--charcoal);
+  color: var(--navy-mid);
   margin: 0 auto 16px;
 }
-.login-logo span { color: var(--habanero); }
+.login-logo span { color: var(--teal-deep); }
 .login-title {
-  font-size: 24px;
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
   color: var(--forest-dark);
   letter-spacing: -0.5px;
   margin-bottom: 6px;
@@ -2070,7 +2138,7 @@ html.dark .form-success p           { color: #8aabb0; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--habanero);
+  color: var(--teal-deep);
   margin-bottom: 8px;
 }
 .promo-popup-heading {

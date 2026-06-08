@@ -7,11 +7,10 @@ import EmployeeHub from './employee/EmployeeHub.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import TrustBar from './components/TrustBar.jsx'
-import Stats from './components/Stats.jsx'
 import Services from './components/Services.jsx'
 import HowItWorks from './components/HowItWorks.jsx'
 import About from './components/About.jsx'
-import Testimonials from './components/Testimonials.jsx'
+import FoundingClients from './components/FoundingClients.jsx'
 import CtaBanner from './components/CtaBanner.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
@@ -31,11 +30,10 @@ function HomePage({ onBookCall, onFlightReadiness }) {
     <>
       <Hero onBookCall={onBookCall} onFlightReadiness={onFlightReadiness} />
       <TrustBar />
-      <Stats />
       <Services />
       <HowItWorks />
       <About />
-      <Testimonials />
+      <FoundingClients onBookCall={onBookCall} />
       <FlightReadinessPromo onFlightReadiness={onFlightReadiness} />
       <CtaBanner onBookCall={onBookCall} />
       <Contact />

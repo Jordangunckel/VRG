@@ -1,23 +1,28 @@
 const STEPS = [
   {
     num: '01',
-    title: 'Book a Discovery Call',
-    desc: 'We learn your CRM, workflows, team structure, and goals—then map out exactly which services will have the biggest impact.',
+    title: 'Pre-Flight Check',
+    desc: 'A paid CRM audit. We dig into your pipeline and hand you a Flight Check Report showing where you are losing jobs and money. It is $997, credited toward setup if you move forward.',
   },
   {
     num: '02',
+    title: 'Book a Discovery Call',
+    desc: 'We learn your CRM, workflows, team structure, and goals, then map out which services will have the biggest impact.',
+  },
+  {
+    num: '03',
     title: 'Configure Your SOP',
     desc: 'Using our custom Control Tower, you tell us exactly how to handle every service: triggers, frequencies, assignments, and preferences.',
   },
   {
-    num: '03',
-    title: 'We Go Live—Fast',
-    desc: 'Our team is trained and active within days. No long onboarding. No software to install. We plug directly into your existing CRM.',
+    num: '04',
+    title: 'We Go Live, Fast',
+    desc: 'We are active within days. No long onboarding. No software to install. We plug directly into your existing CRM.',
   },
   {
-    num: '04',
-    title: 'Scale Without Hiring',
-    desc: 'As your volume grows, we grow with you. Add services, adjust workflows, and get weekly reporting—all included.',
+    num: '05',
+    title: 'We Run Your Back Office',
+    desc: 'On a monthly retainer, we run the day-to-day so your team can sell and build. Add services, adjust workflows, and get weekly reporting, all included.',
   },
 ]
 
@@ -29,7 +34,7 @@ export default function HowItWorks() {
           <div>
             <span className="section-label" data-reveal>How It Works</span>
             <h2 className="section-title" data-reveal data-delay="1">
-              From signed to <span style={{ color: 'var(--taupe)' }}>live in days</span>,<br />not months
+              From signed to <span style={{ color: 'var(--sage)' }}>live in days</span>,<br />not months
             </h2>
             <div className="divider" style={{ marginBottom: 40 }} data-reveal data-delay="1" />
             <div className="how-steps">
@@ -46,7 +51,8 @@ export default function HowItWorks() {
           </div>
 
           <div className="how-visual" data-reveal data-delay="2">
-            <div className="how-visual-title">What's included from day one</div>
+            <div className="how-visual-eyebrow">The productized system</div>
+            <div className="how-visual-title">The RoofSmartr Flight Path</div>
             <ul className="how-checklist">
               {[
                 'Dedicated account manager',
@@ -55,7 +61,6 @@ export default function HowItWorks() {
                 'Daily follow-up execution',
                 'Weekly performance reports',
                 'Unlimited workflow adjustments',
-                'Storm outreach campaigns',
                 'Permit pulling & supplier coordination',
               ].map(item => (
                 <li key={item}>
