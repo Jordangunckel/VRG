@@ -336,7 +336,7 @@
     </section>
 
     <!-- OPT-IN STEP 1 (under the products) -->
-    <div class="optin" data-quiz="/crm-flight-check/quiz">
+    <div class="optin" data-quiz="/crm/quiz">
       <div class="optin-q">What's your business name?</div>
       <div class="optin-row">
         <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
@@ -400,7 +400,7 @@
     <section class="cta">
       <h2>Ready to see where your<br><span class="teal">money's leaking?</span></h2>
       <p>Answer a few quick questions about how you run your CRM. Get your altitude, your monthly leak number, and your free fixes, on the spot.</p>
-      <div class="optin dark" data-quiz="/crm-flight-check/quiz">
+      <div class="optin dark" data-quiz="/crm/quiz">
         <div class="optin-q">What's your business name?</div>
         <div class="optin-row">
           <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
@@ -419,7 +419,7 @@
 
   <script>
   (function(){
-    var QUIZ_FALLBACK = '/crm-flight-check/quiz';
+    var QUIZ_FALLBACK = '/crm/quiz';
     document.querySelectorAll('.optin').forEach(function(el){
       var q = el.querySelector('.optin-q');
       var input = el.querySelector('.optin-input');

@@ -67,7 +67,7 @@ export default function Navbar({ isDark, onToggleDark, minimal = false }) {
                   </a>
                 ))}
                 {/* Lead magnet */}
-                <a href="/crm-flight-check" className="navbar-dropdown-item-special" onClick={e => { e.preventDefault(); setMenuOpen(false); navigate('/crm-flight-check'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
+                <a href="/crm" className="navbar-dropdown-item-special" onClick={e => { e.preventDefault(); setMenuOpen(false); navigate('/crm'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>
                   ✈️ Free CRM Flight Check
                 </a>
               </div>

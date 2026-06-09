@@ -134,7 +134,7 @@ export default function App() {
   const isAppPage = location.pathname === '/employee' || location.pathname === '/dashboard'
 
   // Funnel pages show a slimmed navbar (logo only — no login / dark toggle)
-  const isFunnelPage = location.pathname.startsWith('/crm-flight-check') || location.pathname.startsWith('/flight-path')
+  const isFunnelPage = location.pathname.startsWith('/crm') || location.pathname.startsWith('/flight-path')
 
   return (
     <>
@@ -153,8 +153,8 @@ export default function App() {
         } />
 
         {/* CRM Flight Check funnel + Flight Path bonus — static pages framed under the site navbar */}
-        <Route path="/crm-flight-check"      element={<FunnelFrame src="/funnel/landing.html"     onBookCall={() => setModalOpen(true)} />} />
-        <Route path="/crm-flight-check/quiz" element={<FunnelFrame src="/funnel/quiz.html"        onBookCall={() => setModalOpen(true)} />} />
+        <Route path="/crm"      element={<FunnelFrame src="/funnel/landing.html"     onBookCall={() => setModalOpen(true)} />} />
+        <Route path="/crm/quiz" element={<FunnelFrame src="/funnel/quiz.html"        onBookCall={() => setModalOpen(true)} />} />
         <Route path="/flight-path"           element={<FunnelFrame src="/funnel/flight-path.html" onBookCall={() => setModalOpen(true)} />} />
         <Route path="/flight-path/map"       element={<FunnelFrame src="/funnel/map.html"         onBookCall={() => setModalOpen(true)} />} />
 

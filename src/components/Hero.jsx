@@ -27,7 +27,7 @@ export default function Hero({ onBookCall }) {
                 Explore Services
               </button>
             </div>
-            <a href="/crm-flight-check" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4">
+            <a href="/crm" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4">
               <span className="hero-lm-icon">✈️</span>
               <span>Get your <strong>Free CRM Flight Check</strong> in 2 minutes</span>
               <span className="hero-lm-arrow">→</span>
