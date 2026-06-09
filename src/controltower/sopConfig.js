@@ -507,3 +507,41 @@ export function isServiceComplete(svcState, service) {
   if (!svcState.frequency) return false
   return true
 }
+
+// ── Company profile completeness (every field is required) ───────────────────
+const COMPANY_FIELDS = [
+  'companyName', 'mainContact', 'callbackPhone', 'mainEmail', 'customerBase',
+  'avgJobsMonthly', 'serviceArea', 'businessHours', 'quietHours', 'reviewLink',
+  'escalationContact', 'voice',
+]
+
+export function companySectionComplete(d = {}) {
+  return COMPANY_FIELDS.every(f => String(d[f] ?? '').trim() !== '')
+}
+
+export function crmSectionComplete(d = {}) {
+  if (!d.crm) return false
+  if (!d.textingEnabled) return false
+  const statuses = (d.clientStatuses || []).filter(s => String(s).trim() !== '')
+  if (statuses.length === 0) return false
+  const allCanon = STAGES.flatMap(stage => STATUSES[stage])
+  return allCanon.every(canon => !!(d.statusMap && d.statusMap[canon]))
+}
+
+export function teamSectionComplete(d = {}) {
+  const team = (d.team || []).filter(m => m && String(m.name).trim() !== '' && String(m.role).trim() !== '')
+  if (team.length === 0) return false
+  if (String(d.teamRules ?? '').trim() === '') return false
+  return true
+}
+
+export function profileSectionComplete(id, d) {
+  if (id === 'company') return companySectionComplete(d)
+  if (id === 'crm') return crmSectionComplete(d)
+  if (id === 'team') return teamSectionComplete(d)
+  return false
+}
+
+export function companyProfileComplete(d) {
+  return ['company', 'crm', 'team'].every(s => profileSectionComplete(s, d))
+}

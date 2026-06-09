@@ -1,30 +1,75 @@
 import { useState } from 'react'
-import { CRMS, BRAND_VOICES, rolesForCrm, STAGES, STATUSES } from '../sopConfig.js'
+import { CRMS, BRAND_VOICES, rolesForCrm, STAGES, STATUSES, profileSectionComplete } from '../sopConfig.js'
 
-const TABS = [
-  { id: 'company', label: 'Your company' },
-  { id: 'crm',     label: 'Your CRM' },
-  { id: 'team',    label: 'Your team' },
+const SECTIONS = [
+  { id: 'company', n: 1, label: 'Your company', sub: 'Company details, hours, and your message voice.' },
+  { id: 'crm',     n: 2, label: 'Your CRM',     sub: 'Your CRM, texting, and pipeline statuses.' },
+  { id: 'team',    n: 3, label: 'Your team',    sub: 'Who we can assign tasks to, and your rules.' },
 ]
 
-// The company profile, split into three tabs. Used by Onboarding + Settings.
+// The company profile, split into three sections. Used by Onboarding + Settings.
+// Shows a card overview with a progress bar so it's clear all three are required.
 export default function CompanyForm({ data, setField, errors }) {
-  const [tab, setTab] = useState('company')
+  const [open, setOpen] = useState(null)   // null = overview, else a section id
   const crmName = CRMS.find(c => c.id === data.crm)?.name
   const clientStatuses = data.clientStatuses || []
   const gaps = []
   STAGES.forEach(stage => STATUSES[stage].forEach(canon => { if (data.statusMap?.[canon] === '__ADD__') gaps.push(canon) }))
 
+  const goTo = (id) => { setOpen(id); window.scrollTo(0, 0) }
+
+  // ── Overview: progress bar + three cards ──
+  if (open === null) {
+    const doneCount = SECTIONS.filter(s => profileSectionComplete(s.id, data)).length
+    const pct = Math.round((doneCount / SECTIONS.length) * 100)
+    return (
+      <div className="company-form">
+        <div className="progress-card">
+          <div className="progress-top">
+            <strong>Profile setup</strong>
+            <span>{doneCount} of {SECTIONS.length} complete</span>
+          </div>
+          <div className="progress-track"><div className="progress-fill" style={{ width: pct + '%' }} /></div>
+          <div className="progress-foot">
+            <span className="progress-pct">{pct}% complete</span>
+            <span className="progress-time">{doneCount === SECTIONS.length ? 'All sections complete' : 'All three sections are required'}</span>
+          </div>
+        </div>
+
+        <div className="card-grid">
+          {SECTIONS.map(s => {
+            const done = profileSectionComplete(s.id, data)
+            return (
+              <button className="svc-card" key={s.id} type="button" onClick={() => goTo(s.id)}>
+                <div className="svc-card-top">
+                  <span className="service-num">{s.n}</span>
+                  <div className="svc-card-meta">
+                    {done
+                      ? <span className="pill pill-done">Complete</span>
+                      : <span className="pill pill-todo">Not set up</span>}
+                  </div>
+                </div>
+                <h3>{s.label}</h3>
+                <p>{s.sub}</p>
+                <span className="svc-card-cta">{done ? 'Edit' : 'Fill out'} →</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  // ── Section detail ──
+  const idx = SECTIONS.findIndex(s => s.id === open)
+  const nextSection = SECTIONS[idx + 1]
+
   return (
     <div className="company-form">
-      <div className="cf-tabs">
-        {TABS.map(t => (
-          <button key={t.id} type="button" className={`cf-tab ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>{t.label}</button>
-        ))}
-      </div>
+      <button className="back-link" type="button" onClick={() => goTo(null)}>← All sections</button>
 
       {/* ── Your company — the details + the voice ── */}
-      {tab === 'company' && (
+      {open === 'company' && (
         <div className="cf-section">
           <div className="info-grid">
             <div className="field">
@@ -33,19 +78,19 @@ export default function CompanyForm({ data, setField, errors }) {
               <span className="field-hint">The name that signs every message we send.</span>
             </div>
             <div className="field">
-              <label>Main point of contact</label>
+              <label>Main point of contact <span className="required">*</span></label>
               <input type="text" value={data.mainContact} onChange={e => setField('mainContact', e.target.value)} placeholder="Who we check in with" />
             </div>
             <div className="field">
-              <label>Callback phone</label>
+              <label>Callback phone <span className="required">*</span></label>
               <input type="text" value={data.callbackPhone} onChange={e => setField('callbackPhone', e.target.value)} placeholder="The number homeowners call back" />
             </div>
             <div className="field">
-              <label>Main office email</label>
+              <label>Main office email <span className="required">*</span></label>
               <input type="text" value={data.mainEmail} onChange={e => setField('mainEmail', e.target.value)} placeholder="name@company.com" />
             </div>
             <div className="field">
-              <label>Primary customer base</label>
+              <label>Primary customer base <span className="required">*</span></label>
               <select value={data.customerBase} onChange={e => setField('customerBase', e.target.value)}>
                 <option value="">Select…</option>
                 <option>Insurance</option>
@@ -54,27 +99,27 @@ export default function CompanyForm({ data, setField, errors }) {
               </select>
             </div>
             <div className="field">
-              <label>Average jobs per month</label>
+              <label>Average jobs per month <span className="required">*</span></label>
               <input type="number" min="0" value={data.avgJobsMonthly} onChange={e => setField('avgJobsMonthly', e.target.value)} placeholder="e.g. 25" />
             </div>
             <div className="field span-2">
-              <label>Service area</label>
+              <label>Service area <span className="required">*</span></label>
               <input type="text" value={data.serviceArea} onChange={e => setField('serviceArea', e.target.value)} placeholder="e.g. Greater Indianapolis, IN" />
             </div>
             <div className="field">
-              <label>Business hours</label>
+              <label>Business hours <span className="required">*</span></label>
               <input type="text" value={data.businessHours} onChange={e => setField('businessHours', e.target.value)} placeholder="e.g. Mon–Fri 8am–6pm" />
             </div>
             <div className="field">
-              <label>Text &amp; call hours</label>
+              <label>Text &amp; call hours <span className="required">*</span></label>
               <input type="text" value={data.quietHours} onChange={e => setField('quietHours', e.target.value)} placeholder="Default 8am–9pm local (TCPA)" />
             </div>
             <div className="field span-2">
-              <label>Google review link</label>
+              <label>Google review link <span className="required">*</span></label>
               <input type="text" value={data.reviewLink} onChange={e => setField('reviewLink', e.target.value)} placeholder="The exact link we send happy customers" />
             </div>
             <div className="field span-2">
-              <label>Primary escalation contact</label>
+              <label>Primary escalation contact <span className="required">*</span></label>
               <input type="text" value={data.escalationContact} onChange={e => setField('escalationContact', e.target.value)} placeholder="Name, cell, email — who we go to when something’s outside the runbook" />
             </div>
           </div>
@@ -96,7 +141,7 @@ export default function CompanyForm({ data, setField, errors }) {
       )}
 
       {/* ── Your CRM — which one, texting, statuses ── */}
-      {tab === 'crm' && (
+      {open === 'crm' && (
         <div className="cf-section">
           <div>
             <span className="question-label">Which CRM does your team run? <span className="required">*</span></span>
@@ -115,7 +160,7 @@ export default function CompanyForm({ data, setField, errors }) {
           {data.crm && (
             <div className="texting-row">
               <div className="texting-copy">
-                <strong>Is automated texting turned on in {crmName}?</strong>
+                <strong>Is automated texting turned on in {crmName}? <span className="required">*</span></strong>
                 <span>{data.crm === 'jobnimbus' ? 'JobNimbus needs the Engage add-on to send texts.' : 'AccuLynx charges extra for text messaging.'} If it is off, we will use email instead and you can enable Text later.</span>
               </div>
               <div className="yesno-group">
@@ -130,7 +175,7 @@ export default function CompanyForm({ data, setField, errors }) {
           )}
 
           <div className="pipeline-block">
-            <span className="question-label">Your pipeline statuses <span className="freq-rec">— so our automations run on your labels, not ours</span></span>
+            <span className="question-label">Your pipeline statuses <span className="required">*</span> <span className="freq-rec">— so our automations run on your labels, not ours</span></span>
 
             <div className="pipeline-step">
               <div className="pipeline-step-head"><span className="step-num">1</span> List every status in your CRM pipeline</div>
@@ -172,12 +217,12 @@ export default function CompanyForm({ data, setField, errors }) {
       )}
 
       {/* ── Your team — members + roles + rules ── */}
-      {tab === 'team' && (
+      {open === 'team' && (
         <div className="cf-section">
           <div className="team-block">
-            <span className="question-label">Team members <span className="freq-rec">— the people we can hand a task to, and their {crmName || 'CRM'} user role</span></span>
+            <span className="question-label">Team members <span className="required">*</span> <span className="freq-rec">— the people we can hand a task to, and their {crmName || 'CRM'} user role</span></span>
             <div className="notice info">Add <strong>every person who has access to your CRM</strong>, and double-check each one’s role is correct. We can only assign tasks to people on this list.</div>
-            {!data.crm && <div className="notice info">Pick your CRM on the Your CRM tab to load its user roles.</div>}
+            {!data.crm && <div className="notice info">Pick your CRM on the Your CRM section to load its user roles.</div>}
             {(data.team || []).map((m, i) => (
               <div className="team-row" key={i}>
                 <input type="text" value={m.name || ''} placeholder="Team member name" onChange={e => setField('team', (data.team || []).map((t, idx) => idx === i ? { ...t, name: e.target.value } : t))} />
@@ -192,11 +237,24 @@ export default function CompanyForm({ data, setField, errors }) {
           </div>
 
           <div className="field">
-            <label>Team rules <span className="freq-rec">— how assignments should work (e.g. “supplements always go to the Office Admin; escalations to the owner”)</span></label>
+            <label>Team rules <span className="required">*</span> <span className="freq-rec">— how assignments should work (e.g. “supplements always go to the Office Admin; escalations to the owner”)</span></label>
             <textarea rows={3} value={data.teamRules || ''} onChange={e => setField('teamRules', e.target.value)} placeholder="Any standing rules for who handles what…" />
           </div>
         </div>
       )}
+
+      <div className="cf-section-nav">
+        <span className="cf-section-status">
+          {profileSectionComplete(open, data)
+            ? 'This section is complete.'
+            : 'Fill out every field in this section.'}
+        </span>
+        {nextSection ? (
+          <button className="btn-save" type="button" onClick={() => goTo(nextSection.id)}>Next: {nextSection.label} →</button>
+        ) : (
+          <button className="btn-save" type="button" onClick={() => goTo(null)}>Back to all sections →</button>
+        )}
+      </div>
     </div>
   )
 }

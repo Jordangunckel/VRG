@@ -1,6 +1,6 @@
 import { YesNo } from './shared.jsx'
 import {
-  statusesForStage, serviceDefaults, ALL_CHANNELS, MANUAL_NOTICE,
+  SERVICES, statusesForStage, serviceDefaults, ALL_CHANNELS, MANUAL_NOTICE,
   renderAutomation, timingLabel, getCopy, makeStatusMapper,
 } from '../sopConfig.js'
 
@@ -148,6 +148,8 @@ function GroupMessages({ group, serviceId, intake, selected, sTouches, onUpdateT
 // ── Page ────────────────────────────────────────────────────────────────────
 export default function ServicePage(props) {
   const { service } = props
+  const idx = SERVICES.findIndex(s => s.id === service.id)
+  const nextService = SERVICES[idx + 1]
   return (
     <div className="service-page">
       <button className="back-link" type="button" onClick={props.onBack}>← All services</button>
@@ -160,6 +162,18 @@ export default function ServicePage(props) {
       </div>
       <p className="service-summary">{service.summary}</p>
       {service.perStatus ? <PerStatusBody {...props} /> : <SingleBody {...props} />}
+
+      <div className="sp-nav">
+        {nextService ? (
+          <button className="btn-save" type="button" onClick={() => props.onOpenService(nextService.id)}>
+            Go to next service →
+          </button>
+        ) : (
+          <button className="btn-save" type="button" onClick={props.onBack}>
+            Finish configuration ✓
+          </button>
+        )}
+      </div>
     </div>
   )
 }

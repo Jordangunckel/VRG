@@ -1,7 +1,9 @@
 import CompanyForm from './CompanyForm.jsx'
+import { companyProfileComplete } from '../sopConfig.js'
 
 // First-login gate: collect the company profile before the dashboard opens.
 export default function Onboarding({ data, setField, errors, onComplete }) {
+  const ready = companyProfileComplete(data)
   return (
     <div className="onboarding">
       <div className="onboarding-head">
@@ -16,8 +18,8 @@ export default function Onboarding({ data, setField, errors, onComplete }) {
         </div>
       </div>
       <div className="save-bar">
-        <span>Fill in the essentials, then enter your dashboard.</span>
-        <button className="btn-save" type="button" onClick={onComplete}>Enter my Control Tower →</button>
+        <span>{ready ? 'All three sections are complete. You are ready.' : 'Complete all three sections to enter your dashboard.'}</span>
+        <button className="btn-save" type="button" disabled={!ready} onClick={onComplete}>Enter my Control Tower →</button>
       </div>
     </div>
   )

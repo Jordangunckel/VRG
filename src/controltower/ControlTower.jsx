@@ -4,7 +4,7 @@ import Onboarding from './components/Onboarding.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import Settings from './components/Settings.jsx'
 import ServicePage from './components/ServicePage.jsx'
-import { SERVICES } from './sopConfig.js'
+import { SERVICES, companyProfileComplete } from './sopConfig.js'
 
 const KEY = 'roofsmartr-control-tower-v1'
 const INITIAL_INTAKE = {
@@ -84,15 +84,8 @@ export default function ControlTower({ user, onLogout }) {
     setServices(prev => ({ ...prev, [id]: { ...prev[id], statuses: { ...prev[id]?.statuses, [statusName]: { ...prev[id]?.statuses?.[statusName], ...patch } } } }))
 
   const completeOnboarding = () => {
-    const e = {}
-    if (!intake.crm) e.crm = 'Pick the CRM your team runs.'
-    if (!intake.voice) e.voice = 'Pick a message voice.'
-    if (!intake.companyName) e.companyName = 'Company name is required.'
-    if (Object.keys(e).length) {
-      setErrors(e)
-      setTimeout(() => document.querySelector('.inline-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50)
-      return
-    }
+    // Every field across all three sections is required.
+    if (!companyProfileComplete(intake)) return
     setErrors({})
     setCompanyDone(true)
     setView({ name: 'dashboard' })
@@ -130,7 +123,8 @@ export default function ControlTower({ user, onLogout }) {
         {view.name === 'settings' && <Settings data={intake} setField={setIntakeField} errors={errors} onDone={() => setView({ name: 'dashboard' })} />}
         {view.name === 'service' && service && (
           <ServicePage service={service} state={services[service.id]} intake={intake}
-            onUpdate={updateService} onUpdateTouch={updateTouch} onUpdateTask={updateTask} onUpdateStatus={updateStatus} onBack={() => setView({ name: 'dashboard' })} />
+            onUpdate={updateService} onUpdateTouch={updateTouch} onUpdateTask={updateTask} onUpdateStatus={updateStatus}
+            onOpenService={openService} onBack={() => setView({ name: 'dashboard' })} />
         )}
       </main>
     </div>

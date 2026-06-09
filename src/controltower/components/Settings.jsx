@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import CompanyForm from './CompanyForm.jsx'
+import { companyProfileComplete } from '../sopConfig.js'
 
 export default function Settings({ data, setField, errors, onDone }) {
   const [saved, setSaved] = useState(false)
+  const ready = companyProfileComplete(data)
   return (
     <div className="settings">
       <div className="dash-hero"><div><h1>Settings</h1><p>Your company profile. Changes here update how every service runs.</p></div></div>
@@ -13,8 +15,8 @@ export default function Settings({ data, setField, errors, onDone }) {
         </div>
       </div>
       <div className="save-bar">
-        <span>{saved ? 'Settings saved ✓' : 'Changes apply to every service.'}</span>
-        <button className="btn-save" type="button" onClick={() => { setSaved(true); setTimeout(() => onDone && onDone(), 700) }}>Save settings</button>
+        <span>{saved ? 'Settings saved ✓' : (ready ? 'Changes apply to every service.' : 'Complete all three sections to save.')}</span>
+        <button className="btn-save" type="button" disabled={!ready} onClick={() => { setSaved(true); setTimeout(() => onDone && onDone(), 700) }}>Save settings</button>
       </div>
     </div>
   )
