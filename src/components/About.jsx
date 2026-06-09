@@ -15,8 +15,8 @@ export default function About() {
               <span className="about-img-logo">RoofSmartr</span>
             </div>
             <div className="about-img-badge">
-              <strong style={{ fontSize: 16 }}>$3M→$5M</strong>
-              <span>Years 1 & 2</span>
+              <strong style={{ fontSize: 16 }}>$13.5M</strong>
+              <span>In roofing sales</span>
             </div>
           </div>
 
@@ -27,7 +27,7 @@ export default function About() {
             </h2>
             <div className="divider" />
             <p className="section-sub" style={{ maxWidth: '100%' }}>
-              RoofSmartr was built by Jordan Gunckel. He started in roofing sales, then ran his own roofing company and grew it to $3M in year one and $5M in year two.
+              RoofSmartr was built by Jordan Gunckel. He started in roofing sales, then ran his own roofing company and sold $13.5 million in roofing.
             </p>
             <p className="about-body-p">
               Jordan got tired of watching good roofing companies stall. Not on sales, but on back-office chaos: leads going cold, supplements sitting, permits slipping. He built RoofSmartr to fix that. You get an operator who has done the work, running the systems behind your business.
