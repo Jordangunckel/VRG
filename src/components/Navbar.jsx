@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function Navbar({ isDark, onToggleDark, onFlightReadiness }) {
+export default function Navbar({ isDark, onToggleDark }) {
   const navigate   = useNavigate()
   const location   = useLocation()
   const [scrolled, setScrolled] = useState(false)
@@ -66,12 +66,9 @@ export default function Navbar({ isDark, onToggleDark, onFlightReadiness }) {
                     {label}
                   </a>
                 ))}
-                <a href="/freeflight" className="navbar-dropdown-item-special" onClick={e => { e.preventDefault(); setMenuOpen(false); onFlightReadiness?.() }}>
-                  ✈️ Free Flight Readiness Score
-                </a>
-                {/* [ASK JORDAN] funnel entry — full page load to the static CRM Flight Check */}
+                {/* Lead magnet — full page load to the static CRM Flight Check */}
                 <a href="/crm-flight-check/" className="navbar-dropdown-item-special" onClick={() => setMenuOpen(false)}>
-                  📡 CRM Flight Check
+                  ✈️ Free CRM Flight Check
                 </a>
               </div>
             )}

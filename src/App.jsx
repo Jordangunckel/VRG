@@ -19,21 +19,18 @@ import LoginPage from './components/LoginPage.jsx'
 import ControlTower from './controltower/ControlTower.jsx'
 import './controltower/control-tower.css'
 import PromoPopup from './components/PromoPopup.jsx'
-import FlightReadiness from './flightreadiness/FlightReadiness.jsx'
-import FlightReadinessPromo from './components/FlightReadinessPromo.jsx'
 
 // ─── Home page (all sections) ───────────────────────────────────────────────
-function HomePage({ onBookCall, onFlightReadiness }) {
+function HomePage({ onBookCall }) {
   useScrollReveal('home')
   return (
     <>
-      <Hero onBookCall={onBookCall} onFlightReadiness={onFlightReadiness} />
+      <Hero onBookCall={onBookCall} />
       <TrustBar />
       <Services />
       <HowItWorks />
       <About />
       <FoundingClients onBookCall={onBookCall} />
-      <FlightReadinessPromo onFlightReadiness={onFlightReadiness} />
       <CtaBanner onBookCall={onBookCall} />
       <Contact />
       <Footer />
@@ -142,20 +139,12 @@ export default function App() {
           onPageChange={(path) => { navigate(path); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
           isDark={isDark}
           onToggleDark={toggleDark}
-          onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
         />
       )}
 
       <Routes>
         <Route path="/" element={
-          <HomePage
-            onBookCall={openBooking}
-            onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-          />
-        } />
-
-        <Route path="/freeflight" element={
-          <FlightReadiness onBookCall={openBooking} />
+          <HomePage onBookCall={openBooking} />
         } />
 
         <Route path="/login" element={
@@ -177,10 +166,7 @@ export default function App() {
 
         {/* Catch-all → home */}
         <Route path="*" element={
-          <HomePage
-            onBookCall={openBooking}
-            onFlightReadiness={() => { navigate('/freeflight'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
-          />
+          <HomePage onBookCall={openBooking} />
         } />
       </Routes>
 

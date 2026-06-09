@@ -1,4 +1,4 @@
-export default function Hero({ onBookCall, onFlightReadiness }) {
+export default function Hero({ onBookCall }) {
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
@@ -27,9 +27,9 @@ export default function Hero({ onBookCall, onFlightReadiness }) {
                 Explore Services
               </button>
             </div>
-            <a href="/freeflight" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4" onClick={e => { e.preventDefault(); onFlightReadiness?.() }}>
+            <a href="/crm-flight-check/" className="hero-lead-magnet hero-flight-path hero-animate hero-animate-4">
               <span className="hero-lm-icon">✈️</span>
-              <span>Get your <strong>Free Flight Readiness Score</strong> in 2 minutes</span>
+              <span>Get your <strong>Free CRM Flight Check</strong> in 2 minutes</span>
               <span className="hero-lm-arrow">→</span>
             </a>
             <div className="hero-proof hero-animate hero-animate-4">
