@@ -89,10 +89,22 @@ export default function Contact() {
                     <select value={form.service} onChange={e => set('service', e.target.value)}
                       style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A9A8E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")", backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', paddingRight: 36 }}>
                       <option value="">Select a service…</option>
-                      <option>Lead Follow-Up</option>
-                      <option>Presale Coordination</option>
-                      <option>Production Management</option>
-                      <option>Post-Sale & Collections</option>
+                      <optgroup label="Pre-Sale">
+                        <option>Lead Nurture System</option>
+                        <option>Adjuster Appointments</option>
+                        <option>Scope &amp; Supplement Follow-Up</option>
+                        <option>Measurements, Estimates &amp; Profit Analysis</option>
+                      </optgroup>
+                      <optgroup label="Production">
+                        <option>Material Orders</option>
+                        <option>Pull Permits</option>
+                      </optgroup>
+                      <optgroup label="Post-Sale">
+                        <option>C.O.C. &amp; Invoices</option>
+                        <option>Final Payment Follow-Up</option>
+                        <option>Warranties &amp; Final Invoice</option>
+                        <option>Reviews &amp; Referrals</option>
+                      </optgroup>
                       <option>Full Back-Office Package</option>
                     </select>
                   </div>

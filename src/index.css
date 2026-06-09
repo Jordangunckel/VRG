@@ -678,6 +678,40 @@ a { text-decoration: none; color: inherit; }
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
+
+/* ── Service stage groups ── */
+.services-stage-group { margin-top: 48px; }
+.services-stage-group:first-of-type { margin-top: 0; }
+.services-stage-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+.services-stage-label {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--forest-dark);
+  white-space: nowrap;
+}
+.services-stage-line {
+  flex: 1;
+  height: 2px;
+  background: var(--gray-200);
+  border-radius: 2px;
+}
+.services-boundary {
+  margin: 52px auto 0;
+  max-width: 760px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--gray-600);
+}
+.services-boundary strong { color: var(--forest-dark); font-weight: 700; }
 .service-card {
   background: var(--white);
   border: 1.5px solid var(--gray-200);
@@ -1907,6 +1941,10 @@ html.dark .service-card:hover        { background: #0f2242; border-color: var(--
 html.dark .service-card h3           { color: #e4ecf7; }
 html.dark .service-card p            { color: #6b88a8; }
 html.dark .service-card-link         { color: var(--habanero); }
+html.dark .services-stage-label      { color: #e4ecf7; }
+html.dark .services-stage-line       { background: rgba(255,255,255,0.1); }
+html.dark .services-boundary         { color: #6b88a8; }
+html.dark .services-boundary strong  { color: #e4ecf7; }
 
 /* ── Stats ── */
 html.dark .stats                     { background: #0d1e38; }

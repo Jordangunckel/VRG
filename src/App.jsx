@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from './lib/supabase.js'
 import { useScrollReveal } from './hooks/useScrollReveal.js'
-import { useSunMode } from './hooks/useSunMode.js'
 import EmployeeHub from './employee/EmployeeHub.jsx'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
@@ -52,15 +51,9 @@ export default function App() {
 
   const isHome = location.pathname === '/'
 
-  // Manual dark mode override (persisted to localStorage)
-  const [manualDark, setManualDark] = useState(() => {
-    const stored = localStorage.getItem('darkMode')
-    return stored === null ? null : stored === 'true'
-  })
-
-  // Auto dark mode — switches at local sunrise / sunset
-  const autoDark = useSunMode()
-  const isDark = manualDark !== null ? manualDark : autoDark
+  // Light/dark mode — manual only, persisted to localStorage.
+  // Defaults to light; no automatic location-based switching.
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('darkMode') === 'true')
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDark)
@@ -68,7 +61,7 @@ export default function App() {
 
   const toggleDark = () => {
     const next = !isDark
-    setManualDark(next)
+    setIsDark(next)
     localStorage.setItem('darkMode', String(next))
   }
 
