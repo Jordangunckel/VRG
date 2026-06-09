@@ -556,7 +556,7 @@
 .sub-section {
   margin-top: 4px;
   padding: 16px;
-  background: var(--sage-faint);
+  background: var(--white);
   border: 1.5px solid var(--sage-light);
   border-radius: var(--radius);
   display: flex;
@@ -1003,7 +1003,7 @@
 .ct-scope .cf-section { display: flex; flex-direction: column; gap: 20px; }
 
 .ct-scope /* Texting row */
-.texting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: var(--sage-faint); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
+.texting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: var(--white); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
 
 .ct-scope .texting-copy strong { display: block; font-size: 14px; color: var(--forest); }
 
@@ -1165,7 +1165,7 @@
  
 }
 
-.ct-scope .pipeline-step { display: flex; flex-direction: column; gap: 9px; padding: 16px; background: var(--sage-faint); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
+.ct-scope .pipeline-step { display: flex; flex-direction: column; gap: 9px; padding: 16px; background: var(--white); border: 1.5px solid var(--gray-200); border-radius: var(--radius); }
 
 .ct-scope .pipeline-step-head { font-size: 14px; font-weight: 700; color: var(--forest); display: flex; align-items: center; gap: 8px; }
 
