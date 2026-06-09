@@ -34,7 +34,7 @@ export default function Hero({ onBookCall }) {
             </a>
             <div className="hero-proof hero-animate hero-animate-4">
               {[
-                { num: '$3M→$5M', label: "Founder's company, yrs 1 & 2" },
+                { num: '$13.5M', label: 'Sold in roofing sales' },
                 { num: '6 yrs', label: 'In roofing' },
                 { num: 'JobNimbus + AccuLynx', label: 'CRMs we specialize in' },
               ].map((s, i, arr) => (
