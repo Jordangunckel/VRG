@@ -69,6 +69,10 @@ export default function Navbar({ isDark, onToggleDark, onFlightReadiness }) {
                 <a href="/freeflight" className="navbar-dropdown-item-special" onClick={e => { e.preventDefault(); setMenuOpen(false); onFlightReadiness?.() }}>
                   ✈️ Free Flight Readiness Score
                 </a>
+                {/* [ASK JORDAN] funnel entry — full page load to the static CRM Flight Check */}
+                <a href="/crm-flight-check/" className="navbar-dropdown-item-special" onClick={() => setMenuOpen(false)}>
+                  📡 CRM Flight Check
+                </a>
               </div>
             )}
           </div>

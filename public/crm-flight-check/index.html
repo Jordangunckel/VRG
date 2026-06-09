@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoofSmartr CRM Flight Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1929; --navymid:#142840; --teal:#00AEBB; --tealdeep:#0E8E99;
+    --cream:#F1E9DD; --cardtint:#E5DBCB; --divider:#D8CEBE;
+    --ink:#142840; --body:#33404E; --muted:#5b6b7c;
+    --blue:#2E9BD6; --amber:#f0a830; --orange:#e8772e; --red:#e2574c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Barlow',sans-serif; color:var(--body);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  .disp{font-family:'Barlow Condensed',sans-serif;font-weight:800;line-height:1.04;color:var(--ink);letter-spacing:-.01em;}
+  .word{font-family:'Poppins',sans-serif;font-weight:800;}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--tealdeep);}
+
+  /* top bar */
+  .topbar{padding:22px 0 6px;text-align:center;}
+  .topbar .word{font-size:26px;}
+  .topbar .word .r{color:var(--navymid);} .topbar .word .s{color:var(--teal);}
+  .tagline{font-size:13px;color:var(--muted);letter-spacing:.02em;margin-top:2px;}
+
+  /* hero */
+  .hero{text-align:center;padding:46px 0 10px;}
+  .hero .eyebrow{font-size:15px;margin-bottom:12px;}
+  .hero h1{font-size:46px;}
+  .hero h1 .teal{color:var(--tealdeep);}
+  .hero .sub{font-size:25px;font-weight:500;color:var(--body);max-width:600px;margin:18px auto 0;}
+  .free-chip{display:inline-block;background:var(--teal);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;font-size:15px;padding:7px 18px;border-radius:30px;margin-bottom:18px;}
+
+  /* hero product shot — three pieces, physical-looking */
+  .shot{position:relative;width:100%;max-width:780px;margin:34px auto 10px;
+    aspect-ratio:780/600;container-type:inline-size;}
+
+  /* monitor (altitude readout) */
+  .monitor{position:absolute;left:21%;top:0;width:58%;z-index:2;}
+  .screen{position:relative;width:100%;aspect-ratio:16/10;background:var(--navy);
+    border:1.1cqw solid #0c1118;border-radius:1.8cqw;overflow:hidden;
+    box-shadow:0 7cqw 8cqw -3cqw rgba(11,25,41,.55);}
+  .neck{width:11%;height:4.6cqw;margin:0 auto;background:linear-gradient(#cdd6de,#a4b1bd);}
+  .base{width:40%;height:1.5cqw;margin:0 auto;border-radius:50%;
+    background:linear-gradient(#d8e0e7,#aeb9c4);box-shadow:0 1.4cqw 2cqw -.6cqw rgba(11,25,41,.3);}
+  .scr-pad{padding:3.4cqw 3cqw 2.6cqw;text-align:center;position:relative;}
+  .sample-tag{position:absolute;top:2cqw;left:2cqw;background:rgba(255,255,255,.12);color:#c3cdd6;
+    font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    font-size:1.4cqw;padding:.7cqw 1.6cqw;border-radius:3cqw;}
+  .scr-eyebrow{color:var(--teal);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;font-size:1.8cqw;}
+  .scr-co{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3.4cqw;margin:.3cqw 0 1cqw;}
+  .scr-status{display:inline-block;background:var(--amber);color:var(--navy);font-family:'Barlow Condensed',sans-serif;
+    font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:2cqw;padding:1cqw 3cqw;border-radius:4cqw;margin-top:1.2cqw;}
+  .scr-tag{color:#8aa0b4;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:2.5cqw;margin-top:1cqw;}
+
+  /* fanned report cards */
+  .card{position:absolute;background:#fff;border-radius:2.2cqw;
+    box-shadow:0 6cqw 8cqw -2.6cqw rgba(11,25,41,.42);z-index:3;}
+  .card.leak{right:0;top:2%;width:29%;padding:2.2cqw 1.8cqw;transform:rotate(5deg);text-align:center;}
+  .card.leak .lk-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);font-size:1.5cqw;line-height:1.2;}
+  .card.leak .lk-num{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--red);font-size:5.6cqw;line-height:1;margin:.6cqw 0 .4cqw;}
+  .card.leak .lk-sub{color:var(--muted);font-size:1.4cqw;}
+  /* automation shown as a stack of pages */
+  .auto-stack{position:absolute;right:0;top:47%;width:36%;z-index:3;transform:rotate(6deg);}
+  .auto-stack .sheet{position:absolute;inset:0;background:#fff;border-radius:2.2cqw;box-shadow:0 5cqw 7cqw -3cqw rgba(11,25,41,.3);}
+  .auto-stack .sheet.b1{transform:translate(2.2cqw,2.4cqw) rotate(3.5deg);z-index:1;}
+  .auto-stack .sheet.b2{transform:translate(4.2cqw,4.8cqw) rotate(7deg);background:#f4efe6;z-index:0;}
+  .card.auto{position:relative;width:100%;padding:2.6cqw;transform:none;z-index:2;
+    box-shadow:0 4cqw 6cqw -3cqw rgba(11,25,41,.35);}
+
+  /* pipeline stage card (where the leak number used to sit) */
+  .card.pipe{left:0;top:47%;width:40%;padding:0;overflow:hidden;transform:rotate(-5deg);}
+  .pipe-head{background:var(--navy);padding:1.8cqw 2.2cqw;}
+  .pipe-eyebrow{display:block;color:var(--teal);font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;font-size:1.3cqw;}
+  .pipe-title{display:block;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.3cqw;margin-top:.2cqw;line-height:1.05;}
+  .pipe-rows{padding:.6cqw 2cqw 1.2cqw;}
+  .pipe-row{display:flex;align-items:center;gap:1.3cqw;padding:1cqw 0;border-bottom:1px solid var(--divider);}
+  .pipe-row:last-child{border-bottom:none;}
+  .pdot{flex:0 0 auto;width:2.7cqw;height:2.7cqw;border-radius:.7cqw;display:flex;align-items:center;justify-content:center;}
+  .pdot svg{width:1.7cqw;height:1.7cqw;}
+  .pname{flex:1;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:2cqw;}
+  .pchip{flex:0 0 auto;font-family:'Barlow Condensed',sans-serif;font-weight:800;text-transform:uppercase;
+    font-size:1.3cqw;letter-spacing:.02em;padding:.5cqw 1.1cqw;border-radius:3cqw;white-space:nowrap;}
+  .a2-top{display:flex;justify-content:space-between;align-items:center;}
+  .a2-eyebrow{color:var(--tealdeep);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;font-size:1.5cqw;}
+  .a2-free{background:var(--tealdeep);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    letter-spacing:.1em;text-transform:uppercase;font-size:1.4cqw;padding:.5cqw 1.6cqw;border-radius:3cqw;}
+  .a2-title{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:2.4cqw;line-height:1.05;margin:1cqw 0 1.4cqw;}
+  .a2-row{display:flex;gap:1.2cqw;align-items:flex-start;margin-bottom:.9cqw;}
+  .a2-key{flex:0 0 7cqw;background:#eef3f6;color:var(--navymid);font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    font-size:1.4cqw;text-align:center;padding:.5cqw 0;border-radius:1cqw;letter-spacing:.06em;}
+  .a2-val{font-size:1.55cqw;color:var(--body);line-height:1.25;padding-top:.2cqw;}
+  .a2-crm{background:#f0fbfb;border-radius:1.4cqw;padding:1.4cqw 1.6cqw;margin-top:1cqw;}
+  .a2-crm b{color:var(--tealdeep);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;font-size:1.4cqw;}
+  .a2-crm span{display:block;font-size:1.5cqw;color:var(--body);line-height:1.25;margin-top:.4cqw;}
+  .shot-cap{text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--tealdeep);font-size:14px;margin-top:8px;}
+  .topcta{text-align:center;margin:30px 0 6px;}
+  .topcta-fine{color:var(--muted);font-size:14px;margin-top:12px;}
+
+  /* two-step inline opt-in */
+  .hero h1 .chaos{color:var(--red);}
+  .optin{max-width:540px;margin:34px auto 0;text-align:center;}
+  .optin-q{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:33px;line-height:1.08;margin-bottom:18px;}
+  .optin-row{display:flex;gap:12px;max-width:470px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+  .optin-input{flex:1 1 250px;min-width:0;font-family:'Barlow',sans-serif;font-size:18px;padding:15px 20px;
+    border:2px solid var(--divider);border-radius:40px;background:#fff;color:var(--ink);outline:none;text-align:center;}
+  .optin-input:focus{border-color:var(--teal);}
+  .optin-btn{flex:0 0 auto;border:none;cursor:pointer;}
+  .optin.dark .optin-q{color:#fff;}
+  .optin.dark .optin-input{background:#0f2336;border-color:#24405a;color:#fff;}
+  .optin.dark .optin-input::placeholder{color:#7c93a6;}
+  @media(max-width:480px){.optin-q{font-size:26px;}.optin-row{flex-direction:column;}.optin-input{flex-basis:auto;}}
+
+  /* hidden bonus teaser */
+  .bonus{display:flex;max-width:680px;margin:26px auto 0;background:var(--navy);border-radius:20px;overflow:hidden;
+    border:1px solid rgba(0,174,187,.35);box-shadow:0 24px 54px -26px rgba(11,25,41,.6);}
+  .bonus-media{position:relative;flex:0 0 40%;min-height:215px;overflow:hidden;background:#0b1929;}
+  .bonus-media img{width:100%;height:100%;object-fit:cover;filter:blur(2px) brightness(.85);}
+  .bonus-media::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(11,25,41,.4),rgba(11,25,41,.12));}
+  .bonus-lock{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;
+    background:var(--teal);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.5);z-index:2;}
+  .bonus-lock svg{width:30px;height:30px;fill:#06262a;}
+  .bonus-copy{flex:1;padding:24px 26px;color:#fff;}
+  .bonus-tag{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-size:13px;}
+  .bonus-copy h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:#fff;font-size:28px;line-height:1.03;margin:5px 0 9px;}
+  .bonus-copy p{color:#c3cdd6;font-size:16px;}
+  .bonus-value{margin-top:14px;font-family:'Barlow',sans-serif;font-size:17px;color:#dCE9ef;}
+  .bonus-value .vbig{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--teal);font-size:25px;margin-right:6px;}
+  .bonus-unlock{margin-top:10px;font-size:14px;color:#8fd9df;font-style:italic;}
+  @media(max-width:560px){.bonus{flex-direction:column;}.bonus-media{flex-basis:auto;min-height:150px;}}
+
+  /* stage breakdown as a printed report sheet */
+  .doc-shot{position:relative;max-width:560px;margin:26px auto 0;padding:6px 0 26px;}
+  .doc-back{position:absolute;top:0;left:0;right:0;bottom:26px;background:#fff;border-radius:16px;
+    transform:rotate(3deg);transform-origin:center;box-shadow:0 18px 40px -22px rgba(11,25,41,.28);z-index:1;}
+  .doc-back2{position:absolute;top:0;left:0;right:0;bottom:26px;background:#f7f2e9;border-radius:16px;
+    transform:rotate(1.6deg);transform-origin:center;box-shadow:0 14px 30px -20px rgba(11,25,41,.2);z-index:1;}
+  .doc-page{position:relative;z-index:2;background:#fff;border-radius:16px;overflow:hidden;
+    transform:rotate(-1.4deg);box-shadow:0 30px 60px -24px rgba(11,25,41,.45);}
+  .doc-head{background:var(--navy);padding:20px 24px 18px;position:relative;}
+  .doc-head .word{font-size:16px;} .doc-head .word .r{color:#fff;} .doc-head .word .s{color:var(--teal);}
+  .doc-eyebrow{color:var(--teal);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;font-size:12px;margin-top:10px;}
+  .doc-title{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:27px;line-height:1.05;margin-top:2px;}
+  .doc-co{color:#8aa0b4;font-size:13px;margin-top:3px;}
+  .doc-rows{padding:6px 22px 8px;}
+  .doc-row{display:flex;gap:14px;align-items:center;padding:15px 0;border-bottom:1px solid var(--divider);}
+  .doc-row:last-child{border-bottom:none;}
+  .doc-row .ico{flex:0 0 44px;width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;}
+  .doc-row .ico svg{width:23px;height:23px;}
+  .doc-rtext{flex:1;min-width:0;}
+  .doc-row h4{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:20px;line-height:1.05;}
+  .doc-row p{font-size:14.5px;color:var(--muted);margin-top:3px;}
+  .doc-stat{flex:0 0 auto;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.03em;
+    font-size:12.5px;text-transform:uppercase;padding:6px 13px;border-radius:20px;white-space:nowrap;}
+  @media(max-width:480px){.doc-stat{font-size:10.5px;padding:5px 9px;}.doc-row{gap:10px;}.doc-row p{font-size:13.5px;}}
+  .doc-foot{display:flex;justify-content:space-between;align-items:center;padding:13px 24px;border-top:1px solid var(--divider);background:#fbf8f2;}
+  .doc-foot .word{font-size:14px;} .doc-foot .word .r{color:var(--navymid);} .doc-foot .word .s{color:var(--teal);}
+  .doc-foot .pg{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);font-size:12px;}
+  @media(max-width:560px){
+    .doc-title{font-size:23px;}
+    .doc-row h4{font-size:17px;}
+  }
+
+  /* rating + name */
+  .rate{text-align:center;margin:34px 0 2px;}
+  .stars{color:var(--teal);font-size:26px;letter-spacing:4px;}
+  .rate h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:30px;margin-top:6px;}
+
+  /* what you get */
+  .getlist{max-width:620px;margin:26px auto 0;}
+  .getitem{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--divider);}
+  .getitem:last-child{border-bottom:none;}
+  .check{flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;margin-top:2px;}
+  .getitem h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:23px;line-height:1.1;}
+  .getitem p{font-size:17px;color:var(--body);margin-top:3px;}
+
+  /* section heading */
+  .sec-head{text-align:center;margin:48px 0 6px;}
+  .sec-head .eyebrow{font-size:14px;}
+  .sec-head h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:34px;margin-top:8px;}
+  .sec-head p{color:var(--muted);font-size:17px;margin-top:8px;max-width:520px;margin-left:auto;margin-right:auto;}
+
+  /* stage cards */
+  .stages{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px;}
+  .stage{background:#fff;border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;
+    box-shadow:0 8px 22px -14px rgba(11,25,41,.25);}
+  .stage .ico{flex:0 0 46px;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+  .stage .ico svg{width:24px;height:24px;}
+  .stage h4{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:19px;line-height:1.05;}
+  .stage p{font-size:14.5px;color:var(--muted);margin-top:4px;}
+
+  /* automation preview card */
+  .auto-card{background:#fff;border-radius:16px;padding:26px 26px 22px;margin-top:26px;
+    border-left:6px solid var(--teal);box-shadow:0 14px 36px -18px rgba(11,25,41,.3);position:relative;}
+  .auto-top{display:flex;justify-content:space-between;align-items:center;}
+  .auto-top .eyebrow{font-size:13px;}
+  .free-pill{background:var(--tealdeep);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    letter-spacing:.12em;text-transform:uppercase;font-size:13px;padding:5px 16px;border-radius:20px;}
+  .auto-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--ink);font-size:26px;margin:8px 0 16px;}
+  .wt-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:10px;}
+  .wt-key{flex:0 0 64px;background:#eef3f6;color:var(--navymid);font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    letter-spacing:.08em;font-size:13px;text-align:center;padding:6px 0;border-radius:7px;}
+  .wt-val{font-size:16px;color:var(--body);padding-top:3px;}
+  .crm-box{background:#f0fbfb;border-radius:10px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;margin-top:8px;}
+  .crm-key{flex:0 0 78px;background:#e0f3f4;color:var(--tealdeep);font-family:'Barlow Condensed',sans-serif;font-weight:700;
+    letter-spacing:.06em;font-size:12px;text-align:center;padding:6px 0;border-radius:7px;}
+  .crm-val{font-size:15px;color:var(--body);padding-top:2px;}
+  .auto-note{border-top:1px dashed var(--divider);margin-top:16px;padding-top:14px;font-style:italic;color:var(--muted);font-size:15px;}
+
+  /* CTA */
+  .cta{background:var(--navy);border-radius:24px;text-align:center;padding:46px 28px;margin:46px 0 30px;}
+  .cta h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:#fff;font-size:38px;line-height:1.05;}
+  .cta h2 .teal{color:var(--teal);}
+  .cta p{color:#c3cdd6;font-size:18px;margin:14px auto 26px;max-width:480px;}
+  .btn{display:inline-block;background:var(--teal);color:#06262a;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    letter-spacing:.04em;text-transform:uppercase;font-size:21px;text-decoration:none;padding:18px 42px;border-radius:40px;
+    box-shadow:0 14px 30px -10px rgba(0,174,187,.55);transition:transform .12s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .cta .fine{color:#8aa0b4;font-size:14px;margin-top:18px;}
+
+  .foot{text-align:center;padding:10px 0 44px;color:var(--muted);}
+  .foot .word{font-size:18px;} .foot .word .r{color:var(--navymid);} .foot .word .s{color:var(--teal);}
+  .foot .ftag{font-size:13px;color:var(--tealdeep);font-style:italic;margin-top:4px;}
+
+  @media(max-width:560px){
+    .hero h1{font-size:34px;}
+    .hero .sub{font-size:20px;}
+    .leak-card .lk-num{font-size:50px;}
+    .stages{grid-template-columns:1fr;}
+    .rc-tagline{font-size:22px;}
+    .cta h2{font-size:30px;}
+    .wt-key{flex-basis:56px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1 class="disp">Is your roofing business running on <span class="teal">autopilot</span> or <span class="chaos">chaos?</span></h1>
+      <p class="sub">Get your free, personalized CRM health report&hellip; in under 60 seconds.</p>
+    </section>
+
+    <!-- PRODUCT SHOWCASE: three pieces, fanned like physical products -->
+    <section class="shot-wrap">
+    <div class="shot">
+
+      <!-- 1. Altitude readout, on the monitor -->
+      <div class="monitor">
+        <div class="screen">
+          <div class="scr-pad">
+            <span class="sample-tag">Sample</span>
+            <div class="scr-eyebrow">CRM Flight Check</div>
+            <div class="scr-co">Your Roofing Company</div>
+            <svg viewBox="0 0 330 250" width="62%" style="max-width:62%" aria-label="Altitude meter">
+              <text x="148" y="29" text-anchor="end" fill="#9fb2c4" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15">Autopilot Engaged</text>
+              <text x="148" y="77" text-anchor="end" fill="#9fb2c4" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15">Cruising</text>
+              <text x="148" y="125" text-anchor="end" fill="#cdd6df" font-family="Barlow Condensed,sans-serif" font-weight="800" font-size="15">Hitting Turbulence</text>
+              <text x="148" y="173" text-anchor="end" fill="#9fb2c4" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15">Losing Altitude</text>
+              <text x="148" y="221" text-anchor="end" fill="#9fb2c4" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="15">Engine Failure</text>
+              <rect x="158" y="6"   width="30" height="46" fill="#2E9BD6" rx="2"/>
+              <rect x="158" y="54"  width="30" height="46" fill="#00AEBB"/>
+              <rect x="158" y="102" width="30" height="46" fill="#f0a830"/>
+              <rect x="158" y="150" width="30" height="46" fill="#e8772e"/>
+              <rect x="158" y="198" width="30" height="46" fill="#e2574c" rx="2"/>
+              <rect x="158" y="6" width="30" height="238" fill="none" stroke="rgba(255,255,255,.18)" rx="7"/>
+              <polygon points="196,125 210,116 210,134" fill="#f0a830"/>
+              <text x="218" y="131" fill="#fff" font-family="Barlow Condensed,sans-serif" font-weight="800" font-size="20">You</text>
+            </svg>
+            <div class="scr-status">Hitting Turbulence</div>
+            <div class="scr-tag">Airborne, but losing fuel in places.</div>
+          </div>
+        </div>
+        <div class="neck"></div>
+        <div class="base"></div>
+      </div>
+
+      <!-- 2. Monthly leak number, as a card -->
+      <div class="card leak">
+        <div class="lk-label">Leaking Every Month</div>
+        <div class="lk-num">$27,800</div>
+        <div class="lk-sub">&#8776; $333,600 a year</div>
+      </div>
+
+      <!-- 3. Automation example, as a stack of pages -->
+      <div class="auto-stack">
+        <div class="sheet b2"></div>
+        <div class="sheet b1"></div>
+        <div class="card auto">
+          <div class="a2-top">
+            <span class="a2-eyebrow">Leads Fix</span>
+            <span class="a2-free">Free</span>
+          </div>
+          <div class="a2-title">Welcome Every New Lead</div>
+          <div class="a2-row"><div class="a2-key">WHEN</div><div class="a2-val">A new lead comes into your CRM.</div></div>
+          <div class="a2-row"><div class="a2-key">THEN</div><div class="a2-val">Auto-send a branded welcome email right away.</div></div>
+          <div class="a2-crm"><b>AccuLynx</b><span>Trigger: a new lead is created &rarr; send a welcome email.</span></div>
+        </div>
+      </div>
+
+      <!-- 4. Pipeline stage, where the leak number used to sit -->
+      <div class="card pipe">
+        <div class="pipe-head">
+          <span class="pipe-eyebrow">CRM Flight Check</span>
+          <span class="pipe-title">Pipeline, Stage by Stage</span>
+        </div>
+        <div class="pipe-rows">
+          <div class="pipe-row"><span class="pdot" style="background:#e2574c"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></span><span class="pname">Leads</span><span class="pchip" style="color:#cf4438;background:#fbe7e5">Engine Failure</span></div>
+          <div class="pipe-row"><span class="pdot" style="background:#e8772e"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></span><span class="pname">Presale</span><span class="pchip" style="color:#c75f1c;background:#fbeadd">Losing Altitude</span></div>
+          <div class="pipe-row"><span class="pdot" style="background:#00AEBB"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></span><span class="pname">Production</span><span class="pchip" style="color:#0E8E99;background:#dcf2f3">Cruising</span></div>
+          <div class="pipe-row"><span class="pdot" style="background:#f0a830"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></span><span class="pname">Post-Sale</span><span class="pchip" style="color:#b9791a;background:#fcf0d8">Hitting Turbulence</span></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="shot-cap">Your altitude &nbsp;&bull;&nbsp; your leak number &nbsp;&bull;&nbsp; your pipeline &nbsp;&bull;&nbsp; up to 10 free fixes</div>
+    </section>
+
+    <!-- OPT-IN STEP 1 (under the products) -->
+    <div class="optin" data-quiz="quiz/">
+      <div class="optin-q">What's your business name?</div>
+      <div class="optin-row">
+        <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
+        <button type="button" class="btn optin-btn">Let's Start</button>
+      </div>
+    </div>
+
+    <!-- HIDDEN BONUS TEASER -->
+    <div class="bonus">
+      <div class="bonus-media">
+        <img src="flight-path-teaser-blur.png" alt="Blurred preview of the RoofSmartr Flight Path">
+        <div class="bonus-lock"><svg viewBox="0 0 24 24"><path d="M12 1.8a4.2 4.2 0 0 0-4.2 4.2V9H6.4A1.6 1.6 0 0 0 4.8 10.6v9.2A1.6 1.6 0 0 0 6.4 21.4h11.2a1.6 1.6 0 0 0 1.6-1.6v-9.2A1.6 1.6 0 0 0 17.6 9h-1.4V6A4.2 4.2 0 0 0 12 1.8zm2.6 7.2H9.4V6a2.6 2.6 0 0 1 5.2 0z"/></svg></div>
+      </div>
+      <div class="bonus-copy">
+        <div class="bonus-tag">Free Bonus &middot; Hidden Inside</div>
+        <h3>The complete RoofSmartr Flight Path</h3>
+        <p>The entire system &mdash; 33 statuses and 186 automations &mdash; mapped for your CRM. The same blueprint we build for paying clients.</p>
+        <div class="bonus-value"><span class="vbig">$1,997 value.</span> Yours free. No catch.</div>
+        <div class="bonus-unlock">Unlocks the moment you finish your 2-minute check.</div>
+      </div>
+    </div>
+
+    <!-- RATING + NAME -->
+    <div class="rate">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <h2>The RoofSmartr CRM Flight Check</h2>
+    </div>
+
+    <!-- WHAT YOU GET -->
+    <section class="getlist">
+      <div class="getitem">
+        <div class="check">&#10003;</div>
+        <div>
+          <h3>Your Altitude Readout</h3>
+          <p>See where your business is flying on one simple meter, from Autopilot Engaged down to Engine Failure. No confusing grades or scores.</p>
+        </div>
+      </div>
+      <div class="getitem">
+        <div class="check">&#10003;</div>
+        <div>
+          <h3>Your Full Flight Check Report</h3>
+          <p>A stage-by-stage breakdown of your pipeline: Leads, Presale, Production, Post-Sale. Exactly where you're strong and where you're bleeding.</p>
+        </div>
+      </div>
+      <div class="getitem">
+        <div class="check">&#10003;</div>
+        <div>
+          <h3>Your Monthly Leak Number</h3>
+          <p>A real dollar figure on what's slipping through the cracks every month, pulled from your own pipeline. Most owners are shocked by it.</p>
+        </div>
+      </div>
+      <div class="getitem">
+        <div class="check">&#10003;</div>
+        <div>
+          <h3>Up to 10 Free Automations</h3>
+          <p>For every weak spot we find, the exact build steps to fix it in your CRM, written for AccuLynx or JobNimbus. Yours to keep, whether we ever talk or not.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPT-IN STEP 2 (bottom) -->
+    <section class="cta">
+      <h2>Ready to see where your<br><span class="teal">money's leaking?</span></h2>
+      <p>Answer a few quick questions about how you run your CRM. Get your altitude, your monthly leak number, and your free fixes, on the spot.</p>
+      <div class="optin dark" data-quiz="quiz/">
+        <div class="optin-q">What's your business name?</div>
+        <div class="optin-row">
+          <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
+          <button type="button" class="btn optin-btn">Let's Start</button>
+        </div>
+      </div>
+      <div class="fine">No credit card. No sales call. Your report is yours to keep.</div>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    <div class="word"><span class="r">Roof</span><span class="s">Smartr</span></div>
+    <div class="ftag">your roofing business on autopilot.</div>
+  </div>
+
+  <script>
+  (function(){
+    var QUIZ_FALLBACK = 'quiz/';
+    document.querySelectorAll('.optin').forEach(function(el){
+      var q = el.querySelector('.optin-q');
+      var input = el.querySelector('.optin-input');
+      var btn = el.querySelector('.optin-btn');
+      var quiz = el.getAttribute('data-quiz') || QUIZ_FALLBACK;
+      var step = 1, biz = '';
+      function advance(){
+        if(step === 1){
+          biz = input.value.trim();
+          step = 2;
+          q.textContent = 'Where should I email it to?';
+          input.type = 'email';
+          input.value = '';
+          input.placeholder = 'you@company.com';
+          btn.textContent = 'Continue';
+          input.focus();
+        } else {
+          var email = input.value.trim();
+          var url = quiz, params = ['start=1'];
+          if(biz) params.push('biz=' + encodeURIComponent(biz));
+          if(email) params.push('email=' + encodeURIComponent(email));
+          url += (url.indexOf('?') > -1 ? '&' : '?') + params.join('&');
+          window.location.href = url;
+        }
+      }
+      btn.addEventListener('click', advance);
+      input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); advance(); } });
+    });
+  })();
+  </script>
+
+</body>
+</html>

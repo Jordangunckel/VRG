@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The RoofSmartr Flight Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1929;--navymid:#142840;--teal:#00AEBB;--tealdeep:#0E8E99;--cream:#F1E9DD;--cardtint:#E5DBCB;--divider:#D8CEBE;--body:#33404E;--muted:#5b6b7c;--red:#e2574c;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Barlow',sans-serif;color:var(--body);background:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.5;}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px;}
+.disp{font-family:'Barlow Condensed',sans-serif;font-weight:800;line-height:1.04;letter-spacing:-.01em;}
+.word{font-family:'Poppins',sans-serif;font-weight:800;} .word .r{color:#fff;} .word .s{color:var(--teal);}
+
+/* hero */
+.hero{background:var(--navy);color:#fff;padding:54px 0 46px;text-align:center;}
+.hero .word{font-size:24px;margin-bottom:22px;}
+.hero .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);font-size:15px;}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:54px;line-height:1.02;margin:10px 0 6px;}
+.hero h1 .teal{color:var(--teal);}
+.hero .hsub{color:#c3cdd6;font-size:20px;max-width:620px;margin:14px auto 0;}
+.hero .badge{display:inline-block;margin-top:22px;background:rgba(0,174,187,.16);color:var(--teal);border:1px solid rgba(0,174,187,.5);
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:14px;padding:9px 20px;border-radius:30px;}
+
+/* why */
+.why{margin:38px auto 0;}
+.why-card{background:#fff;border-left:7px solid var(--teal);border-radius:16px;padding:30px 32px;box-shadow:0 16px 40px -22px rgba(11,25,41,.3);}
+.why-card .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--tealdeep);font-size:14px;}
+.why-card h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:32px;margin:6px 0 14px;line-height:1.06;}
+.why-card p{font-size:18px;color:var(--body);margin-bottom:14px;}
+.rule{display:flex;gap:14px;align-items:center;background:var(--navy);border-radius:12px;padding:16px 20px;margin-top:8px;}
+.rule .rk{flex:0 0 auto;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navy);background:var(--teal);border-radius:8px;padding:8px 12px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;}
+.rule .rt{color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;}
+.rule .rt b{color:var(--teal);}
+.mapsec{margin:36px 0 6px;}
+.mapsec-head{text-align:center;margin-bottom:14px;}
+.mapsec-head .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--tealdeep);font-size:14px;}
+.mapsec-head h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:34px;margin-top:6px;}
+.mapsec-head p{color:var(--muted);font-size:16px;margin-top:6px;max-width:540px;margin-left:auto;margin-right:auto;}
+.mappanel{position:relative;background:#0B1929;border-radius:18px;padding:26px 20px;overflow:hidden;
+  box-shadow:0 26px 64px -28px rgba(11,25,41,.6);
+  background-image:radial-gradient(1000px 600px at 50% 0%, rgba(0,174,187,.10), transparent 60%);}
+.mappanel::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(120,180,200,.07) 1px, transparent 1px),linear-gradient(90deg, rgba(120,180,200,.07) 1px, transparent 1px);
+  background-size:40px 40px;
+  -webkit-mask-image:radial-gradient(120% 80% at 50% 30%, #000 60%, transparent 100%);mask-image:radial-gradient(120% 80% at 50% 30%, #000 60%, transparent 100%);}
+.mappanel svg{position:relative;z-index:1;width:100%;height:auto;display:block;}
+.mappanel svg g.node{filter:drop-shadow(0 3px 6px rgba(0,0,0,.5));}
+
+/* flight path strip + nav */
+.strip{margin:34px auto 6px;display:flex;align-items:stretch;gap:0;flex-wrap:wrap;justify-content:center;}
+.fp{display:flex;align-items:center;gap:10px;}
+.fp a{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.fp .dot{width:30px;height:30px;border-radius:50%;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.fp .lbl{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;color:var(--navymid);}
+.fp .arr{color:var(--muted);font-size:20px;margin:0 12px;}
+
+/* stage */
+.stage{margin:46px 0 0;scroll-margin-top:16px;}
+.sbanner{display:flex;align-items:center;gap:18px;background:var(--c);border-radius:16px;padding:20px 26px;color:#fff;}
+.sbanner.alt{background:var(--c);}
+.sbanner.light .sname{color:#0B1929;}
+.sbanner.light .stag2{color:rgba(11,25,41,.72);}
+.sbanner.light .snum{background:rgba(11,25,41,.16);color:#0B1929;}
+.snum{flex:0 0 auto;width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:30px;}
+.sname{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:30px;line-height:1;}
+.stag2{color:rgba(255,255,255,.8);font-size:15px;margin-top:3px;}
+.cards{margin-top:16px;display:grid;gap:14px;}
+.retail-note{margin-top:14px;background:#fff;border-radius:12px;padding:16px 20px;font-size:16px;color:var(--body);border-left:5px solid var(--c,#f0a830);}
+
+/* status card */
+.card{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 10px 26px -18px rgba(11,25,41,.32);border-left:5px solid var(--accent);}
+.chead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.chead h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:24px;line-height:1;}
+.stag{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--tealdeep);font-size:14px;text-transform:uppercase;letter-spacing:.06em;margin-left:10px;}
+.kbadge{font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:12px;color:#fff;background:var(--navymid);padding:5px 12px;border-radius:20px;}
+.kbadge.tk{background:var(--red);}
+.goal{color:var(--tealdeep);font-style:italic;font-size:16px;margin:8px 0 14px;}
+.arows{display:flex;flex-direction:column;gap:0;}
+.arow{display:flex;gap:14px;align-items:flex-start;padding:9px 0;border-top:1px solid #eef0ec;}
+.arow:first-child{border-top:none;}
+.chip{flex:0 0 auto;min-width:96px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.04em;
+  text-transform:uppercase;font-size:12px;padding:6px 10px;border-radius:7px;}
+.chip-entry{background:#dff4f5;color:var(--tealdeep);}
+.chip-step{background:#eef3f6;color:var(--navymid);}
+.chip-exit{background:var(--navymid);color:#fff;min-width:140px;}
+.atext{font-size:16px;color:var(--body);padding-top:3px;}
+.r-exit .atext{font-weight:600;color:var(--navymid);}
+.snote{margin-top:12px;font-size:14px;color:var(--muted);font-style:italic;border-top:1px dashed var(--divider);padding-top:10px;}
+
+/* outro */
+.outro{background:var(--navy);color:#fff;text-align:center;padding:50px 0;margin-top:50px;}
+.outro h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36px;line-height:1.05;}
+.outro h2 .teal{color:var(--teal);}
+.outro p{color:#c3cdd6;font-size:18px;max-width:600px;margin:14px auto 0;}
+.outro .word{font-size:20px;margin-top:26px;}
+.outro .ftag{color:var(--teal);font-style:italic;font-size:15px;margin-top:4px;}
+
+@media(max-width:620px){
+  .hero h1{font-size:38px;} .why-card h2{font-size:26px;}
+  .chip{min-width:78px;font-size:11px;} .chip-exit{min-width:110px;}
+  .fp .lbl{font-size:16px;} .fp .arr{margin:0 6px;}
+  .sname{font-size:24px;} .atext{font-size:15px;}
+}
+</style></head><body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="word"><span class="r">Roof</span><span class="s">Smartr</span></div>
+    <h1 class="disp">The RoofSmartr<br><span class="teal">Flight Path</span></h1>
+    <div class="hsub">Every stage, every status, every automation that keeps your jobs moving — the system we install and run inside your CRM. Yours to keep.</div>
+    <span class="badge">4 stages · 33 statuses · 186 automations</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="mapsec">
+      <div class="mapsec-head">
+        <div class="eyebrow">The whole system, at a glance</div>
+        <h2>Your Flight Path map</h2>
+        <p>Every status, and every route a job can take. The pages that follow break down exactly what each one does.</p>
+      </div>
+      <div class="mappanel"><svg 
+ viewBox="0.00 0.00 891.50 2373.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(36 2337)">
+<title>FlightPath</title>
+<!-- start -->
+<g id="node1" class="node">
+<title>start</title>
+<path fill="#f1e9dd" stroke="#00aebb" stroke-width="2.4" d="M757,-2301C757,-2301 666,-2301 666,-2301 660,-2301 654,-2295 654,-2289 654,-2289 654,-2277 654,-2277 654,-2271 660,-2265 666,-2265 666,-2265 757,-2265 757,-2265 763,-2265 769,-2271 769,-2277 769,-2277 769,-2289 769,-2289 769,-2295 763,-2301 757,-2301"/>
+<text text-anchor="start" x="670" y="-2280.9" font-family="DejaVu Sans" font-weight="bold" font-size="12.00" fill="#0b1929">START HERE</text>
+</g>
+<!-- hot -->
+<g id="node2" class="node">
+<title>hot</title>
+<path fill="#15b8c4" stroke="#8fe6ec" stroke-width="1.6" d="M752.5,-2220C752.5,-2220 670.5,-2220 670.5,-2220 664.5,-2220 658.5,-2214 658.5,-2208 658.5,-2208 658.5,-2196 658.5,-2196 658.5,-2190 664.5,-2184 670.5,-2184 670.5,-2184 752.5,-2184 752.5,-2184 758.5,-2184 764.5,-2190 764.5,-2196 764.5,-2196 764.5,-2208 764.5,-2208 764.5,-2214 758.5,-2220 752.5,-2220"/>
+<text text-anchor="start" x="674.5" y="-2199.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Hot Leads</text>
+</g>
+<!-- start&#45;&gt;hot -->
+<g id="edge1" class="edge">
+<title>start&#45;&gt;hot</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M711.5,-2264.62C711.5,-2264.62 711.5,-2228.53 711.5,-2228.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="714.48,-2228.53 711.5,-2220.03 708.53,-2228.53 714.48,-2228.53"/>
+</g>
+<!-- warm -->
+<g id="node3" class="node">
+<title>warm</title>
+<path fill="#15b8c4" stroke="#8fe6ec" stroke-width="1.6" d="M761,-2139C761,-2139 662,-2139 662,-2139 656,-2139 650,-2133 650,-2127 650,-2127 650,-2115 650,-2115 650,-2109 656,-2103 662,-2103 662,-2103 761,-2103 761,-2103 767,-2103 773,-2109 773,-2115 773,-2115 773,-2127 773,-2127 773,-2133 767,-2139 761,-2139"/>
+<text text-anchor="start" x="666" y="-2118.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Warm Leads</text>
+</g>
+<!-- hot&#45;&gt;warm -->
+<g id="edge2" class="edge">
+<title>hot&#45;&gt;warm</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M711.5,-2183.62C711.5,-2183.62 711.5,-2147.53 711.5,-2147.53"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="714.48,-2147.53 711.5,-2139.03 708.53,-2147.53 714.48,-2147.53"/>
+</g>
+<!-- initappt -->
+<g id="node5" class="node">
+<title>initappt</title>
+<path fill="#15b8c4" stroke="#8fe6ec" stroke-width="1.6" d="M653,-1977C653,-1977 504,-1977 504,-1977 498,-1977 492,-1971 492,-1965 492,-1965 492,-1953 492,-1953 492,-1947 498,-1941 504,-1941 504,-1941 653,-1941 653,-1941 659,-1941 665,-1947 665,-1953 665,-1953 665,-1965 665,-1965 665,-1971 659,-1977 653,-1977"/>
+<text text-anchor="start" x="508" y="-1956.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Initial Appointment</text>
+</g>
+<!-- hot&#45;&gt;initappt -->
+<g id="edge5" class="edge">
+<title>hot&#45;&gt;initappt</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M658.38,-2202C618.6,-2202 571,-2202 571,-2202 571,-2202 571,-1985.76 571,-1985.76"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="573.98,-1985.76 571,-1977.26 568.03,-1985.76 573.98,-1985.76"/>
+</g>
+<!-- cold -->
+<g id="node4" class="node">
+<title>cold</title>
+<path fill="#15b8c4" stroke="#8fe6ec" stroke-width="1.6" d="M789.5,-2058C789.5,-2058 701.5,-2058 701.5,-2058 695.5,-2058 689.5,-2052 689.5,-2046 689.5,-2046 689.5,-2034 689.5,-2034 689.5,-2028 695.5,-2022 701.5,-2022 701.5,-2022 789.5,-2022 789.5,-2022 795.5,-2022 801.5,-2028 801.5,-2034 801.5,-2034 801.5,-2046 801.5,-2046 801.5,-2052 795.5,-2058 789.5,-2058"/>
+<text text-anchor="start" x="705.5" y="-2037.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Cold Leads</text>
+</g>
+<!-- warm&#45;&gt;cold -->
+<g id="edge3" class="edge">
+<title>warm&#45;&gt;cold</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M731.25,-2102.62C731.25,-2102.62 731.25,-2066.53 731.25,-2066.53"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="734.23,-2066.53 731.25,-2058.03 728.28,-2066.53 734.23,-2066.53"/>
+</g>
+<!-- warm&#45;&gt;initappt -->
+<g id="edge6" class="edge">
+<title>warm&#45;&gt;initappt</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M655,-2102.73C655,-2102.73 655,-1985.95 655,-1985.95"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="657.98,-1985.95 655,-1977.45 652.03,-1985.95 657.98,-1985.95"/>
+</g>
+<!-- cold&#45;&gt;initappt -->
+<g id="edge7" class="edge">
+<title>cold&#45;&gt;initappt</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M689.42,-2040C673.31,-2040 660,-2040 660,-2040 660,-2040 660,-1985.88 660,-1985.88"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="662.98,-1985.88 660,-1977.38 657.03,-1985.88 662.98,-1985.88"/>
+</g>
+<!-- lcc -->
+<g id="node29" class="node">
+<title>lcc</title>
+<path fill="#e85a4e" stroke="#f4b3ad" stroke-width="1.6" d="M705.5,-1249C705.5,-1249 513.5,-1249 513.5,-1249 507.5,-1249 501.5,-1243 501.5,-1237 501.5,-1237 501.5,-1225 501.5,-1225 501.5,-1219 507.5,-1213 513.5,-1213 513.5,-1213 705.5,-1213 705.5,-1213 711.5,-1213 717.5,-1219 717.5,-1225 717.5,-1225 717.5,-1237 717.5,-1237 717.5,-1243 711.5,-1249 705.5,-1249"/>
+<text text-anchor="start" x="517.5" y="-1228.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Lost Customer Campaign</text>
+</g>
+<!-- cold&#45;&gt;lcc -->
+<g id="edge4" class="edge">
+<title>cold&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M703.5,-2021.97C703.5,-2021.97 703.5,-1257.57 703.5,-1257.57"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="706.48,-1257.57 703.5,-1249.07 700.53,-1257.57 706.48,-1257.57"/>
+</g>
+<!-- inspuns -->
+<g id="node6" class="node">
+<title>inspuns</title>
+<path fill="#15b8c4" stroke="#8fe6ec" stroke-width="1.6" d="M394.5,-1896C394.5,-1896 238.5,-1896 238.5,-1896 232.5,-1896 226.5,-1890 226.5,-1884 226.5,-1884 226.5,-1872 226.5,-1872 226.5,-1866 232.5,-1860 238.5,-1860 238.5,-1860 394.5,-1860 394.5,-1860 400.5,-1860 406.5,-1866 406.5,-1872 406.5,-1872 406.5,-1884 406.5,-1884 406.5,-1890 400.5,-1896 394.5,-1896"/>
+<text text-anchor="start" x="242.5" y="-1875.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Inspected, Unsigned</text>
+</g>
+<!-- initappt&#45;&gt;inspuns -->
+<g id="edge10" class="edge">
+<title>initappt&#45;&gt;inspuns</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M494.67,-1940.62C494.67,-1916.72 494.67,-1878 494.67,-1878 494.67,-1878 415.13,-1878 415.13,-1878"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="415.13,-1875.03 406.63,-1878 415.13,-1880.98 415.13,-1875.03"/>
+</g>
+<!-- naa -->
+<g id="node7" class="node">
+<title>naa</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M252,-1815C252,-1815 101,-1815 101,-1815 95,-1815 89,-1809 89,-1803 89,-1803 89,-1791 89,-1791 89,-1785 95,-1779 101,-1779 101,-1779 252,-1779 252,-1779 258,-1779 264,-1785 264,-1791 264,-1791 264,-1803 264,-1803 264,-1809 258,-1815 252,-1815"/>
+<text text-anchor="start" x="105" y="-1794.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Need Adjuster Appt</text>
+</g>
+<!-- initappt&#45;&gt;naa -->
+<g id="edge8" class="edge">
+<title>initappt&#45;&gt;naa</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M497.33,-1940.73C497.33,-1898.36 497.33,-1797 497.33,-1797 497.33,-1797 272.67,-1797 272.67,-1797"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="272.67,-1794.03 264.17,-1797 272.67,-1799.98 272.67,-1794.03"/>
+</g>
+<!-- salespres -->
+<g id="node31" class="node">
+<title>salespres</title>
+<path fill="#f5c233" stroke="#fae39a" stroke-width="1.6" d="M659,-1815C659,-1815 512,-1815 512,-1815 506,-1815 500,-1809 500,-1803 500,-1803 500,-1791 500,-1791 500,-1785 506,-1779 512,-1779 512,-1779 659,-1779 659,-1779 665,-1779 671,-1785 671,-1791 671,-1791 671,-1803 671,-1803 671,-1809 665,-1815 659,-1815"/>
+<text text-anchor="start" x="516" y="-1794.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Sales Presentation</text>
+</g>
+<!-- initappt&#45;&gt;salespres -->
+<g id="edge9" class="edge">
+<title>initappt&#45;&gt;salespres</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M582.5,-1940.73C582.5,-1940.73 582.5,-1823.95 582.5,-1823.95"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="585.48,-1823.95 582.5,-1815.45 579.53,-1823.95 585.48,-1823.95"/>
+</g>
+<!-- inspuns&#45;&gt;naa -->
+<g id="edge11" class="edge">
+<title>inspuns&#45;&gt;naa</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M245.25,-1859.62C245.25,-1859.62 245.25,-1823.53 245.25,-1823.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="248.23,-1823.53 245.25,-1815.03 242.28,-1823.53 248.23,-1823.53"/>
+</g>
+<!-- inspuns&#45;&gt;lcc -->
+<g id="edge12" class="edge">
+<title>inspuns&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M326.83,-1859.85C326.83,-1754.39 326.83,-1225 326.83,-1225 326.83,-1225 492.93,-1225 492.93,-1225"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="492.93,-1227.98 501.43,-1225 492.93,-1222.03 492.93,-1227.98"/>
+</g>
+<!-- aa -->
+<g id="node8" class="node">
+<title>aa</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M253.5,-1734C253.5,-1734 77.5,-1734 77.5,-1734 71.5,-1734 65.5,-1728 65.5,-1722 65.5,-1722 65.5,-1710 65.5,-1710 65.5,-1704 71.5,-1698 77.5,-1698 77.5,-1698 253.5,-1698 253.5,-1698 259.5,-1698 265.5,-1704 265.5,-1710 265.5,-1710 265.5,-1722 265.5,-1722 265.5,-1728 259.5,-1734 253.5,-1734"/>
+<text text-anchor="start" x="81.5" y="-1713.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Adjuster Appointments</text>
+</g>
+<!-- naa&#45;&gt;aa -->
+<g id="edge13" class="edge">
+<title>naa&#45;&gt;aa</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M176.5,-1778.62C176.5,-1778.62 176.5,-1742.53 176.5,-1742.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="179.48,-1742.53 176.5,-1734.03 173.53,-1742.53 179.48,-1742.53"/>
+</g>
+<!-- sow -->
+<g id="node9" class="node">
+<title>sow</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M127,-1653C127,-1653 12,-1653 12,-1653 6,-1653 0,-1647 0,-1641 0,-1641 0,-1629 0,-1629 0,-1623 6,-1617 12,-1617 12,-1617 127,-1617 127,-1617 133,-1617 139,-1623 139,-1629 139,-1629 139,-1641 139,-1641 139,-1647 133,-1653 127,-1653"/>
+<text text-anchor="start" x="16" y="-1632.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Scope of Work</text>
+</g>
+<!-- aa&#45;&gt;sow -->
+<g id="edge14" class="edge">
+<title>aa&#45;&gt;sow</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M102.25,-1697.62C102.25,-1697.62 102.25,-1661.53 102.25,-1661.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="105.23,-1661.53 102.25,-1653.03 99.28,-1661.53 105.23,-1661.53"/>
+</g>
+<!-- reinspect -->
+<g id="node10" class="node">
+<title>reinspect</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M253,-1572C253,-1572 168,-1572 168,-1572 162,-1572 156,-1566 156,-1560 156,-1560 156,-1548 156,-1548 156,-1542 162,-1536 168,-1536 168,-1536 253,-1536 253,-1536 259,-1536 265,-1542 265,-1548 265,-1548 265,-1560 265,-1560 265,-1566 259,-1572 253,-1572"/>
+<text text-anchor="start" x="172" y="-1551.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Re&#45;Inspect</text>
+</g>
+<!-- sow&#45;&gt;reinspect -->
+<g id="edge15" class="edge">
+<title>sow&#45;&gt;reinspect</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M133.5,-1616.62C133.5,-1592.72 133.5,-1554 133.5,-1554 133.5,-1554 147.27,-1554 147.27,-1554"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="147.27,-1556.98 155.77,-1554 147.27,-1551.03 147.27,-1556.98"/>
+</g>
+<!-- supp -->
+<g id="node11" class="node">
+<title>supp</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M110.5,-1572C110.5,-1572 14.5,-1572 14.5,-1572 8.5,-1572 2.5,-1566 2.5,-1560 2.5,-1560 2.5,-1548 2.5,-1548 2.5,-1542 8.5,-1536 14.5,-1536 14.5,-1536 110.5,-1536 110.5,-1536 116.5,-1536 122.5,-1542 122.5,-1548 122.5,-1548 122.5,-1560 122.5,-1560 122.5,-1566 116.5,-1572 110.5,-1572"/>
+<text text-anchor="start" x="18.5" y="-1551.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Supplement</text>
+</g>
+<!-- sow&#45;&gt;supp -->
+<g id="edge16" class="edge">
+<title>sow&#45;&gt;supp</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M62.5,-1616.62C62.5,-1616.62 62.5,-1580.53 62.5,-1580.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="65.48,-1580.53 62.5,-1572.03 59.53,-1580.53 65.48,-1580.53"/>
+</g>
+<!-- bo -->
+<g id="node12" class="node">
+<title>bo</title>
+<path fill="#3b8ee0" stroke="#aacef3" stroke-width="1.6" d="M109,-1491C109,-1491 16,-1491 16,-1491 10,-1491 4,-1485 4,-1479 4,-1479 4,-1467 4,-1467 4,-1461 10,-1455 16,-1455 16,-1455 109,-1455 109,-1455 115,-1455 121,-1461 121,-1467 121,-1467 121,-1479 121,-1479 121,-1485 115,-1491 109,-1491"/>
+<text text-anchor="start" x="20" y="-1470.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Build Order</text>
+</g>
+<!-- sow&#45;&gt;bo -->
+<g id="edge17" class="edge">
+<title>sow&#45;&gt;bo</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M128,-1616.73C128,-1574.36 128,-1473 128,-1473 128,-1473 127.35,-1473 127.35,-1473"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="129.98,-1470.03 121.48,-1473 129.98,-1475.98 129.98,-1470.03"/>
+</g>
+<!-- reinspect&#45;&gt;aa -->
+<g id="edge18" class="edge">
+<title>reinspect&#45;&gt;aa</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M210.5,-1572.27C210.5,-1572.27 210.5,-1689.05 210.5,-1689.05"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="207.53,-1689.05 210.5,-1697.55 213.48,-1689.05 207.53,-1689.05"/>
+</g>
+<!-- supp&#45;&gt;bo -->
+<g id="edge19" class="edge">
+<title>supp&#45;&gt;bo</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M62.5,-1535.62C62.5,-1535.62 62.5,-1499.53 62.5,-1499.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="65.48,-1499.53 62.5,-1491.03 59.53,-1499.53 65.48,-1499.53"/>
+</g>
+<!-- appr -->
+<g id="node13" class="node">
+<title>appr</title>
+<path fill="#0b1929" stroke="#00aebb" stroke-width="2.4" d="M154.5,-1410C154.5,-1410 68.5,-1410 68.5,-1410 62.5,-1410 56.5,-1404 56.5,-1398 56.5,-1398 56.5,-1386 56.5,-1386 56.5,-1380 62.5,-1374 68.5,-1374 68.5,-1374 154.5,-1374 154.5,-1374 160.5,-1374 166.5,-1380 166.5,-1386 166.5,-1386 166.5,-1398 166.5,-1398 166.5,-1404 160.5,-1410 154.5,-1410"/>
+<text text-anchor="start" x="72.5" y="-1389.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Approved?</text>
+</g>
+<!-- bo&#45;&gt;appr -->
+<g id="edge20" class="edge">
+<title>bo&#45;&gt;appr</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M88.75,-1454.62C88.75,-1454.62 88.75,-1418.53 88.75,-1418.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="91.73,-1418.53 88.75,-1410.03 85.78,-1418.53 91.73,-1418.53"/>
+</g>
+<!-- y_appr -->
+<g id="node38" class="node">
+<title>y_appr</title>
+<ellipse fill="#15b8c4" stroke="white" stroke-width="1.3" cx="111.5" cy="-1311.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="111.5" y="-1309.1" font-family="DejaVu Sans" font-size="10.50" fill="#08151f">YES</text>
+</g>
+<!-- appr&#45;&gt;y_appr -->
+<g id="edge21" class="edge">
+<title>appr&#45;&gt;y_appr</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M111.5,-1373.73C111.5,-1360.37 111.5,-1342.35 111.5,-1329.14"/>
+</g>
+<!-- n_appr -->
+<g id="node39" class="node">
+<title>n_appr</title>
+<ellipse fill="#e85a4e" stroke="white" stroke-width="1.3" cx="179.5" cy="-1311.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="179.5" y="-1309.1" font-family="DejaVu Sans" font-size="10.50" fill="#ffffff">NO</text>
+</g>
+<!-- appr&#45;&gt;n_appr -->
+<g id="edge23" class="edge">
+<title>appr&#45;&gt;n_appr</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M166.51,-1386C175.39,-1386 181.75,-1386 181.75,-1386 181.75,-1386 181.75,-1351.19 181.75,-1329.16"/>
+</g>
+<!-- permits -->
+<g id="node14" class="node">
+<title>permits</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M229.5,-1168C229.5,-1168 131.5,-1168 131.5,-1168 125.5,-1168 119.5,-1162 119.5,-1156 119.5,-1156 119.5,-1144 119.5,-1144 119.5,-1138 125.5,-1132 131.5,-1132 131.5,-1132 229.5,-1132 229.5,-1132 235.5,-1132 241.5,-1138 241.5,-1144 241.5,-1144 241.5,-1156 241.5,-1156 241.5,-1162 235.5,-1168 229.5,-1168"/>
+<text text-anchor="start" x="135.5" y="-1147.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Pull Permits</text>
+</g>
+<!-- sched -->
+<g id="node15" class="node">
+<title>sched</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M238.5,-1087C238.5,-1087 122.5,-1087 122.5,-1087 116.5,-1087 110.5,-1081 110.5,-1075 110.5,-1075 110.5,-1063 110.5,-1063 110.5,-1057 116.5,-1051 122.5,-1051 122.5,-1051 238.5,-1051 238.5,-1051 244.5,-1051 250.5,-1057 250.5,-1063 250.5,-1063 250.5,-1075 250.5,-1075 250.5,-1081 244.5,-1087 238.5,-1087"/>
+<text text-anchor="start" x="126.5" y="-1066.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Schedule Build</text>
+</g>
+<!-- permits&#45;&gt;sched -->
+<g id="edge25" class="edge">
+<title>permits&#45;&gt;sched</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M180.5,-1131.62C180.5,-1131.62 180.5,-1095.53 180.5,-1095.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="183.48,-1095.53 180.5,-1087.03 177.53,-1095.53 183.48,-1095.53"/>
+</g>
+<!-- precon -->
+<g id="node16" class="node">
+<title>precon</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M239,-1006C239,-1006 122,-1006 122,-1006 116,-1006 110,-1000 110,-994 110,-994 110,-982 110,-982 110,-976 116,-970 122,-970 122,-970 239,-970 239,-970 245,-970 251,-976 251,-982 251,-982 251,-994 251,-994 251,-1000 245,-1006 239,-1006"/>
+<text text-anchor="start" x="126" y="-985.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Pre&#45;Conditions</text>
+</g>
+<!-- sched&#45;&gt;precon -->
+<g id="edge26" class="edge">
+<title>sched&#45;&gt;precon</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M180.5,-1050.62C180.5,-1050.62 180.5,-1014.53 180.5,-1014.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="183.48,-1014.53 180.5,-1006.03 177.53,-1014.53 183.48,-1014.53"/>
+</g>
+<!-- jip -->
+<g id="node17" class="node">
+<title>jip</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M240,-925C240,-925 121,-925 121,-925 115,-925 109,-919 109,-913 109,-913 109,-901 109,-901 109,-895 115,-889 121,-889 121,-889 240,-889 240,-889 246,-889 252,-895 252,-901 252,-901 252,-913 252,-913 252,-919 246,-925 240,-925"/>
+<text text-anchor="start" x="125" y="-904.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Job in Progress</text>
+</g>
+<!-- precon&#45;&gt;jip -->
+<g id="edge27" class="edge">
+<title>precon&#45;&gt;jip</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M180.5,-969.62C180.5,-969.62 180.5,-933.53 180.5,-933.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="183.48,-933.53 180.5,-925.03 177.53,-933.53 183.48,-933.53"/>
+</g>
+<!-- finalinsp -->
+<g id="node18" class="node">
+<title>finalinsp</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M242.5,-844C242.5,-844 118.5,-844 118.5,-844 112.5,-844 106.5,-838 106.5,-832 106.5,-832 106.5,-820 106.5,-820 106.5,-814 112.5,-808 118.5,-808 118.5,-808 242.5,-808 242.5,-808 248.5,-808 254.5,-814 254.5,-820 254.5,-820 254.5,-832 254.5,-832 254.5,-838 248.5,-844 242.5,-844"/>
+<text text-anchor="start" x="122.5" y="-823.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Final Inspection</text>
+</g>
+<!-- jip&#45;&gt;finalinsp -->
+<g id="edge28" class="edge">
+<title>jip&#45;&gt;finalinsp</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M180.5,-888.62C180.5,-888.62 180.5,-852.53 180.5,-852.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="183.48,-852.53 180.5,-844.03 177.53,-852.53 183.48,-852.53"/>
+</g>
+<!-- probrep -->
+<g id="node19" class="node">
+<title>probrep</title>
+<path fill="#e85a4e" stroke="#f4b3ad" stroke-width="1.6" d="M242,-763C242,-763 119,-763 119,-763 113,-763 107,-757 107,-751 107,-751 107,-739 107,-739 107,-733 113,-727 119,-727 119,-727 242,-727 242,-727 248,-727 254,-733 254,-739 254,-739 254,-751 254,-751 254,-757 248,-763 242,-763"/>
+<text text-anchor="start" x="123" y="-742.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Problem Repair</text>
+</g>
+<!-- finalinsp&#45;&gt;probrep -->
+<g id="edge29" class="edge">
+<title>finalinsp&#45;&gt;probrep</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M156,-807.62C156,-807.62 156,-771.53 156,-771.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="158.98,-771.53 156,-763.03 153.03,-771.53 158.98,-771.53"/>
+</g>
+<!-- cocinv -->
+<g id="node20" class="node">
+<title>cocinv</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M449.5,-763C449.5,-763 299.5,-763 299.5,-763 293.5,-763 287.5,-757 287.5,-751 287.5,-751 287.5,-739 287.5,-739 287.5,-733 293.5,-727 299.5,-727 299.5,-727 449.5,-727 449.5,-727 455.5,-727 461.5,-733 461.5,-739 461.5,-739 461.5,-751 461.5,-751 461.5,-757 455.5,-763 449.5,-763"/>
+<text text-anchor="start" x="303.5" y="-742.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Send CoC &amp; Invoice</text>
+</g>
+<!-- finalinsp&#45;&gt;cocinv -->
+<g id="edge31" class="edge">
+<title>finalinsp&#45;&gt;cocinv</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M254.56,-826C304.25,-826 360.67,-826 360.67,-826 360.67,-826 360.67,-771.88 360.67,-771.88"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="363.64,-771.88 360.67,-763.38 357.69,-771.88 363.64,-771.88"/>
+</g>
+<!-- probrep&#45;&gt;finalinsp -->
+<g id="edge30" class="edge">
+<title>probrep&#45;&gt;finalinsp</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M205,-763.38C205,-763.38 205,-799.47 205,-799.47"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="202.03,-799.47 205,-807.97 207.98,-799.47 202.03,-799.47"/>
+</g>
+<!-- happy -->
+<g id="node21" class="node">
+<title>happy</title>
+<path fill="#0b1929" stroke="#00aebb" stroke-width="2.4" d="M443.5,-682C443.5,-682 305.5,-682 305.5,-682 299.5,-682 293.5,-676 293.5,-670 293.5,-670 293.5,-658 293.5,-658 293.5,-652 299.5,-646 305.5,-646 305.5,-646 443.5,-646 443.5,-646 449.5,-646 455.5,-652 455.5,-658 455.5,-658 455.5,-670 455.5,-670 455.5,-676 449.5,-682 443.5,-682"/>
+<text text-anchor="start" x="309.5" y="-661.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Happy Customer?</text>
+</g>
+<!-- cocinv&#45;&gt;happy -->
+<g id="edge32" class="edge">
+<title>cocinv&#45;&gt;happy</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M374.5,-726.62C374.5,-726.62 374.5,-690.53 374.5,-690.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="377.48,-690.53 374.5,-682.03 371.53,-690.53 377.48,-690.53"/>
+</g>
+<!-- y_happy -->
+<g id="node40" class="node">
+<title>y_happy</title>
+<ellipse fill="#15b8c4" stroke="white" stroke-width="1.3" cx="340.5" cy="-583.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="340.5" y="-581.1" font-family="DejaVu Sans" font-size="10.50" fill="#08151f">YES</text>
+</g>
+<!-- happy&#45;&gt;y_happy -->
+<g id="edge33" class="edge">
+<title>happy&#45;&gt;y_happy</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M340.5,-645.73C340.5,-632.37 340.5,-614.35 340.5,-601.14"/>
+</g>
+<!-- n_happy -->
+<g id="node41" class="node">
+<title>n_happy</title>
+<ellipse fill="#e85a4e" stroke="white" stroke-width="1.3" cx="442.5" cy="-583.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="442.5" y="-581.1" font-family="DejaVu Sans" font-size="10.50" fill="#ffffff">NO</text>
+</g>
+<!-- happy&#45;&gt;n_happy -->
+<g id="edge35" class="edge">
+<title>happy&#45;&gt;n_happy</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M440.25,-645.73C440.25,-632.28 440.25,-614.1 440.25,-600.87"/>
+</g>
+<!-- reviews -->
+<g id="node22" class="node">
+<title>reviews</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M351,-521C351,-521 194,-521 194,-521 188,-521 182,-515 182,-509 182,-509 182,-497 182,-497 182,-491 188,-485 194,-485 194,-485 351,-485 351,-485 357,-485 363,-491 363,-497 363,-497 363,-509 363,-509 363,-515 357,-521 351,-521"/>
+<text text-anchor="start" x="198" y="-500.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Reviews &amp; Referrals</text>
+</g>
+<!-- ar -->
+<g id="node24" class="node">
+<title>ar</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M453.5,-440C453.5,-440 295.5,-440 295.5,-440 289.5,-440 283.5,-434 283.5,-428 283.5,-428 283.5,-416 283.5,-416 283.5,-410 289.5,-404 295.5,-404 295.5,-404 453.5,-404 453.5,-404 459.5,-404 465.5,-410 465.5,-416 465.5,-416 465.5,-428 465.5,-428 465.5,-434 459.5,-440 453.5,-440"/>
+<text text-anchor="start" x="299.5" y="-419.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Accounts Receivable</text>
+</g>
+<!-- reviews&#45;&gt;ar -->
+<g id="edge37" class="edge">
+<title>reviews&#45;&gt;ar</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M323.25,-484.62C323.25,-484.62 323.25,-448.53 323.25,-448.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="326.23,-448.53 323.25,-440.03 320.28,-448.53 326.23,-448.53"/>
+</g>
+<!-- custserv -->
+<g id="node23" class="node">
+<title>custserv</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M546.5,-521C546.5,-521 408.5,-521 408.5,-521 402.5,-521 396.5,-515 396.5,-509 396.5,-509 396.5,-497 396.5,-497 396.5,-491 402.5,-485 408.5,-485 408.5,-485 546.5,-485 546.5,-485 552.5,-485 558.5,-491 558.5,-497 558.5,-497 558.5,-509 558.5,-509 558.5,-515 552.5,-521 546.5,-521"/>
+<text text-anchor="start" x="412.5" y="-500.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Customer Service</text>
+</g>
+<!-- custserv&#45;&gt;ar -->
+<g id="edge38" class="edge">
+<title>custserv&#45;&gt;ar</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M431,-484.62C431,-484.62 431,-448.53 431,-448.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="433.98,-448.53 431,-440.03 428.03,-448.53 433.98,-448.53"/>
+</g>
+<!-- paid -->
+<g id="node25" class="node">
+<title>paid</title>
+<path fill="#0b1929" stroke="#00aebb" stroke-width="2.4" d="M422.5,-359C422.5,-359 326.5,-359 326.5,-359 320.5,-359 314.5,-353 314.5,-347 314.5,-347 314.5,-335 314.5,-335 314.5,-329 320.5,-323 326.5,-323 326.5,-323 422.5,-323 422.5,-323 428.5,-323 434.5,-329 434.5,-335 434.5,-335 434.5,-347 434.5,-347 434.5,-353 428.5,-359 422.5,-359"/>
+<text text-anchor="start" x="330.5" y="-338.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Paid in Full?</text>
+</g>
+<!-- ar&#45;&gt;paid -->
+<g id="edge39" class="edge">
+<title>ar&#45;&gt;paid</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M374.5,-403.62C374.5,-403.62 374.5,-367.53 374.5,-367.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="377.48,-367.53 374.5,-359.03 371.53,-367.53 377.48,-367.53"/>
+</g>
+<!-- y_paid -->
+<g id="node42" class="node">
+<title>y_paid</title>
+<ellipse fill="#15b8c4" stroke="white" stroke-width="1.3" cx="313.5" cy="-180" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="313.5" y="-177.6" font-family="DejaVu Sans" font-size="10.50" fill="#08151f">PAID</text>
+</g>
+<!-- paid&#45;&gt;y_paid -->
+<g id="edge40" class="edge">
+<title>paid&#45;&gt;y_paid</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M322.75,-322.84C322.75,-290.77 322.75,-224.68 322.75,-195"/>
+</g>
+<!-- n_paid -->
+<g id="node43" class="node">
+<title>n_paid</title>
+<ellipse fill="#e85a4e" stroke="white" stroke-width="1.3" cx="422.5" cy="-260.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="422.5" y="-258.1" font-family="DejaVu Sans" font-size="10.50" fill="#ffffff">30d+</text>
+</g>
+<!-- paid&#45;&gt;n_paid -->
+<g id="edge42" class="edge">
+<title>paid&#45;&gt;n_paid</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M419.75,-322.73C419.75,-309.28 419.75,-291.1 419.75,-277.87"/>
+</g>
+<!-- debt -->
+<g id="node26" class="node">
+<title>debt</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M496.5,-198C496.5,-198 376.5,-198 376.5,-198 370.5,-198 364.5,-192 364.5,-186 364.5,-186 364.5,-174 364.5,-174 364.5,-168 370.5,-162 376.5,-162 376.5,-162 496.5,-162 496.5,-162 502.5,-162 508.5,-168 508.5,-174 508.5,-174 508.5,-186 508.5,-186 508.5,-192 502.5,-198 496.5,-198"/>
+<text text-anchor="start" x="380.5" y="-177.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Debt Collection</text>
+</g>
+<!-- warranty -->
+<g id="node27" class="node">
+<title>warranty</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M433.5,-117C433.5,-117 315.5,-117 315.5,-117 309.5,-117 303.5,-111 303.5,-105 303.5,-105 303.5,-93 303.5,-93 303.5,-87 309.5,-81 315.5,-81 315.5,-81 433.5,-81 433.5,-81 439.5,-81 445.5,-87 445.5,-93 445.5,-93 445.5,-105 445.5,-105 445.5,-111 439.5,-117 433.5,-117"/>
+<text text-anchor="start" x="319.5" y="-96.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Send Warranty</text>
+</g>
+<!-- debt&#45;&gt;warranty -->
+<g id="edge44" class="edge">
+<title>debt&#45;&gt;warranty</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M405,-161.62C405,-161.62 405,-125.53 405,-125.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="407.98,-125.53 405,-117.03 402.03,-125.53 407.98,-125.53"/>
+</g>
+<!-- pcc -->
+<g id="node28" class="node">
+<title>pcc</title>
+<path fill="#34b070" stroke="#a8e1c4" stroke-width="1.6" d="M470.5,-36C470.5,-36 278.5,-36 278.5,-36 272.5,-36 266.5,-30 266.5,-24 266.5,-24 266.5,-12 266.5,-12 266.5,-6 272.5,0 278.5,0 278.5,0 470.5,0 470.5,0 476.5,0 482.5,-6 482.5,-12 482.5,-12 482.5,-24 482.5,-24 482.5,-30 476.5,-36 470.5,-36"/>
+<text text-anchor="start" x="282.5" y="-15.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Past Customer Campaign</text>
+</g>
+<!-- warranty&#45;&gt;pcc -->
+<g id="edge45" class="edge">
+<title>warranty&#45;&gt;pcc</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M374.5,-80.62C374.5,-80.62 374.5,-44.53 374.5,-44.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="377.48,-44.53 374.5,-36.03 371.53,-44.53 377.48,-44.53"/>
+</g>
+<!-- lcc&#45;&gt;hot -->
+<g id="edge46" class="edge">
+<title>lcc&#45;&gt;hot</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M717.58,-1231C769.03,-1231 819.5,-1231 819.5,-1231 819.5,-1231 819.5,-2202 819.5,-2202 819.5,-2202 773.05,-2202 773.05,-2202"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="773.05,-2199.03 764.55,-2202 773.05,-2204.98 773.05,-2199.03"/>
+</g>
+<!-- dead -->
+<g id="node30" class="node">
+<title>dead</title>
+<path fill="#e85a4e" stroke="#f4b3ad" stroke-width="1.6" d="M632.5,-1168C632.5,-1168 586.5,-1168 586.5,-1168 580.5,-1168 574.5,-1162 574.5,-1156 574.5,-1156 574.5,-1144 574.5,-1144 574.5,-1138 580.5,-1132 586.5,-1132 586.5,-1132 632.5,-1132 632.5,-1132 638.5,-1132 644.5,-1138 644.5,-1144 644.5,-1144 644.5,-1156 644.5,-1156 644.5,-1162 638.5,-1168 632.5,-1168"/>
+<text text-anchor="start" x="590.5" y="-1147.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Dead</text>
+</g>
+<!-- lcc&#45;&gt;dead -->
+<g id="edge47" class="edge">
+<title>lcc&#45;&gt;dead</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M609.5,-1212.62C609.5,-1212.62 609.5,-1176.53 609.5,-1176.53"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="612.48,-1176.53 609.5,-1168.03 606.53,-1176.53 612.48,-1176.53"/>
+</g>
+<!-- salespres&#45;&gt;lcc -->
+<g id="edge49" class="edge">
+<title>salespres&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M662.75,-1778.81C662.75,-1778.81 662.75,-1257.62 662.75,-1257.62"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="665.73,-1257.62 662.75,-1249.12 659.78,-1257.62 665.73,-1257.62"/>
+</g>
+<!-- bldest -->
+<g id="node32" class="node">
+<title>bldest</title>
+<path fill="#f5c233" stroke="#fae39a" stroke-width="1.6" d="M642.5,-1734C642.5,-1734 528.5,-1734 528.5,-1734 522.5,-1734 516.5,-1728 516.5,-1722 516.5,-1722 516.5,-1710 516.5,-1710 516.5,-1704 522.5,-1698 528.5,-1698 528.5,-1698 642.5,-1698 642.5,-1698 648.5,-1698 654.5,-1704 654.5,-1710 654.5,-1710 654.5,-1722 654.5,-1722 654.5,-1728 648.5,-1734 642.5,-1734"/>
+<text text-anchor="start" x="532.5" y="-1713.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Build Estimate</text>
+</g>
+<!-- salespres&#45;&gt;bldest -->
+<g id="edge48" class="edge">
+<title>salespres&#45;&gt;bldest</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M585.5,-1778.62C585.5,-1778.62 585.5,-1742.53 585.5,-1742.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="588.48,-1742.53 585.5,-1734.03 582.53,-1742.53 588.48,-1742.53"/>
+</g>
+<!-- estsent -->
+<g id="node33" class="node">
+<title>estsent</title>
+<path fill="#f5c233" stroke="#fae39a" stroke-width="1.6" d="M641,-1653C641,-1653 530,-1653 530,-1653 524,-1653 518,-1647 518,-1641 518,-1641 518,-1629 518,-1629 518,-1623 524,-1617 530,-1617 530,-1617 641,-1617 641,-1617 647,-1617 653,-1623 653,-1629 653,-1629 653,-1641 653,-1641 653,-1647 647,-1653 641,-1653"/>
+<text text-anchor="start" x="534" y="-1632.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Estimate Sent</text>
+</g>
+<!-- bldest&#45;&gt;estsent -->
+<g id="edge50" class="edge">
+<title>bldest&#45;&gt;estsent</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M585.5,-1697.62C585.5,-1697.62 585.5,-1661.53 585.5,-1661.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="588.48,-1661.53 585.5,-1653.03 582.53,-1661.53 588.48,-1661.53"/>
+</g>
+<!-- estsent&#45;&gt;lcc -->
+<g id="edge52" class="edge">
+<title>estsent&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M626.5,-1616.86C626.5,-1616.86 626.5,-1257.59 626.5,-1257.59"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="629.48,-1257.59 626.5,-1249.09 623.53,-1257.59 629.48,-1257.59"/>
+</g>
+<!-- estsigned -->
+<g id="node34" class="node">
+<title>estsigned</title>
+<path fill="#f5c233" stroke="#fae39a" stroke-width="1.6" d="M580,-1572C580,-1572 453,-1572 453,-1572 447,-1572 441,-1566 441,-1560 441,-1560 441,-1548 441,-1548 441,-1542 447,-1536 453,-1536 453,-1536 580,-1536 580,-1536 586,-1536 592,-1542 592,-1548 592,-1548 592,-1560 592,-1560 592,-1566 586,-1572 580,-1572"/>
+<text text-anchor="start" x="457" y="-1551.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Estimate Signed</text>
+</g>
+<!-- estsent&#45;&gt;estsigned -->
+<g id="edge51" class="edge">
+<title>estsent&#45;&gt;estsigned</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M555,-1616.62C555,-1616.62 555,-1580.53 555,-1580.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="557.98,-1580.53 555,-1572.03 552.03,-1580.53 557.98,-1580.53"/>
+</g>
+<!-- finpend -->
+<g id="node35" class="node">
+<title>finpend</title>
+<path fill="#f5c233" stroke="#fae39a" stroke-width="1.6" d="M588,-1491C588,-1491 445,-1491 445,-1491 439,-1491 433,-1485 433,-1479 433,-1479 433,-1467 433,-1467 433,-1461 439,-1455 445,-1455 445,-1455 588,-1455 588,-1455 594,-1455 600,-1461 600,-1467 600,-1467 600,-1479 600,-1479 600,-1485 594,-1491 588,-1491"/>
+<text text-anchor="start" x="449" y="-1470.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Financing Pending</text>
+</g>
+<!-- estsigned&#45;&gt;finpend -->
+<g id="edge54" class="edge">
+<title>estsigned&#45;&gt;finpend</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M516.5,-1535.62C516.5,-1535.62 516.5,-1499.53 516.5,-1499.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="519.48,-1499.53 516.5,-1491.03 513.53,-1499.53 519.48,-1499.53"/>
+</g>
+<!-- apprR -->
+<g id="node36" class="node">
+<title>apprR</title>
+<path fill="#0b1929" stroke="#00aebb" stroke-width="2.4" d="M492.5,-1410C492.5,-1410 406.5,-1410 406.5,-1410 400.5,-1410 394.5,-1404 394.5,-1398 394.5,-1398 394.5,-1386 394.5,-1386 394.5,-1380 400.5,-1374 406.5,-1374 406.5,-1374 492.5,-1374 492.5,-1374 498.5,-1374 504.5,-1380 504.5,-1386 504.5,-1386 504.5,-1398 504.5,-1398 504.5,-1404 498.5,-1410 492.5,-1410"/>
+<text text-anchor="start" x="410.5" y="-1389.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#ffffff">Approved?</text>
+</g>
+<!-- estsigned&#45;&gt;apprR -->
+<g id="edge53" class="edge">
+<title>estsigned&#45;&gt;apprR</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M440.74,-1554C428.5,-1554 419.75,-1554 419.75,-1554 419.75,-1554 419.75,-1418.77 419.75,-1418.77"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="422.73,-1418.77 419.75,-1410.27 416.78,-1418.77 422.73,-1418.77"/>
+</g>
+<!-- finpend&#45;&gt;lcc -->
+<g id="edge56" class="edge">
+<title>finpend&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M568.17,-1454.81C568.17,-1454.81 568.17,-1257.57 568.17,-1257.57"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="571.14,-1257.57 568.17,-1249.07 565.19,-1257.57 571.14,-1257.57"/>
+</g>
+<!-- finpend&#45;&gt;apprR -->
+<g id="edge55" class="edge">
+<title>finpend&#45;&gt;apprR</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M468.75,-1454.62C468.75,-1454.62 468.75,-1418.53 468.75,-1418.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="471.73,-1418.53 468.75,-1410.03 465.78,-1418.53 471.73,-1418.53"/>
+</g>
+<!-- y_apprR -->
+<g id="node44" class="node">
+<title>y_apprR</title>
+<ellipse fill="#15b8c4" stroke="white" stroke-width="1.3" cx="247.5" cy="-1311.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="247.5" y="-1309.1" font-family="DejaVu Sans" font-size="10.50" fill="#08151f">YES</text>
+</g>
+<!-- apprR&#45;&gt;y_apprR -->
+<g id="edge57" class="edge">
+<title>apprR&#45;&gt;y_apprR</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M394.3,-1398C334.49,-1398 247.5,-1398 247.5,-1398 247.5,-1398 247.5,-1354.28 247.5,-1329"/>
+</g>
+<!-- n_apprR -->
+<g id="node45" class="node">
+<title>n_apprR</title>
+<ellipse fill="#e85a4e" stroke="white" stroke-width="1.3" cx="482.5" cy="-1311.5" rx="17.5" ry="17.5"/>
+<text text-anchor="middle" x="482.5" y="-1309.1" font-family="DejaVu Sans" font-size="10.50" fill="#ffffff">NO</text>
+</g>
+<!-- apprR&#45;&gt;n_apprR -->
+<g id="edge59" class="edge">
+<title>apprR&#45;&gt;n_apprR</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M482.5,-1373.73C482.5,-1360.37 482.5,-1342.35 482.5,-1329.14"/>
+</g>
+<!-- boR -->
+<g id="node37" class="node">
+<title>boR</title>
+<path fill="#f2913d" stroke="#fac79b" stroke-width="1.6" d="M281,-1249C281,-1249 188,-1249 188,-1249 182,-1249 176,-1243 176,-1237 176,-1237 176,-1225 176,-1225 176,-1219 182,-1213 188,-1213 188,-1213 281,-1213 281,-1213 287,-1213 293,-1219 293,-1225 293,-1225 293,-1237 293,-1237 293,-1243 287,-1249 281,-1249"/>
+<text text-anchor="start" x="192" y="-1228.6" font-family="DejaVu Sans" font-weight="bold" font-size="13.00" fill="#08151f">Build Order</text>
+</g>
+<!-- boR&#45;&gt;permits -->
+<g id="edge61" class="edge">
+<title>boR&#45;&gt;permits</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M208.75,-1212.62C208.75,-1212.62 208.75,-1176.53 208.75,-1176.53"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="211.73,-1176.53 208.75,-1168.03 205.78,-1176.53 211.73,-1176.53"/>
+</g>
+<!-- y_appr&#45;&gt;permits -->
+<g id="edge22" class="edge">
+<title>y_appr&#45;&gt;permits</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M124.25,-1299.36C124.25,-1299.36 124.25,-1176.56 124.25,-1176.56"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="127.23,-1176.56 124.25,-1168.06 121.28,-1176.56 127.23,-1176.56"/>
+</g>
+<!-- n_appr&#45;&gt;lcc -->
+<g id="edge24" class="edge">
+<title>n_appr&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M186.5,-1295.03C186.5,-1283.81 186.5,-1271 186.5,-1271 186.5,-1271 536.33,-1271 536.33,-1271 536.33,-1271 536.33,-1257.63 536.33,-1257.63"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="539.31,-1257.63 536.33,-1249.13 533.36,-1257.63 539.31,-1257.63"/>
+</g>
+<!-- y_happy&#45;&gt;reviews -->
+<g id="edge34" class="edge">
+<title>y_happy&#45;&gt;reviews</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M340.5,-565.63C340.5,-565.63 340.5,-529.59 340.5,-529.59"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="343.48,-529.59 340.5,-521.09 337.53,-529.59 343.48,-529.59"/>
+</g>
+<!-- n_happy&#45;&gt;custserv -->
+<g id="edge36" class="edge">
+<title>n_happy&#45;&gt;custserv</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M442.5,-565.63C442.5,-565.63 442.5,-529.59 442.5,-529.59"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="445.48,-529.59 442.5,-521.09 439.53,-529.59 445.48,-529.59"/>
+</g>
+<!-- y_paid&#45;&gt;warranty -->
+<g id="edge41" class="edge">
+<title>y_paid&#45;&gt;warranty</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M317.25,-162.82C317.25,-162.82 317.25,-125.78 317.25,-125.78"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="320.23,-125.78 317.25,-117.28 314.28,-125.78 320.23,-125.78"/>
+</g>
+<!-- n_paid&#45;&gt;debt -->
+<g id="edge43" class="edge">
+<title>n_paid&#45;&gt;debt</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M422.5,-242.63C422.5,-242.63 422.5,-206.59 422.5,-206.59"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="425.48,-206.59 422.5,-198.09 419.53,-206.59 425.48,-206.59"/>
+</g>
+<!-- y_apprR&#45;&gt;boR -->
+<g id="edge58" class="edge">
+<title>y_apprR&#45;&gt;boR</title>
+<path fill="none" stroke="#cfe0e8" stroke-width="2.1" d="M247.5,-1293.63C247.5,-1293.63 247.5,-1257.59 247.5,-1257.59"/>
+<polygon fill="#cfe0e8" stroke="#cfe0e8" stroke-width="2.1" points="250.48,-1257.59 247.5,-1249.09 244.53,-1257.59 250.48,-1257.59"/>
+</g>
+<!-- n_apprR&#45;&gt;lcc -->
+<g id="edge60" class="edge">
+<title>n_apprR&#45;&gt;lcc</title>
+<path fill="none" stroke="#6f8aa0" stroke-width="1.4" stroke-dasharray="5,2" d="M482.5,-1293.84C482.5,-1271.81 482.5,-1237 482.5,-1237 482.5,-1237 492.74,-1237 492.74,-1237"/>
+<polygon fill="#6f8aa0" stroke="#6f8aa0" stroke-width="1.4" points="492.74,-1239.98 501.24,-1237 492.74,-1234.03 492.74,-1239.98"/>
+</g>
+</g>
+<g font-family="DejaVu Sans"><rect x="18" y="18" width="330" height="376" rx="14" fill="#102337" fill-opacity="0.93" stroke="#00AEBB" stroke-opacity="0.6" stroke-width="2"/><text x="38" y="52" fill="#00AEBB" font-size="19" font-weight="bold" letter-spacing="2.5">MAP GUIDE</text><rect x="38" y="76" width="34" height="23" rx="4" fill="#15B8C4"/><text x="84" y="94" fill="#e6eef3" font-size="19" font-weight="bold">Leads</text><rect x="38" y="110" width="34" height="23" rx="4" fill="#3B8EE0"/><text x="84" y="128" fill="#e6eef3" font-size="19" font-weight="bold">Presale · Insurance</text><rect x="38" y="144" width="34" height="23" rx="4" fill="#F5C233"/><text x="84" y="162" fill="#e6eef3" font-size="19" font-weight="bold">Presale · Retail</text><rect x="38" y="178" width="34" height="23" rx="4" fill="#F2913D"/><text x="84" y="196" fill="#e6eef3" font-size="19" font-weight="bold">Production</text><rect x="38" y="212" width="34" height="23" rx="4" fill="#34B070"/><text x="84" y="230" fill="#e6eef3" font-size="19" font-weight="bold">Post-Sale</text><rect x="38" y="246" width="34" height="23" rx="4" fill="#0B1929" stroke="#00AEBB" stroke-width="2"/><text x="84" y="264" fill="#e6eef3" font-size="19" font-weight="bold">Decision</text><rect x="38" y="280" width="34" height="23" rx="4" fill="#E85A4E"/><text x="84" y="298" fill="#e6eef3" font-size="19" font-weight="bold">Exit / Recovery</text><circle cx="48" cy="328" r="11" fill="#15B8C4"/><text x="48" y="332" fill="#08151f" font-size="11" font-weight="bold" text-anchor="middle">Y</text><circle cx="74" cy="328" r="11" fill="#E85A4E"/><text x="74" y="332" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">N</text><text x="94" y="334" fill="#e6eef3" font-size="19" font-weight="bold">The call at each gate</text><line x1="38" y1="362" x2="72" y2="362" stroke="#7d98ac" stroke-width="3" stroke-dasharray="5 4"/><text x="84" y="368" fill="#e6eef3" font-size="19" font-weight="bold">No-response route</text></g>
+</svg>
+</div>
+    </section>
+  <div class="why">
+    <div class="why-card">
+      <div class="eyebrow">Why this matters</div>
+      <h2>Every job needs somewhere to go.</h2>
+      <p>Here&#x27;s what we&#x27;ve learned after years on the roof and in the back office: every job needs a next move. The moment a job has nowhere to go, it stops moving — and a job that stops moving is a job that&#x27;s quietly dying. No follow-up. No next call. Nobody watching it. We&#x27;ve seen it more times than we can count: the deal didn&#x27;t fall through, it fell through the cracks.</p>
+      <p>The Flight Path fixes that with one golden rule: every status gets an entry and an exit automation. The entry decides what happens the moment a job lands there. The exit decides what triggers it to move to the next status. Nothing waits on someone to remember it — so no job ever gets forgotten.</p>
+      <div class="rule"><span class="rk">Golden Rule</span><span class="rt">Every status gets an <b>entry</b> and an <b>exit</b> automation &mdash; so no job ever gets forgotten.</span></div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="fp"><a href="#leads"><span class="dot" style="background:#15B8C4">1</span><span class="lbl">Leads</span></a><span class="arr">&rarr;</span></div>
+    <div class="fp"><a href="#presale"><span class="dot" style="background:#3B8EE0">2</span><span class="lbl">Presale</span></a><span class="arr">&rarr;</span></div>
+    <div class="fp"><a href="#production"><span class="dot" style="background:#F2913D">3</span><span class="lbl">Production</span></a><span class="arr">&rarr;</span></div>
+    <div class="fp"><a href="#postsale"><span class="dot" style="background:#34B070">4</span><span class="lbl">Post-Sale</span></a></div>
+  </div>
+
+  <section class="stage" id="leads">
+      <div class="sbanner light" style="--c:#15B8C4">
+        <div class="snum">1</div>
+        <div><div class="sname">Leads</div><div class="stag2">Catch every lead and work it until it converts or closes.</div></div>
+      </div>
+      <div class="cards"><div class="card" style="--accent:#15B8C4">
+      <div class="chead"><h3>Hot Leads</h3></div>
+      <div class="goal">Get the inspection booked before the lead cools off.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Call the new lead immediately</span></div><div class="arow r-step"><span class="chip chip-step">Day 1</span><span class="atext">Send a follow-up email/text</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Day 4</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Day 6</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Email/text</span></div><div class="arow r-exit"><span class="chip chip-exit">Day 7 · no response</span><span class="atext">Move to Warm Leads</span></div></div><div class="snote">Daily touches, alternating call and message, for 7 days.</div>
+    </div><div class="card" style="--accent:#15B8C4">
+      <div class="chead"><h3>Warm Leads</h3></div>
+      <div class="goal">Keep the conversation alive until they&#x27;re ready to schedule.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Day 1 — email/text</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Day 4</span><span class="atext">Call</span></div><div class="arow r-exit"><span class="chip chip-exit">Day 4 · no response</span><span class="atext">Move to Cold Leads</span></div></div><div class="snote">Daily touches for 4 days.</div>
+    </div><div class="card" style="--accent:#15B8C4">
+      <div class="chead"><h3>Cold Leads</h3></div>
+      <div class="goal">Stay in their world until the timing&#x27;s right — or they tell you it&#x27;s not.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Week 1 — call</span></div><div class="arow r-step"><span class="chip chip-step">Week 2</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 3</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 4</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Week 5</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 6</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 7</span><span class="atext">Call</span></div><div class="arow r-exit"><span class="chip chip-exit">Week 7 · no response</span><span class="atext">Move to Lost Customer Campaign</span></div></div><div class="snote">Weekly touches for 7 weeks.</div>
+    </div><div class="card" style="--accent:#15B8C4">
+      <div class="chead"><h3>Initial Appointment</h3></div>
+      <div class="goal">Confirm the appointment, then route the file the moment the inspection&#x27;s done.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">1 day before — send an appointment reminder</span></div><div class="arow r-exit"><span class="chip chip-exit">On the appointment date</span><span class="atext">Move to Need Adjuster Appointment or Inspected, Unsigned</span></div></div>
+    </div><div class="card" style="--accent:#15B8C4">
+      <div class="chead"><h3>Inspected, Unsigned</h3></div>
+      <div class="goal">Get the agreement signed before the file goes cold.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Week 1 — call</span></div><div class="arow r-step"><span class="chip chip-step">Week 2</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 3</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 4</span><span class="atext">Call</span></div><div class="arow r-step"><span class="chip chip-step">Week 5</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 6</span><span class="atext">Email/text</span></div><div class="arow r-step"><span class="chip chip-step">Week 7</span><span class="atext">Call</span></div><div class="arow r-exit"><span class="chip chip-exit">Week 7 · no response</span><span class="atext">Move to Lost Customer Campaign</span></div></div><div class="snote">Weekly touches for 7 weeks.</div>
+    </div></div>
+    </section>
+  <section class="stage" id="presale">
+      <div class="sbanner" style="--c:#3B8EE0">
+        <div class="snum">2</div>
+        <div><div class="sname">Presale</div><div class="stag2">Insurance — adjuster, scope, supplement, and the approval gate.</div></div>
+      </div>
+      <div class="cards"><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Need Adjuster Appointment</h3></div>
+      <div class="goal">Get the adjuster appointment locked on the calendar.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Begin adjuster coordination — contact homeowner + carrier for a date</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Email/text homeowner: any word from your adjuster?</span></div><div class="arow r-step"><span class="chip chip-step">Day 4</span><span class="atext">Call the carrier for an appointment date</span></div><div class="arow r-step"><span class="chip chip-step">Day 6</span><span class="atext">Email/text homeowner update</span></div><div class="arow r-step"><span class="chip chip-step">Day 8</span><span class="atext">Call homeowner + carrier, escalate</span></div><div class="arow r-exit"><span class="chip chip-exit">Date secured</span><span class="atext">Move to Adjuster Appointments</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Adjuster Appointments</h3></div>
+      <div class="goal">Be on the roof when the adjuster is.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm appointment details</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Add prep notes — carrier, stories, access</span></div><div class="arow r-step"><span class="chip chip-step">2 days before</span><span class="atext">Appointment reminder to homeowner</span></div><div class="arow r-step"><span class="chip chip-step">1 day before</span><span class="atext">Narrow the adjuster arrival window</span></div><div class="arow r-step"><span class="chip chip-step">1 day before</span><span class="atext">Assign a rep to attend</span></div><div class="arow r-exit"><span class="chip chip-exit">Appointment complete</span><span class="atext">Move to Scope of Work</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Scope of Work</h3></div>
+      <div class="goal">Get the insurance estimate in hand.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Begin scope follow-up with the carrier</span></div><div class="arow r-step"><span class="chip chip-step">Day 4</span><span class="atext">Call carrier on estimate status</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Email/text homeowner: did the estimate arrive on your end?</span></div><div class="arow r-step"><span class="chip chip-step">Day 10</span><span class="atext">Call carrier again</span></div><div class="arow r-step"><span class="chip chip-step">Day 14</span><span class="atext">Escalate — estimate is two weeks out</span></div><div class="arow r-exit"><span class="chip chip-exit">Estimate received</span><span class="atext">Review and route to Re-Inspect, Supplement, or Build Order</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Re-Inspect</h3></div>
+      <div class="goal">Get a second adjuster look on a denied or shorted claim.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Request a reinspection with the carrier</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Follow up on the reinspection request</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Call carrier, escalate the request</span></div><div class="arow r-exit"><span class="chip chip-exit">Reinspection scheduled</span><span class="atext">Move to Adjuster Appointments</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Supplement</h3></div>
+      <div class="goal">Chase the supplement until the revised estimate lands. (We follow up — we don&#x27;t write them.)</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the supplement was submitted to the carrier</span></div><div class="arow r-step"><span class="chip chip-step">Week 1</span><span class="atext">Call carrier on supplement status</span></div><div class="arow r-step"><span class="chip chip-step">Week 2</span><span class="atext">Follow up with carrier</span></div><div class="arow r-step"><span class="chip chip-step">Week 3</span><span class="atext">Escalate — supplement three weeks unanswered</span></div><div class="arow r-exit"><span class="chip chip-exit">Revised estimate received</span><span class="atext">Move to Build Order</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Build Order</h3></div>
+      <div class="goal">Measurements pulled, material and labor order built, margin picture clear.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Order measurements (EagleView / Hover)</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Build the material + labor order draft</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Confirm measurements received, finalize the order</span></div><div class="arow r-exit"><span class="chip chip-exit">Build order complete</span><span class="atext">Move to Approved?</span></div></div>
+    </div><div class="card" style="--accent:#3B8EE0">
+      <div class="chead"><h3>Approved?</h3><span class="kbadge">Decision Gate</span></div>
+      <div class="goal">Nothing enters Production half-baked — three green flags: profit, first check, signed price.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Run profit analysis vs your margin target</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the homeowner received the first check (ACV)</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Get the signed agreement with the final price</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Chase any open green-flag item</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Escalate a stalled approval to the owner</span></div><div class="arow r-exit"><span class="chip chip-exit">All green</span><span class="atext">Move to Pull Permits</span></div><div class="arow r-exit"><span class="chip chip-exit">Falls through</span><span class="atext">Move to Lost Customer Campaign</span></div></div>
+    </div></div>
+    </section>
+  <section class="stage" id="production">
+  <div class="sbanner light" style="--c:#F2913D"><div class="snum">3</div>
+  <div><div class="sname">Production</div><div class="stag2">Permits to final walkthrough — the build, managed.</div></div></div>
+  <div class="cards"><div class="card" style="--accent:#F2913D">
+      <div class="chead"><h3>Pull Permits</h3></div>
+      <div class="goal">Permitted, paid, and ready to schedule. No install-day surprises.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Check jurisdiction requirements + submit the permit application</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Pay the permit fees</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Follow up with the jurisdiction on permit status</span></div><div class="arow r-step"><span class="chip chip-step">Day 10</span><span class="atext">Call the jurisdiction, escalate if still pending</span></div><div class="arow r-exit"><span class="chip chip-exit">Permit in hand</span><span class="atext">Move to Schedule Build</span></div></div>
+    </div><div class="card" style="--accent:#F2913D">
+      <div class="chead"><h3>Schedule Build</h3></div>
+      <div class="goal">Build date locked, everyone on the same page.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Coordinate the build date with the crew (one task per trade)</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the build date with the homeowner</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Schedule the city inspector if required</span></div><div class="arow r-step"><span class="chip chip-step">Date set</span><span class="atext">Schedule the material drop for the day before the build</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Escalate — no build date locked after 5 days</span></div><div class="arow r-exit"><span class="chip chip-exit">Date + material drop locked</span><span class="atext">Move to Pre-Conditions</span></div></div>
+    </div><div class="card" style="--accent:#F2913D">
+      <div class="chead"><h3>Pre-Conditions</h3></div>
+      <div class="goal">Everything verified before the crew shows up. Protect the homeowner, protect the company.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Collect the first check (if not already in hand)</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Email/text homeowner — what to expect + how to protect your property</span></div><div class="arow r-step"><span class="chip chip-step">2 days before build</span><span class="atext">Confirm material delivery is scheduled</span></div><div class="arow r-step"><span class="chip chip-step">1 day before build</span><span class="atext">Verify material dropped + house prepped</span></div><div class="arow r-step"><span class="chip chip-step">1 day before build</span><span class="atext">Upload pre-condition photos (legal documentation)</span></div><div class="arow r-exit"><span class="chip chip-exit">All verified</span><span class="atext">Move to Job in Progress</span></div></div>
+    </div><div class="card" style="--accent:#F2913D">
+      <div class="chead"><h3>Job in Progress</h3></div>
+      <div class="goal">The loading bay — track every trade to completion.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the crew started (per trade)</span></div><div class="arow r-step"><span class="chip chip-step">Per trade done</span><span class="atext">Mark the trade complete + upload progress photos</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Job check — are all trades on schedule?</span></div><div class="arow r-exit"><span class="chip chip-exit">All trades complete</span><span class="atext">Move to Final Inspection</span></div></div>
+    </div><div class="card" style="--accent:#F2913D">
+      <div class="chead"><h3>Final Inspection</h3></div>
+      <div class="goal">Official walkthrough with the homeowner. Catch problems before the village does.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Schedule the final walkthrough with the homeowner</span></div><div class="arow r-step"><span class="chip chip-step">1 day before</span><span class="atext">Walkthrough reminder to homeowner</span></div><div class="arow r-step"><span class="chip chip-step">Walkthrough day</span><span class="atext">Complete the walkthrough, document the outcome with photos</span></div><div class="arow r-exit"><span class="chip chip-exit">No problems</span><span class="atext">Move to Send CoC &amp; Invoice</span></div><div class="arow r-exit"><span class="chip chip-exit">Problem found</span><span class="atext">Open a Problem Repair ticket + move back to Job in Progress</span></div></div>
+    </div><div class="card" style="--accent:#e2574c">
+      <div class="chead"><h3>Problem Repair</h3><span class="kbadge tk">Ticket Flow</span></div>
+      <div class="goal">A problem found at final doesn&#x27;t get lost — it gets tracked and fixed. (A ticket flow, not a status: the job wears a “Problem Repair” tag so it&#x27;s never confused with a normal build.)</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Document the issue — description + photos</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Apply the job tag: Problem Repair</span></div><div class="arow r-step"><span class="chip chip-step">Issue defined</span><span class="atext">Schedule the repair crew</span></div><div class="arow r-step"><span class="chip chip-step">1 week open</span><span class="atext">Escalate — problem repair open one week</span></div><div class="arow r-exit"><span class="chip chip-exit">Repair complete</span><span class="atext">Remove the tag, back to Final Inspection for a re-walkthrough</span></div></div>
+    </div></div></section>
+  <section class="stage" id="postsale">
+      <div class="sbanner light" style="--c:#34B070">
+        <div class="snum">4</div>
+        <div><div class="sname">Post-Sale</div><div class="stag2">Inspection, closeout, payment, warranty, and the long game.</div></div>
+      </div>
+      <div class="cards"><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Send CoC &amp; Invoice</h3></div>
+      <div class="goal">Get the carrier its depreciation-release packet and the customer their invoice — the moment the crew rolls off. (CoC is insurance only.)</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Create the Certificate of Completion — insurance</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Compile the depreciation-release packet: CoC, final invoice, photos, permit docs — insurance</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Create + send the final invoice</span></div><div class="arow r-step"><span class="chip chip-step">Day 1</span><span class="atext">Send the packet to the carrier + deliver the invoice with payment options</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Confirm the carrier received it; follow up on the depreciation release</span></div><div class="arow r-exit"><span class="chip chip-exit">Invoiced — Happy Customer? (rep decides)</span><span class="atext">Route to Reviews &amp; Referrals (yes) or Customer Service (no)</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Reviews &amp; Referrals<span class="stag">Happy = yes</span></h3></div>
+      <div class="goal">Ask while the install is fresh and the neighbors are still noticing the new roof.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Review request with direct Google / Facebook links</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Review reminder (if no review yet)</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Call — ask for referrals: any neighbors thinking about their roof?</span></div><div class="arow r-exit"><span class="chip chip-exit">Done</span><span class="atext">Move to Accounts Receivable</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Customer Service<span class="stag">Happy = no</span></h3></div>
+      <div class="goal">Turn them around before the invoice fight starts and the 1-star review goes up.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Call the homeowner — document the complaint specifically</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Build a resolution plan with the owner, share it with the homeowner</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Follow up — is the issue resolved?</span></div><div class="arow r-step"><span class="chip chip-step">Day 14</span><span class="atext">Final satisfaction check; if turned around, send a review request</span></div><div class="arow r-exit"><span class="chip chip-exit">Resolved</span><span class="atext">Move to Accounts Receivable</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Accounts Receivable</h3></div>
+      <div class="goal">Chase carrier and homeowner — politely, persistently — until the money lands.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the outstanding balance (carrier depreciation + homeowner portion)</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Payment reminder</span></div><div class="arow r-step"><span class="chip chip-step">Day 14</span><span class="atext">Call homeowner and/or carrier on payment status</span></div><div class="arow r-step"><span class="chip chip-step">Day 21</span><span class="atext">Second payment reminder</span></div><div class="arow r-exit"><span class="chip chip-exit">Paid in full</span><span class="atext">Move to Send Warranty</span></div><div class="arow r-exit"><span class="chip chip-exit">Unpaid at day 30 (configurable)</span><span class="atext">Move to Debt Collection</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Debt Collection</h3></div>
+      <div class="goal">Recover the balance while protecting your lien rights.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Send a formal past-due notice</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Check the mechanic&#x27;s lien deadline with the owner (state-specific and unforgiving)</span></div><div class="arow r-step"><span class="chip chip-step">Day 14</span><span class="atext">Send a final demand letter</span></div><div class="arow r-step"><span class="chip chip-step">Day 30</span><span class="atext">Escalate to a collections agency / attorney per your policy</span></div><div class="arow r-exit"><span class="chip chip-exit">Collected</span><span class="atext">Move to Send Warranty</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Send Warranty</h3></div>
+      <div class="goal">Warranty registered, closeout packet delivered — mail or email, either way it gets done.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Register the manufacturer warranty</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Issue the workmanship warranty + compile the closeout packet</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Mail (or email) the warranty packet to the homeowner</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Confirm the packet was sent / delivered</span></div><div class="arow r-exit"><span class="chip chip-exit">Done</span><span class="atext">Move to Past Customer Campaign</span></div></div>
+    </div><div class="card" style="--accent:#34B070">
+      <div class="chead"><h3>Past Customer Campaign</h3></div>
+      <div class="goal">One-and-done becomes a customer for years. Feedback, upsells, seasonal touches, referrals.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Send a thank-you gift (per your gift policy)</span></div><div class="arow r-step"><span class="chip chip-step">Month 6</span><span class="atext">Call — feedback check: is the project holding up?</span></div><div class="arow r-step"><span class="chip chip-step">Month 12</span><span class="atext">1-year anniversary — free roof checkup offer</span></div><div class="arow r-step"><span class="chip chip-step">Spring</span><span class="atext">Storm-season prep / inspection offer</span></div><div class="arow r-step"><span class="chip chip-step">Fall</span><span class="atext">Winter-ready maintenance + upgrade offers (gutters, insulation, ventilation)</span></div><div class="arow r-step"><span class="chip chip-step">Yearly</span><span class="atext">Annual check-in call + referral ask</span></div></div><div class="snote">No exit — this runs for years, unless they start a new job or ask to stop.</div>
+    </div></div>
+    </section>
+  <section class="stage" id="recovery">
+  <div class="sbanner alt" style="--c:#e2574c"><div class="snum">↺</div>
+  <div><div class="sname">The Recovery Lane</div><div class="stag2">Nobody buys on your schedule. Stay in their world until they're ready.</div></div></div>
+  <div class="cards"><div class="card" style="--accent:#e2574c">
+      <div class="chead"><h3>Lost Customer Campaign</h3></div>
+      <div class="goal">Stay in their world at low volume until timing, weather, or budget changes. Nobody buys a roof on your schedule — they buy on theirs.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Log the lost reason (price / timing / competitor / no response / denied)</span></div><div class="arow r-step"><span class="chip chip-step">Month 1</span><span class="atext">Soft check-in — still here if anything changes</span></div><div class="arow r-step"><span class="chip chip-step">Spring</span><span class="atext">Storm season — free inspection offer</span></div><div class="arow r-step"><span class="chip chip-step">Fall</span><span class="atext">Maintenance / winter-ready offer</span></div><div class="arow r-step"><span class="chip chip-step">Month 6</span><span class="atext">Call — anything change? new damage?</span></div><div class="arow r-step"><span class="chip chip-step">Month 12</span><span class="atext">Annual re-engagement — free roof checkup</span></div><div class="arow r-step"><span class="chip chip-step">After a major storm</span><span class="atext">Storm sweep — call every contact here in the affected zips</span></div><div class="arow r-exit"><span class="chip chip-exit">Re-engaged</span><span class="atext">Move to Hot Leads (restart the nurture)</span></div><div class="arow r-exit"><span class="chip chip-exit">Do not contact</span><span class="atext">Move to Dead</span></div></div><div class="snote">Runs indefinitely at a low cadence.</div>
+    </div><div class="card" style="--accent:#e2574c">
+      <div class="chead"><h3>Dead</h3></div>
+      <div class="goal">Honor “never contact me again” — completely and permanently.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Document the do-not-contact request — who, when, how</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Remove the contact from every campaign, list, and marketing tool</span></div></div><div class="snote">No exit. Only an explicit request from the contact reopens anything.</div>
+    </div></div></section>
+  <section class="stage" id="retail">
+  <div class="sbanner light" style="--c:#F5C233"><div class="snum">R</div>
+  <div><div class="sname">The Retail Flight Path</div><div class="stag2">Same Leads, Production, and Post-Sale — the difference is presale.</div></div></div>
+  <div class="retail-note">Running retail too? Your Leads, Production, and Post-Sale stages are identical. The only real change is presale — no adjuster, no supplement. Here's the retail presale lane.</div>
+  <div class="cards"><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Sales Presentation</h3></div>
+      <div class="goal">Scope defined, materials and colors selected, and the follow-up booked before you leave the driveway.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Prep — pull neighborhood jobs / references near this address</span></div><div class="arow r-step"><span class="chip chip-step">1 day before</span><span class="atext">Appointment reminder</span></div><div class="arow r-step"><span class="chip chip-step">Appointment day</span><span class="atext">Complete the presentation — document scope + material/color selections</span></div><div class="arow r-step"><span class="chip chip-step">Appointment day</span><span class="atext">Book the follow-up before leaving</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Call — re-engage or reschedule (no-show / no decision)</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Email/text — still interested? door&#x27;s open</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Final call — proceed or close the file</span></div><div class="arow r-exit"><span class="chip chip-exit">Moving forward</span><span class="atext">Move to Build Estimate</span></div><div class="arow r-exit"><span class="chip chip-exit">Not converting (day 7+)</span><span class="atext">Move to Lost Customer Campaign</span></div></div>
+    </div><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Build Estimate</h3></div>
+      <div class="goal">Estimate out in under 24 hours. Speed wins retail.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Build the estimate from the documented scope + selections (due: 24 hrs)</span></div><div class="arow r-step"><span class="chip chip-step">Day 1</span><span class="atext">Escalate — estimate not out within 24 hours</span></div><div class="arow r-exit"><span class="chip chip-exit">Estimate ready</span><span class="atext">Send it + move to Estimate Sent</span></div></div>
+    </div><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Estimate Sent</h3></div>
+      <div class="goal">Win the silence after the estimate — that&#x27;s where retail jobs die. Seven touches in 14 days.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Same day — estimate delivered + recap of selections</span></div><div class="arow r-step"><span class="chip chip-step">Day 1</span><span class="atext">Call — walk through the estimate</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Check-in + financing options</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Call — handle objections (price / timing / spouse / other bids)</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Neighborhood proof — recent jobs, reviews</span></div><div class="arow r-step"><span class="chip chip-step">Day 10</span><span class="atext">Call — ask for the decision</span></div><div class="arow r-step"><span class="chip chip-step">Day 14</span><span class="atext">Final touch — estimate valid until [date], door stays open</span></div><div class="arow r-exit"><span class="chip chip-exit">Accepted</span><span class="atext">Move to Estimate Signed</span></div><div class="arow r-exit"><span class="chip chip-exit">No response after day 14</span><span class="atext">Move to Lost Customer Campaign</span></div></div>
+    </div><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Estimate Signed</h3></div>
+      <div class="goal">Signature AND deposit in hand. A signature without a deposit is a maybe.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Send the agreement for signature (if not signed on the spot)</span></div><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Collect the deposit</span></div><div class="arow r-step"><span class="chip chip-step">Day 2</span><span class="atext">Follow up — signature or deposit still outstanding</span></div><div class="arow r-step"><span class="chip chip-step">Day 5</span><span class="atext">Call — resolve whatever&#x27;s holding it up</span></div><div class="arow r-exit"><span class="chip chip-exit">Cash job</span><span class="atext">Move to Approved?</span></div><div class="arow r-exit"><span class="chip chip-exit">Financed job</span><span class="atext">Move to Financing Pending</span></div></div>
+    </div><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Financing Pending<span class="stag">Financed jobs only</span></h3></div>
+      <div class="goal">Keep the lender process moving — it looks stalled when it isn&#x27;t.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Confirm the financing application was submitted</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Check application status with the lender</span></div><div class="arow r-step"><span class="chip chip-step">Day 7</span><span class="atext">Follow up with the lender + update the homeowner</span></div><div class="arow r-step"><span class="chip chip-step">Day 10</span><span class="atext">Escalate — financing stuck 10 days</span></div><div class="arow r-exit"><span class="chip chip-exit">Approved</span><span class="atext">Move to Approved?</span></div><div class="arow r-exit"><span class="chip chip-exit">Denied</span><span class="atext">Restructure (alternate lender / revised scope / payment plan) — or Lost Customer Campaign</span></div></div>
+    </div><div class="card" style="--accent:#F5C233">
+      <div class="chead"><h3>Approved?</h3><span class="kbadge">Decision Gate</span></div>
+      <div class="goal">A green-flag checklist. Nothing enters Production half-baked.</div>
+      <div class="arows"><div class="arow r-entry"><span class="chip chip-entry">ENTRY</span><span class="atext">Verify the checklist: ☐ materials + colors  ☐ scope defined  ☐ signed estimate  ☐ deposit collected</span></div><div class="arow r-step"><span class="chip chip-step">Day 3</span><span class="atext">Chase any open checklist item</span></div><div class="arow r-exit"><span class="chip chip-exit">All green</span><span class="atext">Move to Build Order (first Production status for retail)</span></div><div class="arow r-exit"><span class="chip chip-exit">Falls through</span><span class="atext">Move to Lost Customer Campaign</span></div></div>
+    </div></div></section>
+</div>
+
+<div class="outro">
+  <div class="wrap">
+    <h2>This is what we <span class="teal">install and run</span> for you.</h2>
+    <p>Every automation above, built into your CRM and worked every day — so no job ever sits, and nothing falls through the cracks again.</p>
+    <div class="word"><span class="r">Roof</span><span class="s">Smartr</span></div>
+    <div class="ftag">your roofing business on autopilot.</div>
+  </div>
+</div>
+
+</body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The RoofSmartr Flight Path — Built for AccuLynx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700;800&family=Poppins:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1929;--navymid:#142840;--teal:#00AEBB;--tealdeep:#0E8E99;
+    --cream:#F1E9DD;--cardtint:#E5DBCB;--divider:#D8CEBE;--body:#33404E;--muted:#5b6b7c;--red:#e2574c;--amber:#f0a830;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Barlow',sans-serif;color:var(--body);background:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.5;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px;}
+  .disp{font-family:'Barlow Condensed',sans-serif;font-weight:800;line-height:1.03;letter-spacing:-.01em;color:var(--navymid);}
+  .word{font-family:'Poppins',sans-serif;font-weight:800;} .word .r{color:var(--navymid);} .word .s{color:var(--teal);}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--tealdeep);}
+
+  /* hero */
+  .hero{text-align:center;padding:52px 0 8px;}
+  .hero .eyebrow{font-size:15px;}
+  .hero h1{font-size:62px;margin:12px 0 0;}
+  .hero h1 .teal{color:var(--tealdeep);}
+  .hero .sub{font-size:21px;font-weight:500;color:var(--body);max-width:600px;margin:18px auto 0;}
+
+  /* stat band */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:34px auto 0;}
+  .stat{background:var(--navy);border-radius:16px;padding:24px 14px;text-align:center;box-shadow:0 16px 38px -22px rgba(11,25,41,.5);}
+  .stat .n{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--teal);font-size:46px;line-height:1;}
+  .stat .l{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em;font-size:14px;margin-top:6px;}
+  .stat.acc .n{font-size:30px;padding-top:6px;}
+
+  /* why */
+  .why{background:#fff;border-left:7px solid var(--teal);border-radius:16px;padding:28px 30px;margin:30px auto 0;
+    box-shadow:0 14px 36px -24px rgba(11,25,41,.3);}
+  .why .eyebrow{font-size:14px;}
+  .why h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:30px;margin:6px 0 12px;line-height:1.06;}
+  .why p{font-size:18px;color:var(--body);}
+  .why .pull{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--tealdeep);font-size:22px;margin-top:14px;}
+
+  /* section heads */
+  .sh{text-align:center;margin:52px 0 0;}
+  .sh .eyebrow{font-size:14px;}
+  .sh h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:36px;margin-top:8px;}
+  .sh p{color:var(--muted);font-size:17px;margin-top:8px;max-width:540px;margin-left:auto;margin-right:auto;}
+
+  /* flight path visual */
+  .fpviz{background:var(--navy);border-radius:22px;padding:30px 26px;margin:22px auto 0;
+    box-shadow:0 26px 60px -26px rgba(11,25,41,.55);}
+  .fprow{display:flex;align-items:stretch;gap:0;justify-content:center;flex-wrap:wrap;}
+  .fpstage{flex:1 1 0;min-width:120px;text-align:center;padding:6px 8px;}
+  .fpstage .ic{width:54px;height:54px;border-radius:14px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;}
+  .fpstage .ic svg{width:28px;height:28px;}
+  .fpstage .nm{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:#fff;font-size:22px;line-height:1;}
+  .fpstage .ct{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--teal);font-size:14px;text-transform:uppercase;letter-spacing:.06em;margin-top:5px;}
+  .fparr{display:flex;align-items:center;color:#3a4d61;font-size:24px;padding:0 2px;}
+  .fpfoot{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid #24405a;}
+  .fptag{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+    color:#c3cdd6;background:rgba(255,255,255,.07);border:1px solid #24405a;padding:7px 14px;border-radius:20px;}
+  .fptag b{color:var(--teal);}
+
+  /* what you get */
+  .getlist{max-width:660px;margin:24px auto 0;}
+  .getitem{display:flex;gap:15px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--divider);}
+  .getitem:last-child{border-bottom:none;}
+  .check{flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;margin-top:2px;}
+  .getitem b{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:20px;}
+  .getitem p{font-size:16.5px;color:var(--body);margin-top:2px;}
+
+  /* sample card */
+  .sample{background:#fff;border-radius:14px;padding:22px 24px;margin:22px auto 0;max-width:640px;
+    box-shadow:0 18px 44px -22px rgba(11,25,41,.34);border-left:5px solid var(--teal);}
+  .sample .stamp{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tealdeep);font-size:13px;}
+  .sample h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--navymid);font-size:24px;margin:4px 0 2px;}
+  .sample .goal{color:var(--tealdeep);font-style:italic;font-size:16px;margin-bottom:12px;}
+  .arow{display:flex;gap:14px;align-items:flex-start;padding:8px 0;border-top:1px solid #eef0ec;}
+  .arow:first-of-type{border-top:none;}
+  .chip{flex:0 0 auto;min-width:92px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;letter-spacing:.04em;
+    text-transform:uppercase;font-size:12px;padding:6px 10px;border-radius:7px;}
+  .ce{background:#dff4f5;color:var(--tealdeep);} .cs{background:#eef3f6;color:var(--navymid);}
+  .cx{background:var(--navymid);color:#fff;min-width:130px;}
+  .atext{font-size:16px;color:var(--body);padding-top:3px;} .arow.x .atext{font-weight:600;color:var(--navymid);}
+
+  /* cta */
+  .cta{background:var(--navy);border-radius:24px;text-align:center;padding:48px 28px;margin:50px 0 26px;}
+  .cta h2{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:#fff;font-size:38px;line-height:1.05;}
+  .cta h2 .teal{color:var(--teal);}
+  .cta p{color:#c3cdd6;font-size:18px;margin:14px auto 26px;max-width:520px;}
+  .btn{display:inline-block;background:var(--teal);color:#06262a;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+    letter-spacing:.04em;text-transform:uppercase;font-size:21px;text-decoration:none;padding:18px 44px;border-radius:40px;
+    box-shadow:0 14px 30px -10px rgba(0,174,187,.55);transition:transform .12s ease;}
+  .btn:hover{transform:translateY(-2px);}
+
+  .foot{text-align:center;padding:8px 0 44px;}
+  .foot .word{font-size:18px;} .foot .ftag{color:var(--tealdeep);font-style:italic;font-size:14px;margin-top:4px;}
+
+  @media(max-width:620px){
+    .hero h1{font-size:44px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .fpstage{flex-basis:45%;} .fparr{display:none;}
+    .cta h2{font-size:30px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="eyebrow">Your CRM Flight Check</div>
+      <h1 class="disp">The RoofSmartr <span class="teal">Flight Path</span></h1>
+      <p class="sub">The complete system, built for AccuLynx — every stage, every status, and every automation that keeps your jobs moving.</p>
+    </section>
+
+    <!-- STAT BAND -->
+    <section class="stats">
+      <div class="stat"><div class="n">4</div><div class="l">Stages</div></div>
+      <div class="stat"><div class="n">33</div><div class="l">Statuses</div></div>
+      <div class="stat"><div class="n">186</div><div class="l">Automations</div></div>
+      <div class="stat acc"><div class="n">AccuLynx</div><div class="l">Built for</div></div>
+    </section>
+
+    <!-- WHY -->
+    <section class="why">
+      <div class="eyebrow">Why this matters</div>
+      <h2>Every job needs somewhere to go.</h2>
+      <p>Best practice is simple: every job always has a next status to move to. The second a job goes stagnant, it falls through the cracks — no follow-up, no next step, nobody watching it. We've seen it cost roofers real money, over and over. The Flight Path fixes that with one golden rule: every status gets an entry and an exit automation. The entry decides what happens the moment a job lands there; the exit decides what triggers it to move to the next status. So no job ever gets forgotten.</p>
+      <span class="pull">The Golden Rule: every status gets an entry and an exit automation.</span>
+    </section>
+
+    <!-- FLIGHT PATH VISUAL -->
+    <div class="sh">
+      <div class="eyebrow">The system</div>
+      <h2>Four stages. One path.</h2>
+      <p>Every job flies the same path — from a fresh lead to a paid, warrantied, repeat customer.</p>
+    </div>
+    <section class="fpviz">
+      <div class="fprow">
+        <div class="fpstage">
+          <div class="ic" style="background:#00AEBB"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></div>
+          <div class="nm">Leads</div><div class="ct">5 statuses</div>
+        </div>
+        <div class="fparr">&rarr;</div>
+        <div class="fpstage">
+          <div class="ic" style="background:#0E8E99"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></div>
+          <div class="nm">Presale</div><div class="ct">7 statuses</div>
+        </div>
+        <div class="fparr">&rarr;</div>
+        <div class="fpstage">
+          <div class="ic" style="background:#2E9BD6"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></div>
+          <div class="nm">Production</div><div class="ct">6 statuses</div>
+        </div>
+        <div class="fparr">&rarr;</div>
+        <div class="fpstage">
+          <div class="ic" style="background:#1d3550"><svg viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-1.7l-7.5-4.4V4.2a1.5 1.5 0 0 0-3 0v5.7L3 14.3V16l7.5-2.2V18l-1.8 1.3v1.4L12 20l3.3.7v-1.4L13.5 18v-4.2L21 16z"/></svg></div>
+          <div class="nm">Post-Sale</div><div class="ct">7 statuses</div>
+        </div>
+      </div>
+      <div class="fpfoot">
+        <span class="fptag"><b>+</b> The Recovery Lane &mdash; win back lost jobs</span>
+        <span class="fptag"><b>+</b> The full Retail path</span>
+      </div>
+    </section>
+
+    <!-- WHAT YOU GET -->
+    <div class="sh">
+      <div class="eyebrow">What's inside</div>
+      <h2>Everything, mapped to AccuLynx</h2>
+    </div>
+    <section class="getlist">
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>All 33 statuses, across 4 stages</b>
+        <p>Each one with an automatic entry and exit, so no job ever sits still.</p></div></div>
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>186 automations, in AccuLynx's own steps</b>
+        <p>Trigger and action, ready to build &mdash; the reminders, tasks, and follow-ups that run your back office.</p></div></div>
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>The full insurance path</b>
+        <p>Adjuster coordination, scope, supplement chasing, the approval gate, CoC, and depreciation release.</p></div></div>
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>The complete retail path</b>
+        <p>Sales presentation, 24-hour estimates, the silence-killing follow-up sequence, financing, and a checklist approval gate.</p></div></div>
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>The recovery lane</b>
+        <p>Lost jobs don't disappear &mdash; they get a long, low-key win-back campaign until the timing's right.</p></div></div>
+      <div class="getitem"><div class="check">&#10003;</div><div>
+        <b>Decision gates + the Problem-Repair ticket flow</b>
+        <p>The judgment calls &mdash; Approved? Happy Customer? Paid in Full? &mdash; are built in, so they never get skipped.</p></div></div>
+    </section>
+
+    <!-- SAMPLE -->
+    <div class="sh">
+      <div class="eyebrow">A look inside</div>
+      <h2>Here's one of the 186</h2>
+      <p>Every status looks like this &mdash; an entry, the timed touches, and an exit to the next step.</p>
+    </div>
+    <section class="sample">
+      <div class="stamp">Leads · Status 1 of 33</div>
+      <h3>Hot Leads</h3>
+      <div class="goal">Get the inspection booked before the lead cools off.</div>
+      <div class="arow"><span class="chip ce">Entry</span><span class="atext">Call the new lead immediately</span></div>
+      <div class="arow"><span class="chip cs">Day 1</span><span class="atext">Send a follow-up email/text</span></div>
+      <div class="arow"><span class="chip cs">Day 2</span><span class="atext">Call</span></div>
+      <div class="arow"><span class="chip cs">Days 3&ndash;6</span><span class="atext">Keep alternating call and message, every day</span></div>
+      <div class="arow"><span class="chip cs">Day 7</span><span class="atext">Email/text</span></div>
+      <div class="arow x"><span class="chip cx">Day 7 · no response</span><span class="atext">Move to Warm Leads</span></div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <h2>See your full <span class="teal">Flight Path</span>.</h2>
+      <p>All 4 stages, all 33 statuses, all 186 automations &mdash; laid out start to finish, built for AccuLynx.</p>
+      <a class="btn" href="report/">Open the Full Flight Path &rarr;</a>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    <div class="word"><span class="r">Roof</span><span class="s">Smartr</span></div>
+    <div class="ftag">your roofing business on autopilot.</div>
+  </div>
+
+</body>
+</html>
