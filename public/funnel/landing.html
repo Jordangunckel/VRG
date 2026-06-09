@@ -254,12 +254,6 @@
 
   <div class="wrap">
 
-    <!-- BRAND HEADER -->
-    <div class="topbar">
-      <a href="/" class="word" style="text-decoration:none;"><span class="r">Roof</span><span class="s">Smartr</span></a>
-      <div class="tagline">your roofing business on autopilot.</div>
-    </div>
-
     <!-- HERO -->
     <section class="hero">
       <h1 class="disp">Is your roofing business running on <span class="teal">autopilot</span> or <span class="chaos">chaos?</span></h1>
@@ -342,7 +336,7 @@
     </section>
 
     <!-- OPT-IN STEP 1 (under the products) -->
-    <div class="optin" data-quiz="quiz/">
+    <div class="optin" data-quiz="/crm-flight-check/quiz">
       <div class="optin-q">What's your business name?</div>
       <div class="optin-row">
         <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
@@ -359,7 +353,7 @@
       <div class="bonus-copy">
         <div class="bonus-tag">Free Bonus &middot; Hidden Inside</div>
         <h3>The complete RoofSmartr Flight Path</h3>
-        <div class="bonus-value"><span class="vbig">$1,997 value.</span> Yours free. No catch.</div>
+        <div class="bonus-value"><span class="vbig">$1,997 value.</span> Yours Free. Our gift to you.</div>
         <div class="bonus-unlock">Unlocks the moment you finish your 2-minute check.</div>
       </div>
     </div>
@@ -406,7 +400,7 @@
     <section class="cta">
       <h2>Ready to see where your<br><span class="teal">money's leaking?</span></h2>
       <p>Answer a few quick questions about how you run your CRM. Get your altitude, your monthly leak number, and your free fixes, on the spot.</p>
-      <div class="optin dark" data-quiz="quiz/">
+      <div class="optin dark" data-quiz="/crm-flight-check/quiz">
         <div class="optin-q">What's your business name?</div>
         <div class="optin-row">
           <input class="optin-input" type="text" placeholder="Your business name" aria-label="Your business name">
@@ -425,7 +419,7 @@
 
   <script>
   (function(){
-    var QUIZ_FALLBACK = 'quiz/';
+    var QUIZ_FALLBACK = '/crm-flight-check/quiz';
     document.querySelectorAll('.optin').forEach(function(el){
       var q = el.querySelector('.optin-q');
       var input = el.querySelector('.optin-input');
@@ -448,7 +442,7 @@
           if(biz) params.push('biz=' + encodeURIComponent(biz));
           if(email) params.push('email=' + encodeURIComponent(email));
           url += (url.indexOf('?') > -1 ? '&' : '?') + params.join('&');
-          window.location.href = url;
+          window.top.location.href = url;
         }
       }
       btn.addEventListener('click', advance);

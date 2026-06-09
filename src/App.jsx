@@ -19,6 +19,7 @@ import LoginPage from './components/LoginPage.jsx'
 import ControlTower from './controltower/ControlTower.jsx'
 import './controltower/control-tower.css'
 import PromoPopup from './components/PromoPopup.jsx'
+import FunnelFrame from './funnel/FunnelFrame.jsx'
 
 // ─── Home page (all sections) ───────────────────────────────────────────────
 function HomePage({ onBookCall }) {
@@ -146,6 +147,12 @@ export default function App() {
         <Route path="/" element={
           <HomePage onBookCall={openBooking} />
         } />
+
+        {/* CRM Flight Check funnel + Flight Path bonus — static pages framed under the site navbar */}
+        <Route path="/crm-flight-check"      element={<FunnelFrame src="/funnel/landing.html"     onBookCall={() => setModalOpen(true)} />} />
+        <Route path="/crm-flight-check/quiz" element={<FunnelFrame src="/funnel/quiz.html"        onBookCall={() => setModalOpen(true)} />} />
+        <Route path="/flight-path"           element={<FunnelFrame src="/funnel/flight-path.html" onBookCall={() => setModalOpen(true)} />} />
+        <Route path="/flight-path/map"       element={<FunnelFrame src="/funnel/map.html"         onBookCall={() => setModalOpen(true)} />} />
 
         <Route path="/login" element={
           <LoginPage

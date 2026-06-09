@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!crm-flight-check|flight-path|sops|logo|logo-transparent|favicon).*)", "destination": "/index.html" }
+    { "source": "/((?!funnel|sops|logo|logo-transparent|favicon).*)", "destination": "/index.html" }
   ]
 }
