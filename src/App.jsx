@@ -133,6 +133,9 @@ export default function App() {
   // Full-screen app routes (own chrome) — hide the marketing navbar
   const isAppPage = location.pathname === '/employee' || location.pathname === '/dashboard'
 
+  // Funnel pages show a slimmed navbar (logo only — no login / dark toggle)
+  const isFunnelPage = location.pathname.startsWith('/crm-flight-check') || location.pathname.startsWith('/flight-path')
+
   return (
     <>
       {!isAppPage && (
@@ -140,6 +143,7 @@ export default function App() {
           onPageChange={(path) => { navigate(path); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
           isDark={isDark}
           onToggleDark={toggleDark}
+          minimal={isFunnelPage}
         />
       )}
 

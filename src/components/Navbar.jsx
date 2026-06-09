@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function Navbar({ isDark, onToggleDark }) {
+export default function Navbar({ isDark, onToggleDark, minimal = false }) {
   const navigate   = useNavigate()
   const location   = useLocation()
   const [scrolled, setScrolled] = useState(false)
@@ -74,7 +74,8 @@ export default function Navbar({ isDark, onToggleDark }) {
             )}
           </div>
 
-          {/* Right side */}
+          {/* Right side — hidden on the slimmed funnel navbar */}
+          {!minimal && (
           <div className="navbar-right">
             <button
               className="navbar-login-btn"
@@ -108,6 +109,7 @@ export default function Navbar({ isDark, onToggleDark }) {
               )}
             </button>
           </div>
+          )}
 
         </div>
       </div>
