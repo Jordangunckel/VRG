@@ -144,6 +144,7 @@ export default function App() {
           isDark={isDark}
           onToggleDark={toggleDark}
           minimal={isFunnelPage}
+          onBookCall={() => setModalOpen(true)}
         />
       )}
 

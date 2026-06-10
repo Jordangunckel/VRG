@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function Navbar({ isDark, onToggleDark, minimal = false }) {
+export default function Navbar({ isDark, onToggleDark, minimal = false, onBookCall }) {
   const navigate   = useNavigate()
   const location   = useLocation()
   const [scrolled, setScrolled] = useState(false)
@@ -107,6 +107,15 @@ export default function Navbar({ isDark, onToggleDark, minimal = false }) {
                   <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                 </svg>
               )}
+            </button>
+          </div>
+          )}
+
+          {/* Slimmed funnel navbar — single CTA on the right */}
+          {minimal && (
+          <div className="navbar-right">
+            <button className="navbar-cta" onClick={() => onBookCall?.()}>
+              Book a Free Call
             </button>
           </div>
           )}
