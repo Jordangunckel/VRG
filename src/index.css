@@ -265,6 +265,11 @@ a { text-decoration: none; color: inherit; }
   flex-direction: column;
   line-height: 1.1;
 }
+.navbar-logo-img {
+  height: 30px;
+  width: auto;
+  display: block;
+}
 .navbar-logo-main {
   font-family: 'Poppins', sans-serif;
   font-size: 22px;
@@ -1447,6 +1452,12 @@ a { text-decoration: none; color: inherit; }
   margin-bottom: 16px;
 }
 .footer-logo-text span { color: var(--habanero); }
+.footer-logo-img {
+  display: block;
+  height: 32px;
+  width: auto;
+  margin-bottom: 16px;
+}
 .footer-brand p {
   font-size: 14px;
   line-height: 1.7;
