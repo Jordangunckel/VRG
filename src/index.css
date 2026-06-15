@@ -301,7 +301,7 @@ a { text-decoration: none; color: inherit; }
 .navbar-logo-btn:hover { background: rgba(255,255,255,0.06); }
 .navbar-logo-btn.open  { background: rgba(255,255,255,0.06); }
 .navbar-logo-btn img {
-  height: 38px;
+  height: 24px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
