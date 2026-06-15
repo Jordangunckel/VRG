@@ -39,9 +39,9 @@
   --gray-600:    #4f4a42;
   --red:         #c0392b;
 
-  --font:         'Barlow', -apple-system, sans-serif;
-  --font-display: 'Barlow Condensed', 'Barlow', -apple-system, sans-serif;
-  --font-wordmark:'Poppins', sans-serif;
+  --font:         'Inter', -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Inter', -apple-system, sans-serif;
+  --font-wordmark:'Outfit', sans-serif;
   --max-w: 1160px;
   --radius: 12px;
   --radius-lg: 20px;
@@ -271,7 +271,7 @@ a { text-decoration: none; color: inherit; }
   display: block;
 }
 .navbar-logo-main {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 22px;
   font-weight: 800;
   color: #e4ecf7;
@@ -1360,7 +1360,7 @@ a { text-decoration: none; color: inherit; }
   box-shadow: 0 8px 24px rgba(0,174,187,0.2);
 }
 .frs-score-num {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 800;
   font-size: 28px;
   color: #00AEBB;
