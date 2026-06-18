@@ -7,7 +7,7 @@ export default function Onboarding({ data, setField, errors, onComplete }) {
   return (
     <div className="onboarding">
       <div className="onboarding-head">
-        <div className="wordmark"><span>Roof</span><span className="wm-teal">Smartr</span></div>
+        <img className="onboarding-logo-img" src="/brand/roofsmartr-logo-dark.png" alt="RoofSmartr" />
         <h1>Welcome to your Control Tower</h1>
         <p>First, tell us about your company. This sets up how we run every service for you, and you can change it anytime under Settings.</p>
       </div>

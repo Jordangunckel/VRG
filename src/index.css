@@ -940,6 +940,12 @@ a { text-decoration: none; color: inherit; }
   color: var(--white);
   opacity: 0.25;
 }
+.about-img-logo-img {
+  width: 62%;
+  max-width: 360px;
+  height: auto;
+  opacity: 0.92;
+}
 .about-img-badge {
   position: absolute;
   bottom: 24px;
@@ -1599,6 +1605,12 @@ a { text-decoration: none; color: inherit; }
   margin: 0 auto 16px;
 }
 .login-logo span { color: var(--teal-deep); }
+.login-logo-img {
+  display: block;
+  height: 34px;
+  width: auto;
+  margin: 0 auto 4px;
+}
 .login-title {
   font-family: var(--font-display);
   font-size: 28px;

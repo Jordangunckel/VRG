@@ -107,7 +107,7 @@ export default function ControlTower({ user, onLogout }) {
       <header className="topbar">
         <div className="topbar-inner">
           <button className="brand" type="button" onClick={() => setView({ name: 'dashboard' })}>
-            <span className="wordmark"><span>Roof</span><span className="wm-teal">Smartr</span></span>
+            <img className="ct-logo-img" src="/brand/roofsmartr-logo.png" alt="RoofSmartr" />
             <span className="brand-sub">Control Tower</span>
           </button>
           <nav className="topnav">

@@ -32,7 +32,7 @@ export default function LoginPage({ onSuccess, onBack }) {
 
       <div className="login-card">
         <div className="login-card-header">
-          <span className="login-logo">Roof<span>Smartr</span></span>
+          <img className="login-logo-img" src="/brand/roofsmartr-logo-dark.png" alt="RoofSmartr" />
           <h1 className="login-title">Client Portal</h1>
           <p className="login-sub">Sign in to access your Control Tower</p>
         </div>

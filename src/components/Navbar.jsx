@@ -49,9 +49,7 @@ export default function Navbar({ isDark, onToggleDark, minimal = false, onBookCa
               onClick={() => isSubPage ? goHome() : setMenuOpen(o => !o)}
               aria-label="Menu"
             >
-              <div className="navbar-logo-text">
-                <span className="navbar-logo-main">Roof<span style={{ color: '#00AEBB' }}>Smart</span><span style={{ color: '#00AEBB' }}>r</span></span>
-              </div>
+              <img className="navbar-logo-img" src="/brand/roofsmartr-logo.png" alt="RoofSmartr" />
               {!isSubPage && (
                 <svg className={`navbar-chevron${menuOpen ? ' flipped' : ''}`} width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
